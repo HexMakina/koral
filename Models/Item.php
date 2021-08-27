@@ -28,8 +28,8 @@ class Item extends TightModel implements RelationManyToManyInterface
   // => try, fail, explain || prevent before query ?
     public function has_models(): bool
     {
-        $Query = Crudites::inspect(Item::otm('t'))->select(['item_id'])->aw_eq(Item::otm('k'), $this->get_id());
-        return Crudites::count($Query) > 0;
+        $Query = self::inspect(Item::otm('t'))->select(['item_id'])->aw_eq(Item::otm('k'), $this->get_id());
+        return self::count($Query) > 0;
     }
 
     public function immortal(): bool
