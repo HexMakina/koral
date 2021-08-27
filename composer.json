@@ -1,0 +1,22 @@
+{
+  "name": "hexmakina/koral",
+  "description": "kadro CRM application",
+  "type": "package",
+  "require": {
+    "hexmakina/kadro": "0.0.*",
+  },
+  "license": "mit",
+  "authors": [
+      {
+          "name": "HexMakina",
+          "email": "touch@hexmakina.be",
+          "homepage": "https://hexmakina.be"
+      }
+  ],
+  "minimum-stability": "dev",
+  "autoload": {
+    "psr-4": {
+        "HexMakina\\koral\\": "/"
+    }
+  }
+}
