@@ -3,7 +3,7 @@
   "description": "kadro CRM application",
   "type": "package",
   "require": {
-    "hexmakina/kadro": "0.0.*",
+    "hexmakina/kadro": "0.0.*"
   },
   "license": "mit",
   "authors": [
