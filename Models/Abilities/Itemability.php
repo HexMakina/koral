@@ -2,7 +2,7 @@
 
 namespace HexMakina\koral\Models\Abilities;
 
-use App\Models\Item;
+use \HexMakina\koral\Models\Item;
 
 trait Itemability
 {
