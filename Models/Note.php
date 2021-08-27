@@ -9,7 +9,7 @@ class Note extends TightModel implements Interfaces\ServiceEventInterface
 {
 	use Abilities\ServiceEvent;
 	use Abilities\Itemability;
-	use Abilities\Gastability;
+	use Abilities\Customerability;
 
 	public function __toString(){
     preg_match("/(?:\w+(?:\W+|$)){0,5}/", $this->get('content'), $matches);
@@ -18,7 +18,7 @@ class Note extends TightModel implements Interfaces\ServiceEventInterface
 
   public function immortal() : bool
 	{
-		if(count(Item::filter(['model' => $this]))>0 || count(Gast::filter(['model' => $this]))>0)
+		if(count(Item::filter(['model' => $this]))>0 || count(Customer::filter(['model' => $this]))>0)
 			return true;
 
 		return false;
@@ -54,15 +54,15 @@ class Note extends TightModel implements Interfaces\ServiceEventInterface
 		if($this->immortal())
 			return false;
 
-		// $this->set_many([], Gast::otm());
-    Gast::set_many([], $this);
+		// $this->set_many([], Customer::otm());
+    Customer::set_many([], $this);
     Item::set_many([], $this);
 		// $this->set_many([], Item::otm());
 
 		parent::kill();
 	}
 
-  public static function first_for_gast_id($gast_id)
+  public static function first_for_customer_id($customer_id)
 	{
 		$fields = ['t_from.id', 't_from.occured_on', 't_from.service_id', 'service.abbrev as abbrev'];
 		$table_alias = 't_from';
@@ -70,10 +70,10 @@ class Note extends TightModel implements Interfaces\ServiceEventInterface
 
 		//---- JOIN & FILTER  GAST
 		$Query->join('service', [['service', 'id', $table_alias, 'service_id']], 'LEFT OUTER');
-		$Query->join(['gasts_models', 'gm'], [['gm', 'model_id', $table_alias, 'id'], ['gm', 'model_type', self::model_type()]], 'LEFT OUTER');
-		$Query->join([Gast::table_name(), 'g'], [['g', 'id', 'gm', 'gast_id']], 'LEFT OUTER');
+		$Query->join(['customers_models', 'gm'], [['gm', 'model_id', $table_alias, 'id'], ['gm', 'model_type', self::model_type()]], 'LEFT OUTER');
+		$Query->join([Customer::table_name(), 'g'], [['g', 'id', 'gm', 'customer_id']], 'LEFT OUTER');
 
-		$Query->aw_eq('gast_id', $gast_id, 'gm');
+		$Query->aw_eq('customer_id', $customer_id, 'gm');
 		$Query->order_by(['t_from', 'occured_on', 'ASC']);
 		$Query->limit(1);
 
@@ -114,13 +114,13 @@ class Note extends TightModel implements Interfaces\ServiceEventInterface
 		}
 
 		//---- JOIN & FILTER  GAST
-		$Query->join(['gasts_models', 'gm'], [['gm', 'model_id', $Query->table_label(), 'id'], ['gm', 'model_type', 'note']], 'LEFT OUTER');
-		$Query->join([Gast::table_name(), 'g'], [['g', 'id', 'gm', 'gast_id']], 'LEFT OUTER');
+		$Query->join(['customers_models', 'gm'], [['gm', 'model_id', $Query->table_label(), 'id'], ['gm', 'model_type', 'note']], 'LEFT OUTER');
+		$Query->join([Customer::table_name(), 'g'], [['g', 'id', 'gm', 'customer_id']], 'LEFT OUTER');
 
-		$Query->select_also(['GROUP_CONCAT(DISTINCT gm.gast_id) as gast_ids', 'COUNT(DISTINCT gm.gast_id) as count_gasts', 'GROUP_CONCAT(DISTINCT g.name SEPARATOR ", ") as gast_names']);
+		$Query->select_also(['GROUP_CONCAT(DISTINCT gm.customer_id) as customer_ids', 'COUNT(DISTINCT gm.customer_id) as count_customers', 'GROUP_CONCAT(DISTINCT g.name SEPARATOR ", ") as customer_names']);
 
-		if(isset($filters['gast']) && !empty($filters['gast']->get_id()))
-			$Query->aw_eq('gast_id', $filters['gast']->get_id(), 'gm');
+		if(isset($filters['customer']) && !empty($filters['customer']->get_id()))
+			$Query->aw_eq('customer_id', $filters['customer']->get_id(), 'gm');
 
 		//---- JOIN & FILTER  ITEM
 		if(isset($filters['items']) && !empty($filters['items']))
