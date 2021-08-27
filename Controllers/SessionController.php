@@ -23,9 +23,6 @@ class SessionController extends \HexMakina\kadro\Controllers\ORMController
     {
       $this->form_model->set('service_id',$this->detected_service()->get_id());
       $this->route_back('service_abbrev', ['service_abbrev'=>$this->detected_service()->get('abbrev')]);
-
-      if($this->detected_service()->is(Service::PI))
-        $this->viewport('session_observations', Observation::filter(['session' => $this->form_model]));
     }
     // $this->viewport('session_notes', Note::filter(['session' => $this->form_model]));
     $this->related_listings();
@@ -43,14 +40,7 @@ class SessionController extends \HexMakina\kadro\Controllers\ORMController
     $related_listings['note'] = Note::filter($load_by_session);
     if(!is_null($this->detected_service()))
     {
-      if($this->detected_service()->is(Service::PI))
-        $related_listings['observation'] = Observation::filter($load_by_session);
-      if($this->detected_service()->is(Service::PM))
-      {
-        $related_listings['fichepmaccueil'] = FichePMAccueil::any(['occured_on'=>$model->event_value()]);
-        if($this->operator()->has_permission('group_medical'))
-          $related_listings['consultation'] = Consultation::any(['occured_on'=>$model->event_value()]);
-      }
+      ;
     }
 
     $this->viewport('related_listings', $related_listings);
