@@ -9,6 +9,9 @@ trait Itemability
     public $items = null;
   // public $item_ids = null;
 
+    abstract public function is_new(): bool;
+    abstract public function get($prop_name);
+
     public function item_ids(): array
     {
         if (is_null($this->get('item_ids'))) {
@@ -23,7 +26,7 @@ trait Itemability
             $this->set('item_ids', explode(',', $this->item_ids));
         }
 
-        return $this->item_ids;
+        return $this->get('item_ids');
     }
 
     public function items()
