@@ -8,7 +8,6 @@ use \HexMakina\Crudites\Interfaces\SelectInterface;
 use \HexMakina\TightORM\Interfaces\RelationManyToManyInterface;
 use \HexMakina\koral\Models\Interfaces\CustomerInterface;
 
-
 class Customer extends TightModel implements RelationManyToManyInterface
 {
   use RelationManyToMany;
@@ -105,10 +104,10 @@ class Customer extends TightModel implements RelationManyToManyInterface
 		array_walk($names, function(&$value){$value = trim($value);});
 
 		$query = self::table()->select()->aw_string_in('name', $names);
-		$customers = Customer::retrieve($query);
+		$customers = static::retrieve($query);
 		foreach($customers as $customer) // search and replace aliases
 		{
-			if($customer->is_alias() && !is_null($original = Customer::exists($customer->get('alias_of'))))
+			if($customer->is_alias() && !is_null($original = static::exists($customer->get('alias_of'))))
 			{
 				$customers[$original->get_id()]= $original;
 				unset($customers[$customer->get_id()]);
@@ -136,7 +135,7 @@ class Customer extends TightModel implements RelationManyToManyInterface
 		$Query->group_by([$Query->table_label(), 'id']);
 
 
-		$Query->join([Customer::table(), 'customer_alias'], [['customer_alias', 'alias_of','customer','id']], 'LEFT OUTER');
+		$Query->join([static::table(), 'customer_alias'], [['customer_alias', 'alias_of','customer','id']], 'LEFT OUTER');
 		$Query->select_also('GROUP_CONCAT(DISTINCT customer_alias.name SEPARATOR ", ") as alias_names');
 
 		$Query->join([self::otm('t'), 'customers_notes'], [['customers_notes', self::otm('k'), $Query->table_label(), 'id'],['customers_notes', 'model_type', 'note']], 'left outer');
