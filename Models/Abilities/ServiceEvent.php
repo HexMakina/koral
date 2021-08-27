@@ -9,6 +9,8 @@ trait ServiceEvent
 {
     use Event;
 
+    abstract public function get($prop_name);
+
     public function event_service_field()
     {
         return 'service_id';
