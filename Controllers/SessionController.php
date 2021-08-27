@@ -10,12 +10,10 @@ class SessionController extends \HexMakina\kadro\Controllers\ORMController
     use Abilities\DetectService;
     use Abilities\DetectItems;
     use Traceable;
-  
+
     public function edit()
     {
         parent::edit();
-
-        $session_workers = [];
 
         if (empty($this->form_model->get('occured_on'))) {
             $this->form_model->set('occured_on', Session::today());
@@ -73,7 +71,7 @@ class SessionController extends \HexMakina\kadro\Controllers\ORMController
         if (property_exists($this->form_model, 'worker_ids') && is_array($this->form_model->worker_ids)) {
             $worker_ids = $this->form_model->worker_ids;
         }
-        $res = Worker::set_many_by_ids($worker_ids, $this->form_model);
+        Worker::set_many_by_ids($worker_ids, $this->form_model);
 
         parent::after_save();
     }
@@ -85,7 +83,7 @@ class SessionController extends \HexMakina\kadro\Controllers\ORMController
             $new_occured_on = Session::date($this->router()->submitted('new_occured_on'));
             $this->load_model->set('occured_on', $new_occured_on);
 
-            $res = $this->load_model->save($this->operator()->operator_id());
+            $this->load_model->save($this->operator()->operator_id());
 
             return json_encode('success');
         } catch (\Exception $e) {
