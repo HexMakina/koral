@@ -33,7 +33,7 @@ trait DetectSession
         return $this->detected_session;
     }
 
-    public function session_track($service, $occured_on, $backtrack = true)
+    public function session_track($service, $occured_on)
     {
         $tracked = Session::filter(['service' => $service, 'date_stop' => $occured_on], ['limit' => [0,1]]);
         $tracked = current($tracked);
