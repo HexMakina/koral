@@ -36,5 +36,6 @@ class HomeController extends \HexMakina\kadro\Controllers\KadroController
         $Controller->viewport('all_operators', $all_operators);
 
         $Controller->viewport('services', Service::filter());
+        $Controller->viewport('CurrentOperator', $Operator);
     }
 }
