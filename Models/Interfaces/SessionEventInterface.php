@@ -1,6 +1,6 @@
 <?php
 
-namespace HexMakina\koral\Models\Interfaces\Interfaces;
+namespace HexMakina\koral\Models\Interfaces;
 
 // implementation in Models\Abilities\SessionEvent
 interface SessionEventInterface extends ServiceEventInterface

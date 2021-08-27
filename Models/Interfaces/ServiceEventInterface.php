@@ -1,6 +1,6 @@
 <?php
 
-namespace HexMakina\koral\Models\Interfaces\Interfaces;
+namespace HexMakina\koral\Models\Interfaces;
 
 use HexMakina\kadro\Models\Interfaces\EventInterface;
 
