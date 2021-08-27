@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Models\Abilities;
+namespace HexMakina\koral\Models\Abilities;
 
 use \HexMakina\kadro\Models\Abilities\Event;
 
@@ -8,7 +8,7 @@ use \HexMakina\kadro\Models\Abilities\Event;
 trait SessionEvent
 {
   use ServiceEvent;
-  
+
   public function event_session_field()
   {
     return 'session_id';

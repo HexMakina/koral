@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Controllers\Abilities;
+namespace HexMakina\koral\Controllers\Abilities;
 
-use \App\Models\{Service,Session};
+use \HexMakina\koral\Models\{Service,Session};
 
 trait DetectService
 {

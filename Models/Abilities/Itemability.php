@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Models\Abilities;
+namespace HexMakina\koral\Models\Abilities;
 
 use App\Models\Item;
 

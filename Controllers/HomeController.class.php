@@ -3,7 +3,7 @@
 namespace HexMakina\koral\Controllers;
 
 use \HexMakina\kadro\Auth\Operator;
-use \HexMakina\Format\Tempo\Dato;
+use \HexMakina\Tempus\Dato;
 
 class HomeController extends \HexMakina\kadro\Controllers\KadroController
 {

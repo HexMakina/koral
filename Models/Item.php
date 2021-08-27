@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Models;
+namespace HexMakina\koral\Models;
 
 use \HexMakina\TightORM\TightModel;
 use \HexMakina\TightORM\RelationManyToMany;

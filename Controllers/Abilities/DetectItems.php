@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Controllers\Abilities;
+namespace HexMakina\koral\Controllers\Abilities;
 
-use \App\Models\Item;
+use \HexMakina\koral\Models\Item;
 
 trait DetectItems
 {

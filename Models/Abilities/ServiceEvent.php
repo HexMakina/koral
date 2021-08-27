@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Models\Abilities;
+namespace HexMakina\koral\Models\Abilities;
 
 use \HexMakina\kadro\Models\Abilities\Event;
 
@@ -8,12 +8,12 @@ use \HexMakina\kadro\Models\Abilities\Event;
 trait ServiceEvent
 {
   use Event;
-  
+
   public function event_service_field()
   {
     return 'service_id';
   }
-  
+
   public function event_service()
   {
     return $this->get($this->event_service_field());

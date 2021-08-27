@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Controllers\Abilities;
+namespace HexMakina\koral\Controllers\Abilities;
 
-use \App\Models\{Session,Worker};
+use \HexMakina\koral\Models\{Session,Worker};
 
 trait DetectSession
 {
