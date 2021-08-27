@@ -14,10 +14,10 @@ class HomeController extends \HexMakina\kadro\Controllers\KadroController
 
   public static function bootstrap($Controller, $Operator)
   {
-  	if(!$Controller->box('StateAgent')->has_filter('date_start'))
+  	if(!$Controller->box('StateAgent')->hasFilter('date_start'))
   	  $Controller->box('StateAgent')->filters('date_start', Dato::format($Controller->box('settings.app.time_window_start'), Dato::FORMAT));
 
-  	if(!$Controller->box('StateAgent')->has_filter('date_stop'))
+  	if(!$Controller->box('StateAgent')->hasFilter('date_stop'))
   	  $Controller->box('StateAgent')->filters('date_stop', Dato::format($Controller->box('settings.app.time_window_stop'), Dato::FORMAT));
 
     self::common_viewport($Controller, $Operator);
