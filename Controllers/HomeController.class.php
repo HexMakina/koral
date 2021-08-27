@@ -29,7 +29,6 @@ class HomeController extends \HexMakina\kadro\Controllers\KadroController
 
   public static function common_viewport($Controller, $Operator)
   {
-
     //-------------------------------------------------------OPERATORS/WORKERS/TEAMS
     $all_operators = Operator::filter();
     $Controller->viewport('all_operators', $all_operators);
