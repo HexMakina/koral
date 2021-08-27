@@ -75,7 +75,6 @@ class NoteController extends \HexMakina\kadro\Controllers\ORMController
 
     public function before_save(): array
     {
-        $session = null;
         if (empty($this->form_model->get('belongs_to_session'))) { // service note?
             $this->form_model->set('session_id', null);
         } else {
