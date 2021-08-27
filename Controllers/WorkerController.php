@@ -2,10 +2,10 @@
 
 namespace HexMakina\koral\Controllers;
 
-use HexMakina\kadro\Auth\{Operator,Permission};
-use HexMakina\Crudites\CruditesException;
+use \HexMakina\kadro\Auth\{Operator,Permission};
+use \HexMakina\Crudites\CruditesException;
 
-use HexMakina\koral\Models\Worker;
+use \HexMakina\koral\Models\Worker;
 
 class WorkerController extends \HexMakina\kadro\Controllers\ORMController
 {
@@ -70,21 +70,7 @@ class WorkerController extends \HexMakina\kadro\Controllers\ORMController
     $this->viewport('worker', $this->form_model);
 
 
-    $this->viewport('bookmarklet_code', $this->generate_bookmarklet());
-
     $this->related_listings();
-  }
-
-  private function generate_bookmarklet()
-  {
-//    $bookmarklet_code = 'javascript:(function()'.rawurlencode('{'.file_get_contents(APP_BASE.'docs/bookmarklet_popup.js').'}').')()';
-    $observe_url = $_SERVER['REQUEST_SCHEME'].'://'.$_SERVER['HTTP_HOST'].str_replace('[*:url]', '',$this->router()->prehop('pi_observe'));
-
-    $ret = str_replace('OBSERVE_URL_HOLDER',$observe_url,file_get_contents(APP_BASE.'docs/bookmarklet_popup.js'));
-    $ret = rawurlencode('{'.$ret.'}');
-    $ret = sprintf('javascript:(function()%s)()', $ret);
-
-    return $ret;
   }
 
   private function related_listings($model=null)
