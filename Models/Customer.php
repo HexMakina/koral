@@ -6,6 +6,8 @@ use \HexMakina\TightORM\TightModel;
 use \HexMakina\TightORM\RelationManyToMany;
 use \HexMakina\Crudites\Interfaces\SelectInterface;
 use \HexMakina\TightORM\Interfaces\RelationManyToManyInterface;
+use \HexMakina\koral\Models\Interfaces\CustomerInterface;
+
 
 class Customer extends TightModel implements RelationManyToManyInterface
 {
@@ -36,7 +38,7 @@ class Customer extends TightModel implements RelationManyToManyInterface
 
 	public function is_alias(){return !empty($this->get('alias_of'));}
 
-	public static function make_alias_of($customer, $name=null) : Gast
+	public static function make_alias_of($customer, $name=null) : CustomerInterface
   {
     $ret = new Customer();
 
