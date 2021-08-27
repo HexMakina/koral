@@ -3,13 +3,14 @@
 namespace HexMakina\koral\Controllers;
 
 use \HexMakina\koral\Models\{Service,Session,Item,Worker};
+use \HexMakina\kadro\Controllers\Abilities\Traceable;
 
 class SessionController extends \HexMakina\kadro\Controllers\ORMController
 {
   use Abilities\DetectService;
   use Abilities\DetectItems;
-  use \HexMakina\kadro\Controllers\Abilities\Traceable;
-
+  use Traceable;
+  
   public function edit()
   {
     parent::edit();

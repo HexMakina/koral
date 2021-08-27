@@ -2,17 +2,14 @@
 
 namespace HexMakina\koral\Controllers;
 
-use \HexMakina\koral\Models\Item;
-
-use \App\Models\{Customer,Note};
-
 use \HexMakina\Tempus\Dato; // Dato dependency only for export feature, move to ReportController ?
-
+use \HexMakina\koral\Models\{Customer,Note,Item};
+use \HexMakina\kadro\Controllers\Abilities\Traceable;
 
 class CustomerController extends \HexMakina\kadro\Controllers\ORMController
 {
   use Abilities\DetectCustomer;
-  use \HexMakina\kadro\Controllers\Abilities\Traceable;
+  use Traceable;
 
   public function prepare()
   {
@@ -58,12 +55,6 @@ class CustomerController extends \HexMakina\kadro\Controllers\ORMController
         $this->form_model->set('original_name', $original_customer->get('name'));
       else
         $this->form_model->set('original_name', '');
-    }
-
-    if($this->operator()->has_permission('group_medical'))
-    {
-      if(isset($this->load_model))
-        $this->viewport('customer_fichemedicale', FicheMedicale::exists(['customer_id' => $this->load_model->get_id()]) ?? new FicheMedicale());
     }
 
     $this->related_listings();
