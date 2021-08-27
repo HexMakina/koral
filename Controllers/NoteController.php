@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Controllers;
+namespace HexMakina\koral\Controllers;
 
 use \HexMakina\koral\Models\{Service,Session,Note};
 
