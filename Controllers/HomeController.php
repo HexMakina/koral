@@ -4,7 +4,7 @@ namespace HexMakina\koral\Controllers;
 
 use \HexMakina\kadro\Auth\Operator;
 use \HexMakina\Tempus\Dato;
-
+use \HexMakina\koral\Models\Service;
 class HomeController extends \HexMakina\kadro\Controllers\KadroController
 {
   public function home()
@@ -29,11 +29,10 @@ class HomeController extends \HexMakina\kadro\Controllers\KadroController
 
   public static function common_viewport($Controller, $Operator)
   {
-    //-------------------------------------------------------OPERATORS/WORKERS/TEAMS
     $all_operators = Operator::filter();
     $Controller->viewport('all_operators', $all_operators);
 
-    //-------------------------------------------------------ITEMS & TYPE
+    $Controller->viewport('services', Service::filter());
   }
 }
 ?>
