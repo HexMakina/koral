@@ -9,6 +9,8 @@ trait SessionEvent
 {
     use ServiceEvent;
 
+    abstract public function get($prop_name);
+    
     public function event_session_field()
     {
         return 'session_id';
