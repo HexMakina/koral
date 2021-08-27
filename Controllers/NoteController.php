@@ -9,7 +9,7 @@ class NoteController extends \HexMakina\kadro\Controllers\ORMController
 {
   use Abilities\DetectService;
   use Abilities\DetectSession;
-  use Abilities\DetectGasts;
+  use Abilities\DetectCustomers;
   use Abilities\DetectItems;
   use Traceable;
 
