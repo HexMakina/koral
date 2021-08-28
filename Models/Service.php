@@ -38,8 +38,6 @@ class Service extends TightModel
     public static function journalier($filters)
     {
         $journalier = [];
-        $services = [];
-        $date_start = $date_start ?? (date('Y') . '-01-01');
 
         $services = null;
         if (isset($filters['service'])) {
@@ -61,20 +59,20 @@ class Service extends TightModel
                 $journalier[$session->event_value()] [] = $session;
             }
 
-            if ($service->is(Service::PM)) {
-                $service_events = [new FichePMAccueil(), new FichePMDonnee()];
-                if (isset($filters['medical']) && $filters['medical'] === true) {
-                    array_unshift($service_events, new Consultation());
-                    array_unshift($service_events, new FicheMedicale());
-                }
-                foreach ($service_events as $service_event) {
-                    foreach (get_class($service_event)::filter($filters) as $event) {
-                        // vd($event);
-                        $journalier[$session->event_value()] = $journalier[$session->event_value()] ?? [];
-                        $journalier[$session->event_value()] [] = $event;
-                    }
-                }
-            }
+            // if ($service->is(Service::PM)) {
+            //     $service_events = [new FichePMAccueil(), new FichePMDonnee()];
+            //     if (isset($filters['medical']) && $filters['medical'] === true) {
+            //         array_unshift($service_events, new Consultation());
+            //         array_unshift($service_events, new FicheMedicale());
+            //     }
+            //     foreach ($service_events as $service_event) {
+            //         foreach (get_class($service_event)::filter($filters) as $event) {
+            //             // vd($event);
+            //             $journalier[$session->event_value()] = $journalier[$session->event_value()] ?? [];
+            //             $journalier[$session->event_value()] [] = $event;
+            //         }
+            //     }
+            // }
 
             $Query = Note::query_retrieve($filters)->aw_numeric_in('session_id', array_keys($service_sessions));
             $session_notes = empty($service_sessions) ? [] : Note::retrieve($Query);
