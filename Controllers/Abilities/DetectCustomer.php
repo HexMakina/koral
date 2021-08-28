@@ -3,10 +3,17 @@
 namespace HexMakina\koral\Controllers\Abilities;
 
 use HexMakina\koral\Models\Customer;
+use HexMakina\TightORM\Interfaces\ModelInterface;
+use HexMakina\Hopper\RouterInterface;
 
 trait DetectCustomer
 {
     private $detected_customer = null;
+
+    abstract public function route_model(ModelInterface $model): string;
+    abstract public function router(): RouterInterface;
+    abstract public function viewport($key = null, $value = null, $coercion = false);
+    abstract public function listing();
 
     public function customer_search_match(): array
     {

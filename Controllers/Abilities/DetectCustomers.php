@@ -2,6 +2,7 @@
 
 namespace HexMakina\koral\Controllers\Abilities;
 
+use HexMakina\Hopper\RouterInterface;
 use HexMakina\koral\Models\Customer;
 
 // TODO Rewrite liek DetectCustomer
@@ -10,6 +11,8 @@ use HexMakina\koral\Models\Customer;
 trait DetectCustomers
 {
     private $detected_customers = null;
+
+    abstract public function router(): RouterInterface;
 
     public function DetectCustomersTraitor_before_edit()
     {

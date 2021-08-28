@@ -2,12 +2,19 @@
 
 namespace HexMakina\koral\Controllers\Abilities;
 
+use HexMakina\LogLaddy\LoggerInterface;
+use HexMakina\Hopper\RouterInterface;
+use HexMakina\kadro\Auth\OperatorInterface;
 use HexMakina\koral\Models\{Session,Worker};
 
 trait DetectSession
 {
   //based on multiple cascading sources (from post-fresh to db-stored)
     private $detected_session = null;
+
+    abstract public function router(): RouterInterface;
+    abstract public function logger(): LoggerInterface;
+    abstract public function operator(): OperatorInterface;
 
     public function session_search_match(): array
     {
@@ -42,7 +49,7 @@ trait DetectSession
     }
 
 
-    public function session_get_or_create($service_id, $occured_on, $label = null): ?Session
+    public function session_get_or_create($service_id, $occured_on, $label = null): Session
     {
       // fetch the corresponding session
         $session_data = ['service_id' => $service_id, 'occured_on' => $occured_on];
@@ -79,6 +86,7 @@ trait DetectSession
             $detected = $this->session_track($this->form_model->event_service(), $this->form_model->event_value());
 
             if ($detected->event_value() != $this->form_model->event_value()) {
+              // TODO trait must return array of messages indexed by level
                 $this->logger()->info($this->l('MODEL_EventInterface_FOUND_WITHOUT_EXACT_OCCURENCE', [$this->l('MODEL_session_INSTANCE')]));
             }
         }

@@ -2,11 +2,18 @@
 
 namespace HexMakina\koral\Controllers\Abilities;
 
+use HexMakina\Hopper\RouterInterface;
+
 use HexMakina\koral\Models\{Service,Session};
 
 trait DetectService
 {
     public $detected_service = null;
+
+    abstract public function router(): RouterInterface;
+    abstract public function viewport($key = null, $value = null, $coercion = false);
+    abstract public function listing();
+
 
     public function dashboard()
     {
