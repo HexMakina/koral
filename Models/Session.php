@@ -89,6 +89,7 @@ class Session extends TightModel implements Interfaces\ServiceEventInterface
                 $setter = [$setter];
             }
             foreach ($setter as $worker) {
+                $worker_id = null;
                 if (is_int($worker)) {
                     $worker_id = $worker;
                 } elseif (is_object($worker)) {
@@ -97,7 +98,7 @@ class Session extends TightModel implements Interfaces\ServiceEventInterface
 
                 try {
                     $record = Table::inspect(Worker::otm()['t'])->produce(['model_type' => 'session', 'model_id' => $this->get_id(), Worker::otm()['k'] => $worker_id]);
-                    $record->persist();
+                      $record->persist();
                 } catch (CruditesException $e) {
                     return [$e->getCode() => $e->getMessage()];
                 }

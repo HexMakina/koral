@@ -128,9 +128,10 @@ class WorkerController extends \HexMakina\kadro\Controllers\ORMController
         $this->logger()->warning($this->l('MODEL_worker_ERR_cannot_delete_must_disable'));
         $this->router()->hop_back();
     }
+
     public function route_back($goto = null, $route_params = []): string
     {
-        $route = $route_name ?? $this->router()->prehop('worker');
+        $route = $goto ?? $this->router()->prehop('worker');
         return parent::route_back($route, $route_params);
     }
 }
