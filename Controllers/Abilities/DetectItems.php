@@ -16,7 +16,7 @@ trait DetectItems
     public function DetectItemsTraitor_after_save()
     {
         if (!is_null($this->load_model) && method_exists($this->form_model, 'item_alterations') && $this->form_model->item_alterations($this->load_model)) {
-            $this->logger()->nice(L('MODEL_LINKED_ALTERATIONS', [L('MODEL_item_INSTANCES')]));
+            $this->logger()->nice($this->l('MODEL_LINKED_ALTERATIONS', [$this->l('MODEL_item_INSTANCES')]));
         }
     }
 }

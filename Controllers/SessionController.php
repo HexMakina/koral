@@ -48,7 +48,7 @@ class SessionController extends \HexMakina\kadro\Controllers\ORMController
 
     public function by_service()
     {
-        $this->viewport('page_header_title', $this->detected_service()->get('abbrev') . ' | ' . L('MODEL_session_INSTANCES'));
+        $this->viewport('page_header_title', $this->detected_service()->get('abbrev') . ' | ' . $this->l('MODEL_session_INSTANCES'));
         return $this->dashboard_listing(new Session(), 'session/listing.html', ['service' => $this->detected_service()]);
     }
 
@@ -62,9 +62,9 @@ class SessionController extends \HexMakina\kadro\Controllers\ORMController
     public function after_save()
     {
         if ($this->form_model->worker_changes($this->load_model)) {
-            $this->logger()->nice(L('MODEL_LINKED_ALTERATIONS', [L('MODEL_worker_INSTANCES')]));
+            $this->logger()->nice($this->l('MODEL_LINKED_ALTERATIONS', [$this->l('MODEL_worker_INSTANCES')]));
         } else {
-            $this->logger()->info(L('MODEL_LINKED_NO_ALTERATIONS', [L('MODEL_worker_INSTANCES')]));
+            $this->logger()->info($this->l('MODEL_LINKED_NO_ALTERATIONS', [$this->l('MODEL_worker_INSTANCES')]));
         }
 
         $worker_ids = [];

@@ -96,7 +96,7 @@ class WorkerController extends \HexMakina\kadro\Controllers\ORMController
       // does the operator wanna change password ?
         if (!empty($new_password = $this->form_model->get('operator_password')) && !empty($password_confirmation = $this->form_model->get('operator_password_verification'))) {
             if ($new_password != $password_confirmation) {
-                $this->logger()->warning(L('KADRO_operator_ERR_PASSWORDS_MISMATCH'));
+                $this->logger()->warning($this->l('KADRO_operator_ERR_PASSWORDS_MISMATCH'));
                 return $this->edit();
             }
             $operator->password_change($new_password);
@@ -125,7 +125,7 @@ class WorkerController extends \HexMakina\kadro\Controllers\ORMController
 
     public function before_destroy()
     {
-        $this->logger()->warning(L('MODEL_worker_ERR_cannot_delete_must_disable'));
+        $this->logger()->warning($this->l('MODEL_worker_ERR_cannot_delete_must_disable'));
         $this->router()->hop_back();
     }
     public function route_back($goto = null, $route_params = []): string

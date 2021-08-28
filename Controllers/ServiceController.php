@@ -15,7 +15,7 @@ class ServiceController extends \HexMakina\kadro\Controllers\ORMController
     {
         if (is_null($this->detected_service())) {
             if ($this->router()->name() !== 'services_journalier' && $this->router()->name() !== 'services_planner') {
-                $this->logger()->warning(L('KADRO_CRUDITES_ERR_INSTANCE_NOT_FOUND', [L('MODEL_service_INSTANCE')]));
+                $this->logger()->warning($this->l('KADRO_CRUDITES_ERR_INSTANCE_NOT_FOUND', [$this->l('MODEL_service_INSTANCE')]));
                 $this->router()->hop();
             }
         } else {

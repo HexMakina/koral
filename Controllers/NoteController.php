@@ -52,7 +52,7 @@ class NoteController extends \HexMakina\kadro\Controllers\ORMController
     public function by_service()
     {
 
-        $this->viewport('page_header_title', $this->detected_service()->get('abbrev') . ' | ' . L('MODEL_note_INSTANCES'));
+        $this->viewport('page_header_title', $this->detected_service()->get('abbrev') . ' | ' . $this->l('MODEL_note_INSTANCES'));
 
         $filters = [];
         $filters['note_type'] = $this->router()->params('type');

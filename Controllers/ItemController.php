@@ -39,7 +39,7 @@ class ItemController extends \HexMakina\kadro\Controllers\ORMController
             $key = $item->is_lieu() ? 'lieu' : $item->type;
 
             if ($this->box('StateAgent')->filters($key) == $item->get_id()) {
-                $this->logger()->info($this->box('StateAgent')->filters('item_hold_label') . ' ' . L('MODEL_item_NOTICE_RELEASED'));
+                $this->logger()->info($this->box('StateAgent')->filters('item_hold_label') . ' ' . $this->l('MODEL_item_NOTICE_RELEASED'));
 
                 $this->box('StateAgent')->resetFilters($key);
                 $this->box('StateAgent')->resetFilters('item_hold_id');
@@ -53,9 +53,9 @@ class ItemController extends \HexMakina\kadro\Controllers\ORMController
                 }
                 $this->box('StateAgent')->filters('item_hold_type', $item->type);
                 $this->box('StateAgent')->filters('item_hold_id', $item->get_id());
-                $this->box('StateAgent')->filters('item_hold_label', ucfirst(L('MODEL_item_TYPE_' . $item->type)) . ' "' . $item->get('label_fra') . '"');
+                $this->box('StateAgent')->filters('item_hold_label', ucfirst($this->l('MODEL_item_TYPE_' . $item->type)) . ' "' . $item->get('label_fra') . '"');
 
-                $this->logger()->info($this->box('StateAgent')->filters('item_hold_label') . ' ' . L('MODEL_item_NOTICE_HELD'));
+                $this->logger()->info($this->box('StateAgent')->filters('item_hold_label') . ' ' . $this->l('MODEL_item_NOTICE_HELD'));
             }
         }
 

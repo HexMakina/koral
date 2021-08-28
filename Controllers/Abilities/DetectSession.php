@@ -79,7 +79,7 @@ trait DetectSession
             $detected = $this->session_track($this->form_model->event_service(), $this->form_model->event_value());
 
             if ($detected->event_value() != $this->form_model->event_value()) {
-                $this->logger()->info(L('MODEL_EventInterface_FOUND_WITHOUT_EXACT_OCCURENCE', [L('MODEL_session_INSTANCE')]));
+                $this->logger()->info($this->l('MODEL_EventInterface_FOUND_WITHOUT_EXACT_OCCURENCE', [$this->l('MODEL_session_INSTANCE')]));
             }
         }
 
