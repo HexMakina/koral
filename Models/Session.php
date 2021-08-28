@@ -121,14 +121,14 @@ class Session extends TightModel implements Interfaces\ServiceEventInterface
         return false;
     }
 
-    public function destroy()
+    public function destroy($operator_id): bool
     {
         if ($this->immortal()) {
             return false;
         }
         Worker::set_many([], $this);
 
-        return parent::destroy();
+        return parent::destroy($operator_id);
     }
 
     public static function query_retrieve($filters = [], $options = []): SelectInterface

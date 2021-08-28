@@ -41,7 +41,7 @@ class Note extends TightModel implements Interfaces\ServiceEventInterface
         return [];
     }
 
-    public function destroy()
+    public function destroy($operator_id): bool
     {
         if ($this->immortal()) {
             return false;
@@ -52,7 +52,7 @@ class Note extends TightModel implements Interfaces\ServiceEventInterface
         Item::set_many([], $this);
         // $this->set_many([], Item::otm());
 
-        return parent::destroy();
+        return parent::destroy($operator_id);
     }
 
     public static function first_for_customer_id($customer_id)
