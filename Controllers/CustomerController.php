@@ -7,8 +7,8 @@ use \HexMakina\koral\Models\{Customer,Note,Item};
 
 class CustomerController extends \HexMakina\kadro\Controllers\ORMController
 {
-    use Abilities\DetectCustomer;
     use \HexMakina\kadro\Controllers\Abilities\Traceable;
+    use Abilities\DetectCustomer;
 
     public function prepare()
     {
