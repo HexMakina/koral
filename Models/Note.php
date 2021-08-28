@@ -52,7 +52,7 @@ class Note extends TightModel implements Interfaces\ServiceEventInterface
         Item::set_many([], $this);
         // $this->set_many([], Item::otm());
 
-        parent::destroy();
+        return parent::destroy();
     }
 
     public static function first_for_customer_id($customer_id)
