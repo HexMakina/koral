@@ -13,7 +13,7 @@ trait DetectCustomer
     abstract public function route_model(ModelInterface $model): string;
     abstract public function router(): RouterInterface;
     abstract public function viewport($key = null, $value = null, $coercion = false);
-    abstract public function listing();
+    abstract public function listing($model = null, $filters = [], $options = []);
 
     public function customer_search_match(): array
     {

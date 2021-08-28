@@ -12,7 +12,7 @@ trait DetectService
 
     abstract public function router(): RouterInterface;
     abstract public function viewport($key = null, $value = null, $coercion = false);
-    abstract public function listing();
+    abstract public function listing($model = null, $filters = [], $options = []);
 
 
     public function dashboard()
