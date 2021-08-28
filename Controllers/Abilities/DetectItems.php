@@ -2,10 +2,14 @@
 
 namespace HexMakina\koral\Controllers\Abilities;
 
+use HexMakina\LogLaddy\LoggerInterface;
+use HexMakina\Hopper\RouterInterface;
 use HexMakina\koral\Models\Item;
 
 trait DetectItems
 {
+    abstract public function router(): RouterInterface;
+    abstract public function logger(): LoggerInterface;
   //changes POST data to array, handling the no checkbox
     public function DetectItemsTraitor_before_save()
     {
