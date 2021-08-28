@@ -71,11 +71,11 @@ class Session extends TightModel implements Interfaces\ServiceEventInterface
         }
 
         if (!is_array($worker_ids)) {
-            return array_map('trim', explode(',', $this->worker_ids));
+            return array_map('trim', explode(',', $this->get('worker_ids')));
         }
 
-        if (array_search('1', $this->worker_ids, true)) {
-            return array_keys($this->worker_ids);
+        if (array_search('1', $this->get('worker_ids'), true)) {
+            return array_keys($this->get('worker_ids'));
         }
 
         return $worker_ids;
