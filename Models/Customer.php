@@ -70,7 +70,7 @@ class Customer extends TightModel implements RelationManyToManyInterface
         } elseif (!$this->is_new()) {
             $res = current(Note::filter(['customer' => $this], ['order_by' => 'occured_on ASC', 'limit' => [0,1]]));
             if ($res) {
-                $ret['first_contact_on'] = $min_date = $res->get('occured_on');
+                $ret['first_contact_on'] = $res->get('occured_on');
                 $ret['first_contact_where'] = $res->get('service_abbrev');
                 $ret['first_contact_where_details'] = 'MODEL_note_INSTANCE';
                 $ret['model'] = $res;
