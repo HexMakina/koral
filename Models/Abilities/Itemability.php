@@ -23,7 +23,7 @@ trait Itemability
             $this->set('items', Item::filter(['model' => $this]));
             $this->set('item_ids', array_keys($this->get('items')));
         } elseif (!is_array($this->get('item_ids')) && !empty($this->get('item_ids'))) { // loaded from database
-            $this->set('item_ids', explode(',', $this->item_ids));
+            $this->set('item_ids', explode(',', $this->get('item_ids')));
         }
 
         return $this->get('item_ids');
@@ -63,7 +63,6 @@ trait Itemability
     public function ItemabilityTraitor_before_destroy()
     {
         Item::set_many([], $this);
-      // $this->set_many([], Item::otm());
     }
 
     public static function query_with_item_ids($Query, $restrict_items = [])
