@@ -32,7 +32,6 @@ class Session extends TightModel implements Interfaces\ServiceEventInterface
 
     public function event_label()
     {
-        $res = null;
         if (empty($res = $this->get('label'))) {
             if (empty($res = $this->get('worker_names'))) {
                 $res = $this->get($this->event_field());
@@ -97,7 +96,7 @@ class Session extends TightModel implements Interfaces\ServiceEventInterface
                 }
 
                 try {
-                    $record = Table::inspect(Worker::otm()['t'])->produce(['model_type' => 'session', 'model_id' => $this->get_id(), Worker::otm()['k'] => $worker_id]);
+                    $record = self::inspect(Worker::otm()['t'])->produce(['model_type' => 'session', 'model_id' => $this->get_id(), Worker::otm()['k'] => $worker_id]);
                       $record->persist();
                 } catch (CruditesException $e) {
                     return [$e->getCode() => $e->getMessage()];
@@ -119,23 +118,17 @@ class Session extends TightModel implements Interfaces\ServiceEventInterface
             return true;
         }
 
-        $linked = Observation::any(['session_id' => $this->get_id()]); // can't have observation (if PI)
-        if (count($linked) > 0) {
-            return true;
-        }
-
         return false;
     }
 
-    public function kill()
+    public function destroy()
     {
         if ($this->immortal()) {
             return false;
         }
         Worker::set_many([], $this);
-        // $this->set_many([], Worker::otm());
 
-        return parent::kill();
+        return parent::destroy();
     }
 
     public static function query_retrieve($filters = [], $options = []): SelectInterface
