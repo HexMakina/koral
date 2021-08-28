@@ -3,7 +3,7 @@
   "description": "kadro CRM application",
   "type": "package",
   "require": {
-    "php": ">=7.0",
+    "php": ">=7.3",
     "hexmakina/kadro": "0.0.*"
   },
   "license": "mit",
