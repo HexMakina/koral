@@ -117,7 +117,7 @@ class CustomerController extends \HexMakina\kadro\Controllers\ORMController
 
     public function export()
     {
-        $customers = Customer::listing_with_fichedonnesociale();
+        $customers = Customer::filter();
         return $this->collection_to_csv($customers, 'koral_customers_' . Dato::today());
     }
 
