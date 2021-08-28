@@ -2,14 +2,13 @@
 
 namespace HexMakina\koral\Controllers;
 
-use HexMakina\Tempus\Dato; // Dato dependency only for export feature, move to ReportController ?
-use HexMakina\koral\Models\{Customer,Note,Item};
-use HexMakina\kadro\Controllers\Abilities\Traceable;
+use \HexMakina\Tempus\Dato; // Dato dependency only for export feature, move to ReportController ?
+use \HexMakina\koral\Models\{Customer,Note,Item};
 
 class CustomerController extends \HexMakina\kadro\Controllers\ORMController
 {
     use Abilities\DetectCustomer;
-    use Traceable;
+    use \HexMakina\kadro\Controllers\Abilities\Traceable;
 
     public function prepare()
     {

@@ -3,7 +3,6 @@
 namespace HexMakina\koral\Controllers;
 
 use HexMakina\koral\Models\{Service,Session,Note};
-use HexMakina\kadro\Controllers\Abilities\Traceable;
 
 class NoteController extends \HexMakina\kadro\Controllers\ORMController
 {
@@ -11,7 +10,7 @@ class NoteController extends \HexMakina\kadro\Controllers\ORMController
     use Abilities\DetectSession;
     use Abilities\DetectCustomers;
     use Abilities\DetectItems;
-    use Traceable;
+    use \HexMakina\kadro\Controllers\Abilities\Traceable;
 
     public function before_edit()
     {
