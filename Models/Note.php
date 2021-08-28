@@ -11,6 +11,7 @@ class Note extends TightModel implements Interfaces\ServiceEventInterface
     use Abilities\Itemability;
     use Abilities\Customerability;
 
+
     public function __toString()
     {
         preg_match("/(?:\w+(?:\W+|$)){0,5}/", $this->get('content'), $matches);
@@ -19,7 +20,7 @@ class Note extends TightModel implements Interfaces\ServiceEventInterface
 
     public function immortal(): bool
     {
-        if (count(Item::filter(['model' => $this])) > 0 || count(Customer::filter(['model' => $this])) > 0) {
+        if (count($this->item_ids()) > 0 || count(Customer::filter(['model' => $this])) > 0) {
             return true;
         }
 
@@ -28,23 +29,7 @@ class Note extends TightModel implements Interfaces\ServiceEventInterface
 
     public function item_types()
     {
-        $service_abbrev = $this->get('service_abbrev') ?? Service::abbrevs()[$this->get('service_id')] ?? null;
-        $ret = [];
-        switch ($service_abbrev) {
-            case Service::GI:
-                $ret [] = 'guidance_individuelle';
-                          $ret [] = 'session_location';
-                break;
-            case Service::PI:
-                $ret [] = 'site_internet';
-                break;
-            case Service::TDR:
-                $ret [] = 'lieux';
-                break;
-        }
-        $ret[] = 'subjects'; // subject for all!
-
-        return $ret;
+        return ['subjects'];
     }
 
     public function before_save(): array
@@ -56,7 +41,7 @@ class Note extends TightModel implements Interfaces\ServiceEventInterface
         return [];
     }
 
-    public function kill()
+    public function destroy()
     {
         if ($this->immortal()) {
             return false;
@@ -67,7 +52,7 @@ class Note extends TightModel implements Interfaces\ServiceEventInterface
         Item::set_many([], $this);
         // $this->set_many([], Item::otm());
 
-        parent::kill();
+        parent::destroy();
     }
 
     public static function first_for_customer_id($customer_id)
