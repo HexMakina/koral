@@ -15,12 +15,12 @@ class Item extends TightModel implements RelationManyToManyInterface
 
     public function __toString()
     {
-        return $this->get('label_fra') . '/' . $this->label_nld;
+        return $this->get('label_fra') . '/' . $this->get('label_nld');
     }
 
     public function is_lieu()
     {
-        return strpos($this->type, 'lieu_') === 0;
+        return strpos($this->get('type'), 'lieu_') === 0;
     }
 
 
