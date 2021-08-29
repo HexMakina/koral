@@ -20,7 +20,7 @@ class Item extends TightModel implements RelationManyToManyInterface
 
     public function is_lieu()
     {
-        return strpos($this->get('type'), 'lieu_') === 0;
+        return strpos($this->get('type') ?? '', 'lieu_') === 0;
     }
 
 
