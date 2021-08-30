@@ -70,7 +70,7 @@ class WorkerController extends \HexMakina\kadro\Controllers\ORMController
         $this->related_listings();
     }
 
-    private function related_listings($model = null)
+    protected function related_listings($model = null)
     {
         $model = $model ?? $this->load_model;
 

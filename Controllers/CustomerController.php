@@ -57,7 +57,7 @@ class CustomerController extends \HexMakina\kadro\Controllers\ORMController
         $this->related_listings();
     }
 
-    private function related_listings($customer = null)
+    protected function related_listings($customer = null)
     {
         $customer = $customer ?? $this->load_model;
 
