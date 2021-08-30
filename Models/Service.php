@@ -2,17 +2,16 @@
 
 namespace HexMakina\koral\Models;
 
-use HexMakina\Crudites\Interfaces\SelectInterface;
-use HexMakina\TightORM\TightModel;
+use \HexMakina\Crudites\Interfaces\SelectInterface;
+use \HexMakina\TightORM\TightModel;
+use \HexMakina\kadro\Auth\Permission;
 
 class Service extends TightModel
 {
-
   // service with exeception
     const ADM = 'ADM';
 
     public static $abbrevs = null;
-
 
     public function __toString()
     {
@@ -22,6 +21,11 @@ class Service extends TightModel
     public function is($abbrev)
     {
         return self::abbrevs($this->get('abbrev'), $abbrev);
+    }
+
+    public static function permissions_by_abbrev(): array
+    {
+      return [self::ADM => Permission::GROUP_ADMIN];
     }
 
     public static function planner($filters)

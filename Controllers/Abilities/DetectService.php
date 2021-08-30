@@ -2,9 +2,8 @@
 
 namespace HexMakina\koral\Controllers\Abilities;
 
-use HexMakina\Hopper\RouterInterface;
-
-use HexMakina\koral\Models\{Service,Session};
+use \HexMakina\Hopper\RouterInterface;
+use \HexMakina\kadro\Auth\Permission;
 
 trait DetectService
 {
@@ -60,7 +59,7 @@ trait DetectService
         if (!is_null($setter)) {
             $this->detected_service = $setter;
         } elseif (is_null($this->detected_service)) {
-            $this->detected_service = Service::exists($this->service_search_match());
+            $this->detected_service = $this->get('ServiceClass')::exists($this->service_search_match());
         }
 
         return $this->detected_service;
@@ -86,16 +85,12 @@ trait DetectService
     {
         $model = $model ?? $this->detected_service();
 
-
-        if (is_null($model)) {
-            return parent::authorize('group_social');
-        } elseif ($model->is(Service::ADM)) {
-            return parent::authorize('group_admin');
-        } elseif ($model->is(Service::PM)) {
-            return parent::authorize('group_medical');
+        $permissions_by_abbrev = $this->get('ServiceClass')::permissions_by_abbrev();
+        if (is_null($model) || !isset($permissions_by_abbrev[$model->get('abbrev')])) {
+            return parent::authorize(Permission::GROUP_STAFF);
         }
 
-        return parent::authorize('group_social');
+        return parent::authorize($permissions_by_abbrev[$model->get('abbrev')]);
     }
 
     public function DetectServiceTraitor_before_edit()
