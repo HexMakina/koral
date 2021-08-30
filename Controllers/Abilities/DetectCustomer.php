@@ -37,19 +37,20 @@ trait DetectCustomer
             $ret['id'] = $res;
         } elseif (!empty($res = $this->router()->params($this->detection_field('name')))) {
             $ret['name'] = $res;
-        } elseif (isset($this->formModel())) {
+        } else{
             if (!empty($res = $this->formModel()->get($this->detection_field('id')))) {
                 $ret['id'] = $res;
             } elseif (!empty($res = $this->formModel()->get($this->detection_field('name')))) {
                 $ret['name'] = $res;
             }
-        } elseif (isset($this->load_model)) {
-            if (!empty($res = $this->load_model->get($this->detection_field('id')))) {
-                $ret['id'] = $res;
-            } elseif (!empty($res = $this->load_model->get($this->detection_field('name')))) {
-                $ret['name'] = $res;
-            }
         }
+        //  elseif (isset($this->load_model)) {
+        //     if (!empty($res = $this->load_model->get($this->detection_field('id')))) {
+        //         $ret['id'] = $res;
+        //     } elseif (!empty($res = $this->load_model->get($this->detection_field('name')))) {
+        //         $ret['name'] = $res;
+        //     }
+        // }
 
         return $ret;
     }

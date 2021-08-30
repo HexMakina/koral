@@ -21,7 +21,7 @@ trait DetectSession
         $ret = [];
         if (!empty($res = $this->router()->params('session_id'))) {
             $ret = ['id' => $res];
-        } elseif (isset($this->formModel()) && !empty($res = $this->formModel()->get('session_id'))) {
+        } elseif (!empty($res = $this->formModel()->get('session_id'))) {
             $ret = ['id' => $res];
         } elseif (isset($this->load_model) && !empty($res = $this->load_model->get('session_id'))) {
             $ret = ['id' => $res];

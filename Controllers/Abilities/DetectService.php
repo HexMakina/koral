@@ -33,7 +33,7 @@ trait DetectService
     public function service_search_match(): array
     {
         $ret = [];
-        if (isset($this->formModel()) && !empty($res = $this->formModel()->get('service_id'))) {
+        if (!empty($res = $this->formModel()->get('service_id'))) {
             $ret['id'] = $res;
         } elseif (!empty($res = $this->router()->params('service_abbrev'))) {
             $ret['abbrev'] = $res;
