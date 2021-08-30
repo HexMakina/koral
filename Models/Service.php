@@ -9,12 +9,6 @@ class Service extends TightModel
 {
 
   // service with exeception
-    const GI = 'GI';
-    const ACP = 'ACP';
-    const PI = 'PI';
-    const PM = 'PM';
-    const TDR = 'TDR';
-    const TRE = 'TRE';
     const ADM = 'ADM';
 
     public static $abbrevs = null;
