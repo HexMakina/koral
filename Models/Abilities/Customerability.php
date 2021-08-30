@@ -2,7 +2,7 @@
 
 namespace HexMakina\koral\Models\Abilities;
 
-use HexMakina\koral\Models\Customer;
+use HexMakina\LeMarchand\LeMarchand;
 
 trait Customerability
 {
@@ -15,6 +15,7 @@ trait Customerability
             return $this->customers;
         }
 
+        $customer_class = LeMarchand::box()->get('CustomerClass');
 
         if (!$this->is_new()) {
             if (!is_null($this->get('customer_names'))) {
@@ -29,15 +30,14 @@ trait Customerability
                 }
 
                 // vd($customer_names);
-                $this->customers = Customer::by_names($customer_names);
+                $this->customers = $customer_class::by_names($customer_names);
 
                 // vd($this->customers);
                 $this->customer_ids = array_keys($this->customers);
             } else {
-                $Query = Customer::table()->select(null, 'g');
-                $Query->join(['customers_models', 'gm'], [['gm', 'customer_id', 'g', 'id'], ['gm', 'model_type', get_class($this)::model_type()], ['gm', 'model_id', $this->get_id()]], 'INNER');
-
-                $this->customers = Customer::retrieve($Query);
+                $Query = $customer_class::table()->select(null, 'g');
+                $Query->join([$customer_class::otm('t'), 'gm'], [['gm', $customer_class::otm('k'), 'g', 'id'], ['gm', 'model_type', get_class($this)::model_type()], ['gm', 'model_id', $this->get_id()]], 'INNER');
+                $this->customers = $customer_class::retrieve($Query);
                 $this->customer_ids = array_keys($this->customers);
             }
         }
@@ -56,7 +56,7 @@ trait Customerability
 
     public function CustomerabilityTraitor_after_save()
     {
-        $res = Customer::set_many_by_ids($this->get('customer_ids'), $this);
+        $res = LeMarchand::box()->get('CustomerClass')::set_many_by_ids($this->get('customer_ids'), $this);
       // $res = $this->set_many_by_ids($this->get('customer_ids'), Customer::otm());
 
         if ($res === true) {
