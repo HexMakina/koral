@@ -4,10 +4,10 @@ namespace HexMakina\koral\Controllers;
 
 use \HexMakina\Tempus\Dato; // Dato dependency only for export feature, move to ReportController ?
 
-class CustomerController extends \HexMakina\kadro\Controllers\ORMController
+class $this->modelClassName()Controller extends \HexMakina\kadro\Controllers\ORMController
 {
     use \HexMakina\kadro\Controllers\Abilities\Traceable;
-    use Abilities\DetectCustomer;
+    use Abilities\Detect$this->modelClassName();
 
     public function prepare()
     {
@@ -22,8 +22,8 @@ class CustomerController extends \HexMakina\kadro\Controllers\ORMController
 
     public function edit_alias()
     {
-        $customer = Customer::one($this->router()->params('customer_id'));
-        $alias = is_null($this->router()->params('alias_id')) ? Customer::make_alias_of($customer) :  Customer::one($this->router()->params('alias_id'));
+        $customer = $this->modelClassName()::one($this->router()->params('customer_id'));
+        $alias = is_null($this->router()->params('alias_id')) ? $this->modelClassName()::make_alias_of($customer) :  $this->modelClassName()::one($this->router()->params('alias_id'));
 
         $this->viewport('form_model', $alias);
         $this->viewport('customer_original', $customer);
@@ -47,7 +47,7 @@ class CustomerController extends \HexMakina\kadro\Controllers\ORMController
         }
 
         if (empty($this->form_model->get('original_name'))) {
-            if (!is_null($this->form_model->get('alias_of')) && !is_null($original_customer = Customer::exists($this->form_model->get('alias_of')))) {
+            if (!is_null($this->form_model->get('alias_of')) && !is_null($original_customer = $this->modelClassName()::exists($this->form_model->get('alias_of')))) {
                 $this->form_model->set('original_name', $original_customer->get('name'));
             } else {
                 $this->form_model->set('original_name', '');
@@ -79,21 +79,21 @@ class CustomerController extends \HexMakina\kadro\Controllers\ORMController
 
     public function by_name()
     {
-        $g = Customer::by_name($this->router()->params('name'));
+        $g = $this->modelClassName()::by_name($this->router()->params('name'));
         $this->router()->hop($this->route_model($g));
     }
 
     public function first_contacts()
     {
         $listing = [];
-        $customers = Customer::filter();
+        $customers = $this->modelClassName()::filter();
         foreach ($customers as $customer) {
             if (!$customer->is_legacy()) {
                 $info = $customer->first_contact_info();
                 $info['name'] = "$customer";
                 unset($info['model']);
 
-                $new = new Customer();
+                $new = new $this->modelClassName()();
                 $new->import($info);
                 $listing[$customer->get_id()] = $new;
             }
@@ -108,7 +108,7 @@ class CustomerController extends \HexMakina\kadro\Controllers\ORMController
     public function destroy()
     {
         if ($this->load_model->is_alias()) {
-            $original = Customer::one($this->load_model->get('alias_of'));
+            $original = $this->modelClassName()::one($this->load_model->get('alias_of'));
             $this->route_back($original);
             parent::destroy();
         }
