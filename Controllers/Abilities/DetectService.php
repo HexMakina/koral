@@ -22,7 +22,7 @@ trait DetectService
 
     protected function dashboard_listing($model = null, $template = null, $filters = [], $options = [])
     {
-        $model = $model ?? $this->load_model ?? $this->form_model;
+        $model = $model ?? $this->load_model ?? $this->formModel();
 
         $this->viewport('service', $this->detected_service());
         $this->listing($model, $filters, $options);
@@ -33,7 +33,7 @@ trait DetectService
     public function service_search_match(): array
     {
         $ret = [];
-        if (isset($this->form_model) && !empty($res = $this->form_model->get('service_id'))) {
+        if (isset($this->formModel()) && !empty($res = $this->formModel()->get('service_id'))) {
             $ret['id'] = $res;
         } elseif (!empty($res = $this->router()->params('service_abbrev'))) {
             $ret['abbrev'] = $res;
@@ -104,8 +104,8 @@ trait DetectService
             $this->service_authorize();
 
             $this->viewport('service', $this->detected_service());
-            $this->form_model->set('service_id', $this->detected_service()->get_id()); // TODO replace by name if single_foreign_key to session table
-            $this->form_model->set('service_abbrev', $this->detected_service()->get('abbrev'));
+            $this->formModel()->set('service_id', $this->detected_service()->get_id()); // TODO replace by name if single_foreign_key to session table
+            $this->formModel()->set('service_abbrev', $this->detected_service()->get('abbrev'));
         }
     }
 }

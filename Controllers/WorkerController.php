@@ -25,7 +25,7 @@ class WorkerController extends \HexMakina\kadro\Controllers\ORMController
 
         if (!is_null($operator = get_class($this->operator())::exists($operator_data))) {
             $host = Worker::one(['operator_id' => $operator->operator_id()]);
-            $this->form_model = $this->load_model = $host;
+            $this->formModel() = $this->load_model = $host;
         }
 
         $this->viewport('permissions', Permission::filter());
@@ -38,7 +38,7 @@ class WorkerController extends \HexMakina\kadro\Controllers\ORMController
 
     protected function dashboard_listing($model = null, $template = null, $filters = [], $options = [])
     {
-        $model = $model ?? $this->load_model ?? $this->form_model;
+        $model = $model ?? $this->load_model ?? $this->formModel();
 
         $this->listing($model, $filters, $options);
         $this->viewport('listing_template', $template, true);
@@ -54,17 +54,17 @@ class WorkerController extends \HexMakina\kadro\Controllers\ORMController
             $this->authorize('group_admin');
         }
 
-        $operator = $this->form_model->extract(new Operator(), true);
+        $operator = $this->formModel()->extract(new Operator(), true);
         if ($this->router()->submits()) {
-            $this->form_model->set_operator($operator);
+            $this->formModel()->set_operator($operator);
         }
 
-        if (is_null($this->form_model->operator())) {
-            $this->form_model->set_operator(new Operator());
+        if (is_null($this->formModel()->operator())) {
+            $this->formModel()->set_operator(new Operator());
         }
 
         $this->viewport('operator', $operator);
-        $this->viewport('worker', $this->form_model);
+        $this->viewport('worker', $this->formModel());
 
 
         $this->related_listings();
@@ -88,13 +88,13 @@ class WorkerController extends \HexMakina\kadro\Controllers\ORMController
     public function save()
     {
         if (is_null($this->load_model)) { // worker creation
-            $operator = $this->form_model->extract(new Operator(), true); // extract operator_* fields content
+            $operator = $this->formModel()->extract(new Operator(), true); // extract operator_* fields content
         } else { // worker alteration
             $operator = Operator::one($this->load_model->operator_id());
         }
 
       // does the operator wanna change password ?
-        if (!empty($new_password = $this->form_model->get('operator_password')) && !empty($password_confirmation = $this->form_model->get('operator_password_verification'))) {
+        if (!empty($new_password = $this->formModel()->get('operator_password')) && !empty($password_confirmation = $this->formModel()->get('operator_password_verification'))) {
             if ($new_password != $password_confirmation) {
                 $this->logger()->warning($this->l('KADRO_operator_ERR_PASSWORDS_MISMATCH'));
                 return $this->edit();
@@ -109,10 +109,10 @@ class WorkerController extends \HexMakina\kadro\Controllers\ORMController
           // Worker::connect()->transact();
 
             $operator = $this->persist_model($operator);
-            $this->form_model->set_operator($operator);
+            $this->formModel()->set_operator($operator);
 
-            $this->form_model->set('operator_id', $operator->get_id());
-            $this->persist_model($this->form_model);
+            $this->formModel()->set('operator_id', $operator->get_id());
+            $this->persist_model($this->formModel());
 
           // Worker::connect()->commit();
         } catch (\Exception $e) {

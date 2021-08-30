@@ -14,12 +14,12 @@ class SessionController extends \HexMakina\kadro\Controllers\ORMController
     {
         parent::edit();
 
-        if (empty($this->form_model->get('occured_on'))) {
-            $this->form_model->set('occured_on', Session::today());
+        if (empty($this->formModel()->get('occured_on'))) {
+            $this->formModel()->set('occured_on', Session::today());
         }
 
         if (!is_null($this->detected_service())) {
-            $this->form_model->set('service_id', $this->detected_service()->get_id());
+            $this->formModel()->set('service_id', $this->detected_service()->get_id());
             $this->route_back('service_abbrev', ['service_abbrev' => $this->detected_service()->get('abbrev')]);
         }
         $this->related_listings();
@@ -55,17 +55,17 @@ class SessionController extends \HexMakina\kadro\Controllers\ORMController
 
     public function after_save()
     {
-        if ($this->form_model->worker_changes($this->load_model)) {
+        if ($this->formModel()->worker_changes($this->load_model)) {
             $this->logger()->nice($this->l('MODEL_LINKED_ALTERATIONS', [$this->l('MODEL_worker_INSTANCES')]));
         } else {
             $this->logger()->info($this->l('MODEL_LINKED_NO_ALTERATIONS', [$this->l('MODEL_worker_INSTANCES')]));
         }
 
         $worker_ids = [];
-        if (property_exists($this->form_model, 'worker_ids') && is_array($this->form_model->worker_ids)) {
-            $worker_ids = $this->form_model->worker_ids;
+        if (property_exists($this->formModel(), 'worker_ids') && is_array($this->formModel()->worker_ids)) {
+            $worker_ids = $this->formModel()->worker_ids;
         }
-        Worker::set_many_by_ids($worker_ids, $this->form_model);
+        Worker::set_many_by_ids($worker_ids, $this->formModel());
 
         parent::after_save();
     }

@@ -17,19 +17,19 @@ trait DetectCustomers
     public function DetectCustomersTraitor_before_edit()
     {
 
-        $this->form_model->set('customer_names', implode(PHP_EOL, $this->detected_customers()));
+        $this->formModel()->set('customer_names', implode(PHP_EOL, $this->detected_customers()));
     }
 
     public function DetectCustomersTraitor_before_save()
     {
-        $this->form_model->set('customer_ids', array_keys($this->detected_customers()));
+        $this->formModel()->set('customer_ids', array_keys($this->detected_customers()));
     }
 
     public function customer_search_names(): array
     {
         $customer_names = [];
 
-        if (isset($this->form_model) && (!empty($customer_names = $this->form_model->get('customer_names')) || $this->router()->submits())) {
+        if (isset($this->formModel()) && (!empty($customer_names = $this->formModel()->get('customer_names')) || $this->router()->submits())) {
         } elseif (isset($this->load_model) && !empty($customer_names = $this->load_model->get('customer_names'))) {
         }
 

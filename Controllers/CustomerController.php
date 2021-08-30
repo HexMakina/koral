@@ -38,19 +38,19 @@ class CustomerController extends \HexMakina\kadro\Controllers\ORMController
             $this->router()->hop($this->modelPrefix('new_alias'), [$this->modelPrefix('id') => $this->router()->submitted()['alias_of']]);
         }
 
-        if ($this->form_model->is_alias()) {
-            $this->router()->hop($this->modelPrefix('edit_alias'), ['alias_id' => $this->form_model->get_id(), $this->modelPrefix('id') => $this->form_model->get('alias_of')]);
+        if ($this->formModel()->is_alias()) {
+            $this->router()->hop($this->modelPrefix('edit_alias'), ['alias_id' => $this->formModel()->get_id(), $this->modelPrefix('id') => $this->formModel()->get('alias_of')]);
         }
 
-        if (!$this->form_model->is_new()) {
-            $this->viewport($this->modelPrefix('aliases'), $this->form_model->listing_aliases());
+        if (!$this->formModel()->is_new()) {
+            $this->viewport($this->modelPrefix('aliases'), $this->formModel()->listing_aliases());
         }
 
-        if (empty($this->form_model->get('original_name'))) {
-            if (!is_null($this->form_model->get('alias_of')) && !is_null($original_customer = $this->modelClassName()::exists($this->form_model->get('alias_of')))) {
-                $this->form_model->set('original_name', $original_customer->get('name'));
+        if (empty($this->formModel()->get('original_name'))) {
+            if (!is_null($this->formModel()->get('alias_of')) && !is_null($original_customer = $this->modelClassName()::exists($this->formModel()->get('alias_of')))) {
+                $this->formModel()->set('original_name', $original_customer->get('name'));
             } else {
-                $this->form_model->set('original_name', '');
+                $this->formModel()->set('original_name', '');
             }
         }
 

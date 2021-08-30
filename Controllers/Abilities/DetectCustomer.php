@@ -37,10 +37,10 @@ trait DetectCustomer
             $ret['id'] = $res;
         } elseif (!empty($res = $this->router()->params($this->detection_field('name')))) {
             $ret['name'] = $res;
-        } elseif (isset($this->form_model)) {
-            if (!empty($res = $this->form_model->get($this->detection_field('id')))) {
+        } elseif (isset($this->formModel())) {
+            if (!empty($res = $this->formModel()->get($this->detection_field('id')))) {
                 $ret['id'] = $res;
-            } elseif (!empty($res = $this->form_model->get($this->detection_field('name')))) {
+            } elseif (!empty($res = $this->formModel()->get($this->detection_field('name')))) {
                 $ret['name'] = $res;
             }
         } elseif (isset($this->load_model)) {
@@ -83,15 +83,15 @@ trait DetectCustomer
     public function DetectCustomerTraitor_before_edit()
     {
         if ($this->router()->requests() && !is_null($this->detected_customer())) { // create a note with a customer
-            $this->form_model->set($this->detection_field('name'), $this->detected_customer()->name());
-            $this->form_model->set($this->detection_field('id'), $this->detected_customer()->get_id());
+            $this->formModel()->set($this->detection_field('name'), $this->detected_customer()->name());
+            $this->formModel()->set($this->detection_field('id'), $this->detected_customer()->get_id());
         }
     }
 
     public function DetectCustomerTraitor_before_save()
     {
-        if (empty($this->form_model->get($this->detection_field('id'))) && !is_null($this->detected_customer())) {
-            $this->form_model->set($this->detection_field('id'), $this->detected_customer()->get_id());
+        if (empty($this->formModel()->get($this->detection_field('id'))) && !is_null($this->detected_customer())) {
+            $this->formModel()->set($this->detection_field('id'), $this->detected_customer()->get_id());
         }
     }
 
@@ -113,7 +113,7 @@ trait DetectCustomer
 
     protected function dashboard_listing($model = null, $template = null, $filters = [], $options = [])
     {
-        $model = $model ?? $this->load_model ?? $this->form_model;
+        $model = $model ?? $this->load_model ?? $this->formModel();
         $this->viewport('related_customer', $this->detected_customer());
         $this->listing($model, $filters, $options);
         $this->viewport('listing_template', $template, true);

@@ -21,7 +21,7 @@ trait DetectSession
         $ret = [];
         if (!empty($res = $this->router()->params('session_id'))) {
             $ret = ['id' => $res];
-        } elseif (isset($this->form_model) && !empty($res = $this->form_model->get('session_id'))) {
+        } elseif (isset($this->formModel()) && !empty($res = $this->formModel()->get('session_id'))) {
             $ret = ['id' => $res];
         } elseif (isset($this->load_model) && !empty($res = $this->load_model->get('session_id'))) {
             $ret = ['id' => $res];
@@ -82,24 +82,24 @@ trait DetectSession
     {
         $detected = $this->detected_session();
 
-        if (is_null($detected) && is_subclass_of($this->form_model, '\App\Models\Interfaces\SessionEventInterface')) {
-            $detected = $this->session_track($this->form_model->event_service(), $this->form_model->event_value());
+        if (is_null($detected) && is_subclass_of($this->formModel(), '\App\Models\Interfaces\SessionEventInterface')) {
+            $detected = $this->session_track($this->formModel()->event_service(), $this->formModel()->event_value());
 
-            if ($detected->event_value() != $this->form_model->event_value()) {
+            if ($detected->event_value() != $this->formModel()->event_value()) {
               // TODO trait must return array of messages indexed by level
                 $this->logger()->info($this->l('MODEL_EventInterface_FOUND_WITHOUT_EXACT_OCCURENCE', [$this->l('MODEL_session_INSTANCE')]));
             }
         }
 
         if (!is_null($detected)) {
-            $foreign_tables = get_class($this->form_model)::table()->foreign_keys_by_table() ?? [];
+            $foreign_tables = get_class($this->formModel())::table()->foreign_keys_by_table() ?? [];
             $foreign_table_name = Session::table()->name();
 
             if (isset($foreign_tables[$foreign_table_name]) && count($column = $foreign_tables[$foreign_table_name]) === 1) {
                 $column = current($column);
                 if (!$column->is_nullable()) {
-                    $this->form_model->set($column->name(), $detected->get_id()); // TODO: replace by name if single_foreign_key to session table
-                    $this->form_model->set('session_occured_on', $detected->event_value());
+                    $this->formModel()->set($column->name(), $detected->get_id()); // TODO: replace by name if single_foreign_key to session table
+                    $this->formModel()->set('session_occured_on', $detected->event_value());
                 }
             }
         }

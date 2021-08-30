@@ -26,8 +26,8 @@ class ItemController extends \HexMakina\kadro\Controllers\ORMController
 
     public function before_edit()
     {
-        if (is_null($this->form_model->get('rank'))) {
-            $this->form_model->set('rank', Item::DEFAULT_RANK);
+        if (is_null($this->formModel()->get('rank'))) {
+            $this->formModel()->set('rank', Item::DEFAULT_RANK);
         }
     }
 
