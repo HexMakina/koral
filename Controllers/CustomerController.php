@@ -4,7 +4,7 @@ namespace HexMakina\koral\Controllers;
 
 use \HexMakina\Tempus\Dato; // Dato dependency only for export feature, move to ReportController ?
 
-class $this->modelClassName()Controller extends \HexMakina\kadro\Controllers\ORMController
+class CustomerController extends \HexMakina\kadro\Controllers\ORMController
 {
     use \HexMakina\kadro\Controllers\Abilities\Traceable;
     use Abilities\Detect$this->modelClassName();
