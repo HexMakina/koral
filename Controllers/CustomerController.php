@@ -3,7 +3,6 @@
 namespace HexMakina\koral\Controllers;
 
 use \HexMakina\Tempus\Dato; // Dato dependency only for export feature, move to ReportController ?
-use \HexMakina\koral\Models\{Customer,Note,Item};
 
 class CustomerController extends \HexMakina\kadro\Controllers\ORMController
 {
@@ -101,7 +100,7 @@ class CustomerController extends \HexMakina\kadro\Controllers\ORMController
         }
 
         $this->viewport('listing_title', 'MODEL_customer_LISTING_first_contacts');
-        $this->viewport_listing($this->class_name(), $listing, $this->find_template($this->box('template_engine'), __FUNCTION__));
+        $this->viewport_listing($this->modelClassName(), $listing, $this->find_template($this->box('template_engine'), __FUNCTION__));
 
         return 'customer/dashboard';
     }
@@ -117,7 +116,7 @@ class CustomerController extends \HexMakina\kadro\Controllers\ORMController
 
     public function export()
     {
-        $customers = Customer::filter();
+        $customers = $this->className()::filter();
         return $this->collection_to_csv($customers, 'koral_customers_' . Dato::today());
     }
 
