@@ -22,7 +22,6 @@ class SessionController extends \HexMakina\kadro\Controllers\ORMController
             $this->form_model->set('service_id', $this->detected_service()->get_id());
             $this->route_back('service_abbrev', ['service_abbrev' => $this->detected_service()->get('abbrev')]);
         }
-      // $this->viewport('session_notes', Note::filter(['session' => $this->form_model]));
         $this->related_listings();
     }
 
@@ -37,9 +36,7 @@ class SessionController extends \HexMakina\kadro\Controllers\ORMController
         $related_listings = [];
         $related_listings['note'] = Note::filter(['session' => $model]);
 
-        $this->viewport('related_listings', $related_listings);
-
-        return $related_listings;
+        return $this->viewport('related_listings', $related_listings);
     }
 
     public function by_service()
