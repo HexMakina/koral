@@ -7,7 +7,7 @@ use \HexMakina\Tempus\Dato; // Dato dependency only for export feature, move to 
 class CustomerController extends \HexMakina\kadro\Controllers\ORMController
 {
     use \HexMakina\kadro\Controllers\Abilities\Traceable;
-    use Abilities\Detect$this->modelClassName();
+    use Abilities\DetectCustomer;
 
     public function prepare()
     {
@@ -93,7 +93,7 @@ class CustomerController extends \HexMakina\kadro\Controllers\ORMController
                 $info['name'] = "$customer";
                 unset($info['model']);
 
-                $new = new $this->modelClassName()();
+                $new = new $this->modelClassName();
                 $new->import($info);
                 $listing[$customer->get_id()] = $new;
             }
