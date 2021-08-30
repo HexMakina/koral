@@ -15,10 +15,11 @@ trait Customerability
 
     private function customer_field($field_name)
     {
-      if(!isset($this->index_customer_fields[$field_name]))
-        $this->index_customer_fields[$field_name] = $this->customer_class_name()::model_type().'_'.$field_name;
+        if (!isset($this->index_customer_fields[$field_name])) {
+            $this->index_customer_fields[$field_name] = $this->customer_class_name()::model_type() . '_' . $field_name;
+        }
 
-      return $this->index_customer_fields[$field_name];
+        return $this->index_customer_fields[$field_name];
     }
 
 

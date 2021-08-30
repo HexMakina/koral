@@ -30,7 +30,6 @@ trait DetectCustomers
         $customer_names = [];
 
         if (!empty($customer_names = $this->formModel()->get('customer_names')) || $this->router()->submits()) {
-          
         } elseif (isset($this->load_model) && !empty($customer_names = $this->load_model->get('customer_names'))) {
         }
 

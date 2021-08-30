@@ -2,7 +2,9 @@
 
 namespace HexMakina\koral\Controllers;
 
-use \HexMakina\Tempus\Dato; // Dato dependency only for export feature, move to ReportController ?
+use HexMakina\Tempus\Dato;
+
+// Dato dependency only for export feature, move to ReportController ?
 
 class CustomerController extends \HexMakina\kadro\Controllers\ORMController
 {
@@ -74,7 +76,7 @@ class CustomerController extends \HexMakina\kadro\Controllers\ORMController
         }
 
         return $this->viewport('related_listings', $related_listings);
-;
+        ;
     }
 
     public function by_name()

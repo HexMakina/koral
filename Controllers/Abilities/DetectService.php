@@ -2,8 +2,8 @@
 
 namespace HexMakina\koral\Controllers\Abilities;
 
-use \HexMakina\Hopper\RouterInterface;
-use \HexMakina\kadro\Auth\Permission;
+use HexMakina\Hopper\RouterInterface;
+use HexMakina\kadro\Auth\Permission;
 
 trait DetectService
 {

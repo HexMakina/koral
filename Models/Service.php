@@ -2,9 +2,9 @@
 
 namespace HexMakina\koral\Models;
 
-use \HexMakina\Crudites\Interfaces\SelectInterface;
-use \HexMakina\TightORM\TightModel;
-use \HexMakina\kadro\Auth\Permission;
+use HexMakina\Crudites\Interfaces\SelectInterface;
+use HexMakina\TightORM\TightModel;
+use HexMakina\kadro\Auth\Permission;
 
 class Service extends TightModel
 {
@@ -25,7 +25,7 @@ class Service extends TightModel
 
     public static function permissions_by_abbrev(): array
     {
-      return [self::ADM => Permission::GROUP_ADMIN];
+        return [self::ADM => Permission::GROUP_ADMIN];
     }
 
     public static function planner($filters)

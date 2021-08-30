@@ -2,9 +2,9 @@
 
 namespace HexMakina\koral\Controllers;
 
-use \HexMakina\kadro\Auth\Operator;
-use \HexMakina\Tempus\Dato;
-use \HexMakina\koral\Models\{Service, Worker, Item};
+use HexMakina\kadro\Auth\Operator;
+use HexMakina\Tempus\Dato;
+use HexMakina\koral\Models\{Service, Worker, Item};
 
 class HomeController extends \HexMakina\kadro\Controllers\KadroController
 {

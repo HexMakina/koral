@@ -18,15 +18,16 @@ trait DetectCustomer
 
     private function detection_field($field_name)
     {
-      return $this->customer_model_type().'_'.$field_name;
+        return $this->customer_model_type() . '_' . $field_name;
     }
 
     private function customer_model_type()
     {
-      if(is_null($this->customer_model_type))
-        $this->customer_model_type =$this->get('CustomerClass')::model_type();
+        if (is_null($this->customer_model_type)) {
+            $this->customer_model_type = $this->get('CustomerClass')::model_type();
+        }
 
-      return $this->customer_model_type;
+        return $this->customer_model_type;
     }
 
     public function customer_search_match(): array
@@ -37,7 +38,7 @@ trait DetectCustomer
             $ret['id'] = $res;
         } elseif (!empty($res = $this->router()->params($this->detection_field('name')))) {
             $ret['name'] = $res;
-        } else{
+        } else {
             if (!empty($res = $this->formModel()->get($this->detection_field('id')))) {
                 $ret['id'] = $res;
             } elseif (!empty($res = $this->formModel()->get($this->detection_field('name')))) {
@@ -67,7 +68,7 @@ trait DetectCustomer
     {
         parent::dashboard();
         $this->viewport($this->customer_model_type(), $this->detected_customer());
-        return $this->customer_model_type().'/dashboard';
+        return $this->customer_model_type() . '/dashboard';
     }
 
     public function detected_customer($setter = null)
@@ -108,7 +109,7 @@ trait DetectCustomer
             $this->viewport('related_customer', $this->detected_customer());
         }
         // dd($this->customer_model_type());
-        $this->viewport('dashboard_header', $this->customer_model_type().'/header.html');
+        $this->viewport('dashboard_header', $this->customer_model_type() . '/header.html');
     }
 
 
