@@ -67,14 +67,14 @@ class CustomerController extends \HexMakina\kadro\Controllers\ORMController
 
         $related_listings = [];
 
-        $load_by_customer = ['customer' => $customer];
+        $load_by_model = [$this->modelPrefix() => $customer];
 
         if ($this->operator()->has_permission('group_social')) {
-            $related_listings['note'] = $this->box('NoteClass')::filter($load_by_customer);
+            $related_listings['note'] = $this->box('NoteClass')::filter($load_by_model);
         }
 
-        $this->viewport('related_listings', $related_listings);
-        return $related_listings;
+        return $this->viewport('related_listings', $related_listings);
+;
     }
 
     public function by_name()
