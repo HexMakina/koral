@@ -22,11 +22,11 @@ class CustomerController extends \HexMakina\kadro\Controllers\ORMController
 
     public function edit_alias()
     {
-        $customer = $this->modelClassName()::one($this->router()->params('customer_id'));
+        $customer = $this->modelClassName()::one($this->router()->params($this->modelPrefix('id')));
         $alias = is_null($this->router()->params('alias_id')) ? $this->modelClassName()::make_alias_of($customer) :  $this->modelClassName()::one($this->router()->params('alias_id'));
 
         $this->viewport('form_model', $alias);
-        $this->viewport('customer_original', $customer);
+        $this->viewport($this->modelPrefix('original'), $customer);
         $this->route_back($customer);
     }
 
@@ -35,15 +35,15 @@ class CustomerController extends \HexMakina\kadro\Controllers\ORMController
         parent::edit();
 
         if ($this->router()->submits() && !empty($this->router()->submitted()['alias_of'])) {
-            $this->router()->hop('customer_new_alias', ['customer_id' => $this->router()->submitted()['alias_of']]);
+            $this->router()->hop($this->modelPrefix('new_alias'), [$this->modelPrefix('id') => $this->router()->submitted()['alias_of']]);
         }
 
         if ($this->form_model->is_alias()) {
-            $this->router()->hop('customer_edit_alias', ['alias_id' => $this->form_model->get_id(), 'customer_id' => $this->form_model->get('alias_of')]);
+            $this->router()->hop($this->modelPrefix('edit_alias'), ['alias_id' => $this->form_model->get_id(), $this->modelPrefix('id') => $this->form_model->get('alias_of')]);
         }
 
         if (!$this->form_model->is_new()) {
-            $this->viewport('customer_aliases', $this->form_model->listing_aliases());
+            $this->viewport($this->modelPrefix('aliases'), $this->form_model->listing_aliases());
         }
 
         if (empty($this->form_model->get('original_name'))) {
@@ -70,7 +70,7 @@ class CustomerController extends \HexMakina\kadro\Controllers\ORMController
         $load_by_customer = ['customer' => $customer];
 
         if ($this->operator()->has_permission('group_social')) {
-            $related_listings['note'] = Note::filter($load_by_customer);
+            $related_listings['note'] = $this->box('NoteClass')::filter($load_by_customer);
         }
 
         $this->viewport('related_listings', $related_listings);
