@@ -34,7 +34,8 @@ class SessionController extends \HexMakina\kadro\Controllers\ORMController
         }
 
         $related_listings = [];
-        $related_listings['note'] = Note::filter(['session' => $model]);
+
+        $related_listings['note'] = $this->box('NoteClass')::filter(['session' => $model]);
 
         return $this->viewport('related_listings', $related_listings);
     }
