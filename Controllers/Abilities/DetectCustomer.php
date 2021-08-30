@@ -9,30 +9,44 @@ use HexMakina\Hopper\RouterInterface;
 trait DetectCustomer
 {
     private $detected_customer = null;
+    private $customer_model_type = null;
 
     abstract public function route_model(ModelInterface $model): string;
     abstract public function router(): RouterInterface;
     abstract public function viewport($key = null, $value = null, $coercion = false);
     abstract public function listing($model = null, $filters = [], $options = []);
 
+    private function detection_field($field_name)
+    {
+      return $this->customer_model_type().'_'.$field_name;
+    }
+
+    private function customer_model_type()
+    {
+      if(is_null($this->customer_model_type))
+        $this->customer_model_type =$this->box('CustomerClass')::model_type();
+
+      return $this->customer_model_type;
+    }
+
     public function customer_search_match(): array
     {
         $ret = [];
 
-        if (!empty($res = $this->router()->params('customer_id'))) {
+        if (!empty($res = $this->router()->params($this->detection_field('id')))) {
             $ret['id'] = $res;
-        } elseif (!empty($res = $this->router()->params('customer_name'))) {
+        } elseif (!empty($res = $this->router()->params($this->detection_field('name')))) {
             $ret['name'] = $res;
         } elseif (isset($this->form_model)) {
-            if (!empty($res = $this->form_model->get('customer_id'))) {
+            if (!empty($res = $this->form_model->get($this->detection_field('id')))) {
                 $ret['id'] = $res;
-            } elseif (!empty($res = $this->form_model->get('customer_name'))) {
+            } elseif (!empty($res = $this->form_model->get($this->detection_field('name')))) {
                 $ret['name'] = $res;
             }
         } elseif (isset($this->load_model)) {
-            if (!empty($res = $this->load_model->get('customer_id'))) {
+            if (!empty($res = $this->load_model->get($this->detection_field('id')))) {
                 $ret['id'] = $res;
-            } elseif (!empty($res = $this->load_model->get('customer_name'))) {
+            } elseif (!empty($res = $this->load_model->get($this->detection_field('name')))) {
                 $ret['name'] = $res;
             }
         }
@@ -51,8 +65,8 @@ trait DetectCustomer
     public function customer_dashboard()
     {
         parent::dashboard();
-        $this->viewport('customer', $this->detected_customer());
-        return 'customer/dashboard';
+        $this->viewport($this->customer_model_type(), $this->detected_customer());
+        return $this->customer_model_type().'/dashboard';
     }
 
     public function detected_customer($setter = null)
@@ -69,15 +83,15 @@ trait DetectCustomer
     public function DetectCustomerTraitor_before_edit()
     {
         if ($this->router()->requests() && !is_null($this->detected_customer())) { // create a note with a customer
-            $this->form_model->set('customer_name', $this->detected_customer()->name());
-            $this->form_model->set('customer_id', $this->detected_customer()->get_id());
+            $this->form_model->set($this->detection_field('name'), $this->detected_customer()->name());
+            $this->form_model->set($this->detection_field('id'), $this->detected_customer()->get_id());
         }
     }
 
     public function DetectCustomerTraitor_before_save()
     {
-        if (empty($this->form_model->get('customer_id')) && !is_null($this->detected_customer())) {
-            $this->form_model->set('customer_id', $this->detected_customer()->get_id());
+        if (empty($this->form_model->get($this->detection_field('id'))) && !is_null($this->detected_customer())) {
+            $this->form_model->set($this->detection_field('id'), $this->detected_customer()->get_id());
         }
     }
 
@@ -92,7 +106,8 @@ trait DetectCustomer
         if (!is_null($this->detected_customer())) {
             $this->viewport('related_customer', $this->detected_customer());
         }
-        $this->viewport('dashboard_header', 'customer/header.html');
+        // dd($this->customer_model_type());
+        $this->viewport('dashboard_header', $this->customer_model_type().'/header.html');
     }
 
 
