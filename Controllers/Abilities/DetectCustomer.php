@@ -74,7 +74,7 @@ trait DetectCustomer
         if (!is_null($setter)) {
             $this->detected_customer = $setter;
         } elseif (is_null($this->detected_customer)) {
-            $this->detected_customer = Customer::exists($this->customer_search_match());
+            $this->detected_customer = $this->modelClassName()::exists($this->customer_search_match());
         }
 
         return $this->detected_customer;
@@ -114,7 +114,6 @@ trait DetectCustomer
     protected function dashboard_listing($model = null, $template = null, $filters = [], $options = [])
     {
         $model = $model ?? $this->load_model ?? $this->form_model;
-
         $this->viewport('related_customer', $this->detected_customer());
         $this->listing($model, $filters, $options);
         $this->viewport('listing_template', $template, true);
