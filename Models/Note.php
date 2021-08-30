@@ -4,6 +4,7 @@ namespace HexMakina\koral\Models;
 
 use HexMakina\Crudites\Interfaces\SelectInterface;
 use HexMakina\TightORM\TightModel;
+use HexMakina\LeMarchand\LeMarchand;
 
 class Note extends TightModel implements Interfaces\ServiceEventInterface
 {
@@ -107,11 +108,16 @@ class Note extends TightModel implements Interfaces\ServiceEventInterface
             }
         }
 
-        //---- JOIN & FILTER  GAST
-        $Query->join(['customers_models', 'gm'], [['gm', 'model_id', $Query->table_label(), 'id'], ['gm', 'model_type', 'note']], 'LEFT OUTER');
-        $Query->join([Customer::table_name(), 'g'], [['g', 'id', 'gm', 'customer_id']], 'LEFT OUTER');
+        //---- JOIN & FILTER  Customer
+        $customerClass = LeMarchand::box()->get('CustomerClass');
+        $Query->join([$customerClass::otm('t'), 'gm'], [['gm', 'model_id', $Query->table_label(), 'id'], ['gm', 'model_type', 'note']], 'LEFT OUTER');
+        $Query->join([$customerClass::table_name(), 'g'], [['g', 'id', 'gm', $customerClass::otm('k')]], 'LEFT OUTER');
 
-        $Query->select_also(['GROUP_CONCAT(DISTINCT gm.customer_id) as customer_ids', 'COUNT(DISTINCT gm.customer_id) as count_customers', 'GROUP_CONCAT(DISTINCT g.name SEPARATOR ", ") as customer_names']);
+        $Query->select_also([
+          sprintf('GROUP_CONCAT(DISTINCT gm.%s) as %ss', $customerClass::otm('k'), $customerClass::otm('k')),
+          sprintf('COUNT(DISTINCT gm.%s) as count_%ss', $customerClass::otm('k'), $customerClass::model_type()),
+          sprintf('GROUP_CONCAT(DISTINCT g.name SEPARATOR ", ") as %s_names', $customerClass::otm('t'))
+        ]);
 
         if (isset($filters['customer']) && !empty($filters['customer']->get_id())) {
             $Query->aw_eq('customer_id', $filters['customer']->get_id(), 'gm');
@@ -136,7 +142,7 @@ class Note extends TightModel implements Interfaces\ServiceEventInterface
             $Query->order_by(['occured_on', 'DESC']);
         }
 
-        // vd($Query);
+        vd($Query);
         return $Query;
     }
 }
