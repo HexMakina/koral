@@ -70,6 +70,7 @@ class SessionController extends \HexMakina\kadro\Controllers\ORMController
     }
 
   // build for ajax call by fullcalendar drag and drop
+  // TODO this should be FullCalendarTrait
     public function change_occurence()
     {
         try {
