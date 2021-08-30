@@ -30,12 +30,12 @@ class ServiceController extends \HexMakina\kadro\Controllers\ORMController
         parent::prepare();
 
         $this->time_window = [
-        'date_start' => $this->box('StateAgent')->filters('date_start'),
-        'date_stop' => $this->box('StateAgent')->filters('date_stop')
+        'date_start' => $this->get('StateAgent')->filters('date_start'),
+        'date_stop' => $this->get('StateAgent')->filters('date_stop')
         ];
 
         if (!is_null($this->detected_service)) {
-            $this->box('StateAgent')->filters('service_abbrev', $this->detected_service()->get('abbrev'));
+            $this->get('StateAgent')->filters('service_abbrev', $this->detected_service()->get('abbrev'));
             $this->viewport('service', $this->detected_service());
         }
     }
@@ -84,8 +84,8 @@ class ServiceController extends \HexMakina\kadro\Controllers\ORMController
     public function planner()
     {
         $filters = [
-        'date_start' => $this->box('StateAgent')->filters('date_start'),
-        'date_stop' => $this->box('StateAgent')->filters('date_stop')
+        'date_start' => $this->get('StateAgent')->filters('date_start'),
+        'date_stop' => $this->get('StateAgent')->filters('date_stop')
         ];
 
         $service = Service::exists('abbrev', $this->router()->params('service_abbrev'));
@@ -105,8 +105,8 @@ class ServiceController extends \HexMakina\kadro\Controllers\ORMController
 
       // TODO default_date is today if date_start < today < date_stop
       // TODO if $today > date_stop || ^today < date_start -> take stop||start as default
-        $this->viewport('date_start', $this->box('StateAgent')->filters('date_start'));
-        $this->viewport('date_stop', $this->box('StateAgent')->filters('date_stop'));
+        $this->viewport('date_start', $this->get('StateAgent')->filters('date_start'));
+        $this->viewport('date_stop', $this->get('StateAgent')->filters('date_stop'));
     }
 
   // public function sessions()

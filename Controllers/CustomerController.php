@@ -12,7 +12,7 @@ class CustomerController extends \HexMakina\kadro\Controllers\ORMController
     public function prepare()
     {
         parent::prepare();
-        $this->box('StateAgent')->resetFilters('service_abbrev');
+        $this->get('StateAgent')->resetFilters('service_abbrev');
     }
 
     public function dashboard()
@@ -70,7 +70,7 @@ class CustomerController extends \HexMakina\kadro\Controllers\ORMController
         $load_by_model = [$this->modelPrefix() => $customer];
 
         if ($this->operator()->has_permission('group_social')) {
-            $related_listings['note'] = $this->box('NoteClass')::filter($load_by_model);
+            $related_listings['note'] = $this->get('NoteClass')::filter($load_by_model);
         }
 
         return $this->viewport('related_listings', $related_listings);
@@ -100,7 +100,7 @@ class CustomerController extends \HexMakina\kadro\Controllers\ORMController
         }
 
         $this->viewport('listing_title', 'MODEL_customer_LISTING_first_contacts');
-        $this->viewport_listing($this->modelClassName(), $listing, $this->find_template($this->box('template_engine'), __FUNCTION__));
+        $this->viewport_listing($this->modelClassName(), $listing, $this->find_template($this->get('template_engine'), __FUNCTION__));
 
         return 'customer/dashboard';
     }

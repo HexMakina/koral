@@ -14,7 +14,7 @@ class NoteController extends \HexMakina\kadro\Controllers\ORMController
 
     public function before_edit()
     {
-        if (!empty($hold_id = $this->box('StateAgent')->filters('item_hold_id')) && $this->form_model->is_new() && empty($this->form_model->item_ids())) {
+        if (!empty($hold_id = $this->get('StateAgent')->filters('item_hold_id')) && $this->form_model->is_new() && empty($this->form_model->item_ids())) {
             $this->form_model->set('item_ids', [$hold_id]);
         }
     }
@@ -57,7 +57,7 @@ class NoteController extends \HexMakina\kadro\Controllers\ORMController
         $filters['note_type'] = $this->router()->params('type');
         $filters['service'] = $this->detected_service();
 
-        return $this->dashboard_listing($this->box('NoteModel'), 'note/listing.html', $filters);
+        return $this->dashboard_listing($this->get('NoteModel'), 'note/listing.html', $filters);
     }
 
     public function conclude()

@@ -15,15 +15,15 @@ class HomeController extends \HexMakina\kadro\Controllers\KadroController
 
     public function bootstrap()
     {
-        $Controller = $this->box('RouterInterface')->target_controller();
-        $Controller = $this->box($Controller);
+        $Controller = $this->get('RouterInterface')->target_controller();
+        $Controller = $this->get($Controller);
 
-        if (!$Controller->box('StateAgent')->hasFilter('date_start')) {
-            $Controller->box('StateAgent')->filters('date_start', Dato::format($Controller->box('settings.app.time_window_start'), Dato::FORMAT));
+        if (!$Controller->get('StateAgent')->hasFilter('date_start')) {
+            $Controller->get('StateAgent')->filters('date_start', Dato::format($Controller->get('settings.app.time_window_start'), Dato::FORMAT));
         }
 
-        if (!$Controller->box('StateAgent')->hasFilter('date_stop')) {
-            $Controller->box('StateAgent')->filters('date_stop', Dato::format($Controller->box('settings.app.time_window_stop'), Dato::FORMAT));
+        if (!$Controller->get('StateAgent')->hasFilter('date_stop')) {
+            $Controller->get('StateAgent')->filters('date_stop', Dato::format($Controller->get('settings.app.time_window_stop'), Dato::FORMAT));
         }
 
         $this->common_viewport($Controller);
@@ -36,6 +36,6 @@ class HomeController extends \HexMakina\kadro\Controllers\KadroController
         $all_operators = Operator::filter();
         $Controller->viewport('all_operators', $all_operators);
         $Controller->viewport('services', Service::filter());
-        $Controller->viewport('CurrentOperator', $this->box('OperatorInterface'));
+        $Controller->viewport('CurrentOperator', $this->get('OperatorInterface'));
     }
 }

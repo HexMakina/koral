@@ -38,24 +38,24 @@ class ItemController extends \HexMakina\kadro\Controllers\ORMController
         if (!is_null($item = Item::exists($this->router()->params()))) {
             $key = $item->is_lieu() ? 'lieu' : $item->type;
 
-            if ($this->box('StateAgent')->filters($key) == $item->get_id()) {
-                $this->logger()->info($this->box('StateAgent')->filters('item_hold_label') . ' ' . $this->l('MODEL_item_NOTICE_RELEASED'));
+            if ($this->get('StateAgent')->filters($key) == $item->get_id()) {
+                $this->logger()->info($this->get('StateAgent')->filters('item_hold_label') . ' ' . $this->l('MODEL_item_NOTICE_RELEASED'));
 
-                $this->box('StateAgent')->resetFilters($key);
-                $this->box('StateAgent')->resetFilters('item_hold_id');
-                $this->box('StateAgent')->resetFilters('item_hold_type');
-                $this->box('StateAgent')->resetFilters('item_hold_id');
-                $this->box('StateAgent')->resetFilters('item_hold_label');
+                $this->get('StateAgent')->resetFilters($key);
+                $this->get('StateAgent')->resetFilters('item_hold_id');
+                $this->get('StateAgent')->resetFilters('item_hold_type');
+                $this->get('StateAgent')->resetFilters('item_hold_id');
+                $this->get('StateAgent')->resetFilters('item_hold_label');
             } else {
-                $this->box('StateAgent')->filters($key, $item->get_id());
+                $this->get('StateAgent')->filters($key, $item->get_id());
                 if ($item->is_lieu()) {
-                    $this->box('StateAgent')->filters('item_hold_id', $item->get_id());
+                    $this->get('StateAgent')->filters('item_hold_id', $item->get_id());
                 }
-                $this->box('StateAgent')->filters('item_hold_type', $item->type);
-                $this->box('StateAgent')->filters('item_hold_id', $item->get_id());
-                $this->box('StateAgent')->filters('item_hold_label', ucfirst($this->l('MODEL_item_TYPE_' . $item->type)) . ' "' . $item->get('label_fra') . '"');
+                $this->get('StateAgent')->filters('item_hold_type', $item->type);
+                $this->get('StateAgent')->filters('item_hold_id', $item->get_id());
+                $this->get('StateAgent')->filters('item_hold_label', ucfirst($this->l('MODEL_item_TYPE_' . $item->type)) . ' "' . $item->get('label_fra') . '"');
 
-                $this->logger()->info($this->box('StateAgent')->filters('item_hold_label') . ' ' . $this->l('MODEL_item_NOTICE_HELD'));
+                $this->logger()->info($this->get('StateAgent')->filters('item_hold_label') . ' ' . $this->l('MODEL_item_NOTICE_HELD'));
             }
         }
 

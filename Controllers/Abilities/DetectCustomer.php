@@ -24,7 +24,7 @@ trait DetectCustomer
     private function customer_model_type()
     {
       if(is_null($this->customer_model_type))
-        $this->customer_model_type =$this->box('CustomerClass')::model_type();
+        $this->customer_model_type =$this->get('CustomerClass')::model_type();
 
       return $this->customer_model_type;
     }
