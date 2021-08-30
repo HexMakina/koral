@@ -2,7 +2,7 @@
 
 namespace HexMakina\koral\Controllers;
 
-use HexMakina\koral\Models\{Service,Session,Item,Worker};
+use HexMakina\koral\Models\{Service,Session,Note,Item,Worker};
 
 class SessionController extends \HexMakina\kadro\Controllers\ORMController
 {
@@ -34,14 +34,11 @@ class SessionController extends \HexMakina\kadro\Controllers\ORMController
             return [];
         }
 
-        $load_by_session = ['session' => $model];
         $related_listings = [];
-        $related_listings['note'] = Note::filter($load_by_session);
-        if (!is_null($this->detected_service())) {
-            ;
-        }
+        $related_listings['note'] = Note::filter(['session' => $model]);
 
         $this->viewport('related_listings', $related_listings);
+
         return $related_listings;
     }
 
