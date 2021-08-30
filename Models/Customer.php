@@ -144,11 +144,11 @@ class Customer extends TightModel implements RelationManyToManyInterface, Custom
         $Query->group_by([$Query->table_label(), 'id']);
 
 
-        $Query->join([static::table(), 'customer_alias'], [['customer_alias', 'alias_of','customer','id']], 'LEFT OUTER');
+        $Query->join([static::table(), 'customer_alias'], [['customer_alias', 'alias_of',$Query->table_alias(),'id']], 'LEFT OUTER');
         $Query->select_also('GROUP_CONCAT(DISTINCT customer_alias.name SEPARATOR ", ") as alias_names');
 
-        $Query->join([self::otm('t'), 'customers_notes'], [['customers_notes', self::otm('k'), $Query->table_label(), 'id'],['customers_notes', 'model_type', 'note']], 'left outer');
-        $Query->join([Note::table_name(), 'n'], [['customers_notes', 'model_id', 'n', 'id']], 'left outer');
+        $Query->join([self::otm('t'), 'customers_notes'], [['customers_notes', self::otm('k'), $Query->table_label(), 'id'],['customers_notes', 'model_type', 'note']], 'LEFT OUTER');
+        $Query->join([Note::table_name(), 'n'], [['customers_notes', 'model_id', 'n', 'id']], 'LEFT OUTER');
         $Query->select_also(['MAX(n.occured_on) as last_note', 'COUNT(n.id) as count_note']);
     //
         if (isset($filters['items']) && !empty($filters['items'])) {
@@ -178,7 +178,6 @@ class Customer extends TightModel implements RelationManyToManyInterface, Custom
         }
         if (!isset($options['order_by'])) {
                 $Query->order_by('last_note DESC');
-                $Query->order_by('last_fiche_donnee DESC');
                 $Query->order_by('name ASC');
         }
 
