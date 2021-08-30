@@ -120,14 +120,15 @@ class Note extends TightModel implements Interfaces\ServiceEventInterface
         $Query->join([$customerClass::otm('t'), 'gm'], [['gm', 'model_id', $Query->table_label(), 'id'], ['gm', 'model_type', 'note']], 'LEFT OUTER');
         $Query->join([$customerClass::table_name(), 'g'], [['g', 'id', 'gm', $customerClass::otm('k')]], 'LEFT OUTER');
 
+
         $Query->select_also([
           sprintf('GROUP_CONCAT(DISTINCT gm.%s) as %ss', $customerClass::otm('k'), $customerClass::otm('k')),
           sprintf('COUNT(DISTINCT gm.%s) as count_%ss', $customerClass::otm('k'), $customerClass::model_type()),
           sprintf('GROUP_CONCAT(DISTINCT g.name SEPARATOR ", ") as %s_names', $customerClass::otm('t'))
         ]);
 
-        if (isset($filters['customer']) && !empty($filters['customer']->get_id())) {
-            $Query->aw_eq('customer_id', $filters['customer']->get_id(), 'gm');
+        if (isset($filters[$customerClass::model_type()]) && !empty($filters[$customerClass::model_type()]->get_id())) {
+            $Query->aw_eq($customerClass::otm('k'), $filters[$customerClass::model_type()]->get_id(), 'gm');
         }
 
         //---- JOIN & FILTER  ITEM
