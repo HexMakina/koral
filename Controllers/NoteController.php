@@ -56,7 +56,8 @@ class NoteController extends \HexMakina\kadro\Controllers\ORMController
         $filters = [];
         $filters['note_type'] = $this->router()->params('type');
         $filters['service'] = $this->detected_service();
-        return $this->dashboard_listing(new Note(), 'note/listing.html', $filters);
+
+        return $this->dashboard_listing($this->box('NoteModel'), 'note/listing.html', $filters);
     }
 
     public function conclude()
