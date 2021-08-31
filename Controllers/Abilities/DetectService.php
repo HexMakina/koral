@@ -81,26 +81,28 @@ trait DetectService
         $this->viewport('dashboard_header', 'service/header.html');
     }
 
-    public function service_authorize($model = null): bool
+    public function service_permission($model = null): bool
     {
         $model = $model ?? $this->detected_service();
-
         $permissions_by_abbrev = $this->get('ServiceClass')::permissions_by_abbrev();
+
         if (is_null($model) || !isset($permissions_by_abbrev[$model->get('abbrev')])) {
-            return parent::authorize(Permission::GROUP_STAFF);
+          // return parent::authorize(Permission::GROUP_STAFF);
+            return Permission::GROUP_STAFF;
         }
 
-        return parent::authorize($permissions_by_abbrev[$model->get('abbrev')]);
+        // return parent::authorize($permissions_by_abbrev[$model->get('abbrev')]);
+        return $permissions_by_abbrev[$model->get('abbrev')];
     }
 
     public function DetectServiceTraitor_before_edit()
     {
         if (!is_null($this->detected_service())) {
-            $this->service_authorize();
-
+            $this->authorize($this->service_permission());
             $this->viewport('service', $this->detected_service());
             $this->formModel()->set('service_id', $this->detected_service()->get_id()); // TODO replace by name if single_foreign_key to session table
             $this->formModel()->set('service_abbrev', $this->detected_service()->get('abbrev'));
         }
     }
+
 }

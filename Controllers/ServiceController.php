@@ -7,7 +7,7 @@ use HexMakina\koral\Models\{Service,Session};
 
 class ServiceController extends \HexMakina\kadro\Controllers\ORMController
 {
-    use Abilities\DetectService;
+    use \HexMakina\koral\Controllers\Abilities\DetectService;
 
     protected $time_window = null;
 
@@ -18,10 +18,9 @@ class ServiceController extends \HexMakina\kadro\Controllers\ORMController
                 $this->logger()->warning($this->l('KADRO_CRUDITES_ERR_INSTANCE_NOT_FOUND', [$this->l('MODEL_service_INSTANCE')]));
                 $this->router()->hop();
             }
-        } else {
-            return $this->service_authorize();
+        } elseif(is_null($permission)) {
+            return $this->authorize($this->service_permission());
         }
-
         return false;
     }
 
@@ -69,7 +68,8 @@ class ServiceController extends \HexMakina\kadro\Controllers\ORMController
                 $service = Service::one(['abbrev' => Service::PM]);
             }
         }
-        $this->service_authorize($service);
+
+        $this->authorize($this->service_permission($service))
 
         $filters['service'] = $service;
         $this->viewport('service', $service, true);
@@ -95,7 +95,7 @@ class ServiceController extends \HexMakina\kadro\Controllers\ORMController
             }
         }
 
-        $this->service_authorize($service);
+        $this->authorize($this->service_permission($service))
 
         $filters['service'] = $service;
 

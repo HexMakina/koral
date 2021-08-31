@@ -47,7 +47,7 @@ class SessionController extends \HexMakina\kadro\Controllers\ORMController
 
     public function before_save(): array
     {
-        $this->service_authorize();
+        $this->authorize($this->service_permission($service));
         return [];
     }
 
