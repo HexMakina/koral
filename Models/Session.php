@@ -9,8 +9,8 @@ use \HexMakina\kadro\Auth\Operator;
 
 class Session extends TightModel implements Interfaces\ServiceEventInterface
 {
-    use Abilities\ServiceEvent;
-    use Abilities\Itemability;
+    use \HexMakina\koral\Models\Abilities\ServiceEvent;
+    use \HexMakina\koral\Models\Abilities\Itemability;
 
     public function __toString()
     {

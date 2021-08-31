@@ -8,9 +8,9 @@ use \HexMakina\LeMarchand\LeMarchand;
 
 class Note extends TightModel implements Interfaces\ServiceEventInterface
 {
-    use Abilities\ServiceEvent;
-    use Abilities\Itemability;
-    use Abilities\Customerability;
+    use \HexMakina\koral\Models\Abilities\ServiceEvent;
+    use \HexMakina\koral\Models\Abilities\Itemability;
+    use \HexMakina\koral\Models\Abilities\Customerability;
 
 
     public function __toString()
