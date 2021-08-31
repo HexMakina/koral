@@ -23,7 +23,7 @@ class WorkerController extends \HexMakina\kadro\Controllers\ORMController
         }
 
         if (!is_null($operator = get_class($this->operator())::exists($operator_data))) {
-            $host = Worker::one(['operator_id' => $operator->operator_id()]);
+            $host = $this->get('WorkerClass')::one(['operator_id' => $operator->operator_id()]);
             $this->load_model = $host;
             $this->formModel($this->load_model);
         }
