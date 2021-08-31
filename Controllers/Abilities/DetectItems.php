@@ -30,6 +30,6 @@ trait DetectItems
 
     private function DetectItems_hasAlterations()
     {
-      return method_exists($this->formModel(), 'item_alterations') && $this->formModel()->item_alterations($this->load_model)
+      return method_exists($this->formModel(), 'item_alterations') && $this->formModel()->item_alterations($this->load_model);
     }
 }
