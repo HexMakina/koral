@@ -7,7 +7,7 @@ use \HexMakina\kadro\Models\Abilities\Event;
 // implementation of ServiceEventInterface
 trait ServiceEvent
 {
-    use Event;
+    use \HexMakina\kadro\Models\Abilities\Event;
 
     abstract public function get($prop_name);
 
