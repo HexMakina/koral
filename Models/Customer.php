@@ -10,7 +10,7 @@ use HexMakina\koral\Models\Interfaces\CustomerInterface;
 
 class Customer extends TightModel implements RelationManyToManyInterface, CustomerInterface
 {
-    use RelationManyToMany;
+    use HexMakina\TightORM\RelationManyToMany;
 
     public function __toString()
     {

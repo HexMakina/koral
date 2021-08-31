@@ -11,7 +11,7 @@ use HexMakina\kadro\Auth\Operatorability;
 
 class Worker extends TightModel implements OperatorInterface, RelationManyToManyInterface
 {
-    use RelationManyToMany;
+    use HexMakina\TightORM\RelationManyToMany;
     use Operatorability;
 
     public function __toString()

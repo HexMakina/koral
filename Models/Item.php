@@ -9,7 +9,7 @@ use HexMakina\TightORM\Interfaces\RelationManyToManyInterface;
 
 class Item extends TightModel implements RelationManyToManyInterface
 {
-    use RelationManyToMany;
+    use HexMakina\TightORM\RelationManyToMany;
 
     const DEFAULT_RANK = 99;
 
