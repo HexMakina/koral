@@ -41,7 +41,7 @@ class SessionController extends \HexMakina\kadro\Controllers\ORMController
     public function by_service()
     {
         $this->viewport('page_header_title', $this->detected_service()->get('abbrev') . ' | ' . $this->l('MODEL_session_INSTANCES'));
-        return $this->dashboard_listing(new Session(), 'session/listing.html', ['service' => $this->detected_service()]);
+        return $this->dashboard_listing($this->get('SessionModel'), 'session/listing.html', ['service' => $this->detected_service()]);
     }
 
 
