@@ -4,9 +4,9 @@ namespace HexMakina\koral\Controllers;
 
 class SessionController extends \HexMakina\kadro\Controllers\ORMController
 {
-    use Abilities\DetectService;
-    use Abilities\DetectItems;
     use \HexMakina\kadro\Controllers\Abilities\Traceable;
+    use \HexMakina\koral\Controllers\Abilities\DetectService;
+    use \HexMakina\koral\Controllers\Abilities\DetectItems;
 
     public function edit()
     {
