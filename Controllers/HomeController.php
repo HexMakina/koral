@@ -4,7 +4,6 @@ namespace HexMakina\koral\Controllers;
 
 use \HexMakina\kadro\Auth\Operator;
 use \HexMakina\Tempus\Dato;
-use \HexMakina\koral\Models\{Service, Worker, Item};
 
 class HomeController extends \HexMakina\kadro\Controllers\KadroController
 {
@@ -35,7 +34,7 @@ class HomeController extends \HexMakina\kadro\Controllers\KadroController
     {
         $all_operators = Operator::filter();
         $Controller->viewport('all_operators', $all_operators);
-        $Controller->viewport('services', Service::filter());
+        $Controller->viewport('services', $Controller->get('ServiceClass')::filter());
         $Controller->viewport('CurrentOperator', $this->get('OperatorInterface'));
     }
 }

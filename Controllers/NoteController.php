@@ -2,8 +2,6 @@
 
 namespace HexMakina\koral\Controllers;
 
-use \HexMakina\koral\Models\{Service,Session,Note};
-
 class NoteController extends \HexMakina\kadro\Controllers\ORMController
 {
     use \HexMakina\koral\Controllers\Abilities\DetectService;
@@ -43,7 +41,7 @@ class NoteController extends \HexMakina\kadro\Controllers\ORMController
 
 
         if (empty($this->formModel()->get('occured_on'))) {
-            $this->formModel()->set('occured_on', Note::today());
+            $this->formModel()->set('occured_on', $this->get('NoteClass')::today());
         }
     }
 

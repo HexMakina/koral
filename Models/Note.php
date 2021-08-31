@@ -21,7 +21,7 @@ class Note extends TightModel implements Interfaces\ServiceEventInterface
 
     public function immortal(): bool
     {
-        if (count($this->item_ids()) > 0 || count(Customer::filter(['model' => $this])) > 0) {
+        if (count($this->item_ids()) > 0 || count(LeMarchand::box()->get('CustomerClass')::filter(['model' => $this])) > 0) {
             return true;
         }
 
