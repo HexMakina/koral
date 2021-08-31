@@ -23,7 +23,7 @@ trait DetectItems
 
     public function DetectItemsTraitor_after_save()
     {
-        if (!$this->DetectItems_hasAlterations()) {
+        if ($this->DetectItems_hasAlterations()) {
             $this->logger()->nice($this->l('MODEL_LINKED_ALTERATIONS', [$this->l('MODEL_item_INSTANCES')]));
         }
     }
