@@ -45,6 +45,7 @@ trait DetectCustomer
                 $ret['name'] = $res;
             }
         }
+
         //  elseif (isset($this->load_model)) {
         //     if (!empty($res = $this->load_model->get($this->detection_field('id')))) {
         //         $ret['id'] = $res;
@@ -75,10 +76,10 @@ trait DetectCustomer
     {
         if (!is_null($setter)) {
             $this->detected_customer = $setter;
-        } elseif (is_null($this->detected_customer)) {
-            $this->detected_customer = $this->modelClassName()::exists($this->customer_search_match());
         }
-
+        elseif (is_null($this->detected_customer)) {
+            $this->detected_customer = $this->get('CustomerClass')::exists($this->customer_search_match());
+        }
         return $this->detected_customer;
     }
 
