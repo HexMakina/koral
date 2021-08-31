@@ -3,7 +3,7 @@
 namespace HexMakina\koral\Models;
 
 use \HexMakina\TightORM\TightModel;
-use \HexMakina\TightORM\RelationManyToMany;
+use \HexMakina\TightORM\Interfaces\RelationManyToManyInterface;
 use \HexMakina\Crudites\Interfaces\SelectInterface;
 
 class Item extends TightModel implements RelationManyToManyInterface
