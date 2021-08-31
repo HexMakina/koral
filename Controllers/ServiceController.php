@@ -69,7 +69,7 @@ class ServiceController extends \HexMakina\kadro\Controllers\ORMController
             }
         }
 
-        $this->authorize($this->service_permission($service))
+        $this->authorize($this->service_permission($service));
 
         $filters['service'] = $service;
         $this->viewport('service', $service, true);
@@ -95,7 +95,7 @@ class ServiceController extends \HexMakina\kadro\Controllers\ORMController
             }
         }
 
-        $this->authorize($this->service_permission($service))
+        $this->authorize($this->service_permission($service));
 
         $filters['service'] = $service;
 
