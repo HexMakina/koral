@@ -6,10 +6,10 @@ use HexMakina\koral\Models\{Service,Session,Note};
 
 class NoteController extends \HexMakina\kadro\Controllers\ORMController
 {
-    use Abilities\DetectService;
-    use Abilities\DetectSession;
-    use Abilities\DetectCustomers;
-    use Abilities\DetectItems;
+    use \HexMakina\koral\Controllers\Abilities\DetectService;
+    use \HexMakina\koral\Controllers\Abilities\DetectSession;
+    use \HexMakina\koral\Controllers\Abilities\DetectCustomers;
+    use \HexMakina\koral\Controllers\Abilities\DetectItems;
     use \HexMakina\kadro\Controllers\Abilities\Traceable;
 
     public function before_edit()

@@ -9,7 +9,7 @@ use HexMakina\Tempus\Dato;
 class CustomerController extends \HexMakina\kadro\Controllers\ORMController
 {
     use \HexMakina\kadro\Controllers\Abilities\Traceable;
-    use Abilities\DetectCustomer;
+    use \HexMakina\koral\Controllers\Abilities\DetectCustomer;
 
     public function prepare()
     {
