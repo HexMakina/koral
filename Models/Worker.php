@@ -3,15 +3,14 @@
 namespace HexMakina\koral\Models;
 
 use HexMakina\TightORM\TightModel;
-use HexMakina\TightORM\RelationManyToMany;
+use \HexMakina\TightORM\RelationManyToMany;
 use HexMakina\Crudites\Interfaces\SelectInterface;
-use HexMakina\TightORM\Interfaces\RelationManyToManyInterface;
 use HexMakina\kadro\Auth\OperatorInterface;
 use HexMakina\kadro\Auth\Operatorability;
 
 class Worker extends TightModel implements OperatorInterface, RelationManyToManyInterface
 {
-    use HexMakina\TightORM\RelationManyToMany;
+    use \HexMakina\TightORM\RelationManyToMany;
     use Operatorability;
 
     public function __toString()

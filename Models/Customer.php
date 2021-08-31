@@ -3,14 +3,12 @@
 namespace HexMakina\koral\Models;
 
 use HexMakina\TightORM\TightModel;
-use HexMakina\TightORM\RelationManyToMany;
 use HexMakina\Crudites\Interfaces\SelectInterface;
-use HexMakina\TightORM\Interfaces\RelationManyToManyInterface;
 use HexMakina\koral\Models\Interfaces\CustomerInterface;
 
 class Customer extends TightModel implements RelationManyToManyInterface, CustomerInterface
 {
-    use HexMakina\TightORM\RelationManyToMany;
+    use \HexMakina\TightORM\RelationManyToMany;
 
     public function __toString()
     {
