@@ -2,7 +2,7 @@
 
 namespace HexMakina\koral\Controllers;
 
-use HexMakina\koral\Models\Item;
+use \HexMakina\koral\Models\Item;
 
 class ItemController extends \HexMakina\kadro\Controllers\ORMController
 {

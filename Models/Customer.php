@@ -2,9 +2,9 @@
 
 namespace HexMakina\koral\Models;
 
-use HexMakina\TightORM\TightModel;
-use HexMakina\Crudites\Interfaces\SelectInterface;
-use HexMakina\koral\Models\Interfaces\CustomerInterface;
+use \HexMakina\TightORM\TightModel;
+use \HexMakina\Crudites\Interfaces\SelectInterface;
+use \HexMakina\koral\Models\Interfaces\CustomerInterface;
 
 class Customer extends TightModel implements RelationManyToManyInterface, CustomerInterface
 {

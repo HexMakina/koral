@@ -2,9 +2,9 @@
 
 namespace HexMakina\koral\Models;
 
-use HexMakina\Crudites\Interfaces\SelectInterface;
-use HexMakina\TightORM\TightModel;
-use HexMakina\kadro\Auth\Permission;
+use \HexMakina\Crudites\Interfaces\SelectInterface;
+use \HexMakina\TightORM\TightModel;
+use \HexMakina\kadro\Auth\Permission;
 
 class Service extends TightModel
 {

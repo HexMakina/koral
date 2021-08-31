@@ -2,8 +2,8 @@
 
 namespace HexMakina\koral\Controllers;
 
-use HexMakina\kadro\Auth\AccessRefusedException;
-use HexMakina\koral\Models\{Service,Session};
+use \HexMakina\kadro\Auth\AccessRefusedException;
+use \HexMakina\koral\Models\{Service,Session};
 
 class ServiceController extends \HexMakina\kadro\Controllers\ORMController
 {

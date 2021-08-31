@@ -2,9 +2,9 @@
 
 namespace HexMakina\koral\Controllers\Abilities;
 
-use HexMakina\LogLaddy\LoggerInterface;
-use HexMakina\Hopper\RouterInterface;
-use HexMakina\koral\Models\Item;
+use \HexMakina\LogLaddy\LoggerInterface;
+use \HexMakina\Hopper\RouterInterface;
+use \HexMakina\koral\Models\Item;
 
 /** detect POST items_ids and sets the form model */
 /** also prints a nice message if alterations have been detected */

@@ -2,7 +2,7 @@
 
 namespace HexMakina\koral\Controllers\Abilities;
 
-use HexMakina\Hopper\RouterInterface;
+use \HexMakina\Hopper\RouterInterface;
 
 trait DetectService
 {

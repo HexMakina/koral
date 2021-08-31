@@ -2,9 +2,9 @@
 
 namespace HexMakina\koral\Controllers\Abilities;
 
-use HexMakina\koral\Models\Customer;
-use HexMakina\TightORM\Interfaces\ModelInterface;
-use HexMakina\Hopper\RouterInterface;
+use \HexMakina\koral\Models\Customer;
+use \HexMakina\TightORM\Interfaces\ModelInterface;
+use \HexMakina\Hopper\RouterInterface;
 
 trait DetectCustomer
 {

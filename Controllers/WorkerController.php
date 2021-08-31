@@ -2,9 +2,9 @@
 
 namespace HexMakina\koral\Controllers;
 
-use HexMakina\kadro\Auth\{Operator,Permission};
-use HexMakina\Crudites\CruditesException;
-use HexMakina\koral\Models\Worker;
+use \HexMakina\kadro\Auth\{Operator,Permission};
+use \HexMakina\Crudites\CruditesException;
+use \HexMakina\koral\Models\Worker;
 
 class WorkerController extends \HexMakina\kadro\Controllers\ORMController
 {

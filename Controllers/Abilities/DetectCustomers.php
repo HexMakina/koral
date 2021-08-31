@@ -2,8 +2,8 @@
 
 namespace HexMakina\koral\Controllers\Abilities;
 
-use HexMakina\Hopper\RouterInterface;
-use HexMakina\koral\Models\Customer;
+use \HexMakina\Hopper\RouterInterface;
+use \HexMakina\koral\Models\Customer;
 
 // TODO Rewrite liek DetectCustomer
 

@@ -2,7 +2,7 @@
 
 namespace HexMakina\koral\Controllers;
 
-use HexMakina\Tempus\Dato;
+use \HexMakina\Tempus\Dato;
 
 // Dato dependency only for export feature, move to ReportController ?
 

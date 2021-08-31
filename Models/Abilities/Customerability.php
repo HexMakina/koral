@@ -2,7 +2,7 @@
 
 namespace HexMakina\koral\Models\Abilities;
 
-use HexMakina\LeMarchand\LeMarchand;
+use \HexMakina\LeMarchand\LeMarchand;
 
 trait Customerability
 {

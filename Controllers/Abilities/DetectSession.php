@@ -2,10 +2,10 @@
 
 namespace HexMakina\koral\Controllers\Abilities;
 
-use HexMakina\LogLaddy\LoggerInterface;
-use HexMakina\Hopper\RouterInterface;
-use HexMakina\kadro\Auth\OperatorInterface;
-use HexMakina\koral\Models\{Session,Worker};
+use \HexMakina\LogLaddy\LoggerInterface;
+use \HexMakina\Hopper\RouterInterface;
+use \HexMakina\kadro\Auth\OperatorInterface;
+use \HexMakina\koral\Models\{Session,Worker};
 
 trait DetectSession
 {
