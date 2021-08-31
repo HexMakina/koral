@@ -2,8 +2,6 @@
 
 namespace HexMakina\koral\Controllers;
 
-use HexMakina\koral\Models\{Service,Session,Note,Item,Worker};
-
 class SessionController extends \HexMakina\kadro\Controllers\ORMController
 {
     use Abilities\DetectService;
@@ -15,7 +13,7 @@ class SessionController extends \HexMakina\kadro\Controllers\ORMController
         parent::edit();
 
         if (empty($this->formModel()->get('occured_on'))) {
-            $this->formModel()->set('occured_on', Session::today());
+            $this->formModel()->set('occured_on', $this->get('SessionClass')::today());
         }
 
         if (!is_null($this->detected_service())) {
@@ -65,7 +63,7 @@ class SessionController extends \HexMakina\kadro\Controllers\ORMController
         if (property_exists($this->formModel(), 'worker_ids') && is_array($this->formModel()->worker_ids)) {
             $worker_ids = $this->formModel()->worker_ids;
         }
-        Worker::set_many_by_ids($worker_ids, $this->formModel());
+        $this->get('WorkerClass')::set_many_by_ids($worker_ids, $this->formModel());
 
         parent::after_save();
     }
@@ -75,7 +73,7 @@ class SessionController extends \HexMakina\kadro\Controllers\ORMController
     public function change_occurence()
     {
         try {
-            $new_occured_on = Session::date($this->router()->submitted('new_occured_on'));
+            $new_occured_on = $this->get('SessionClass')::date($this->router()->submitted('new_occured_on'));
             $this->load_model->set('occured_on', $new_occured_on);
 
             $this->load_model->save($this->operator()->operator_id());
