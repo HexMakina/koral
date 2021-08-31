@@ -2,6 +2,7 @@
 
 namespace HexMakina\koral\Controllers\Abilities;
 
+use \HexMakina\kadro\Auth\Permission;
 use \HexMakina\Hopper\RouterInterface;
 
 trait DetectService
@@ -95,7 +96,7 @@ trait DetectService
     public function DetectServiceTraitor_before_edit()
     {
         if (!is_null($this->detected_service())) {
-          
+
             $this->authorize($this->service_permission());
             $this->viewport('service', $this->detected_service());
             $this->formModel()->set('service_id', $this->detected_service()->get_id()); // TODO replace by name if single_foreign_key to session table
