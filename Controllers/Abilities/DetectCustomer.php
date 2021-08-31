@@ -57,7 +57,7 @@ trait DetectCustomer
         return $ret;
     }
 
-    public function customer_route_back($goto = null, $route_params = []): string
+    public function customerRouteBack($goto = null, $route_params = []): string
     {
         if (!is_null($this->detected_customer())) {
             return $this->route_model($this->detected_customer());
