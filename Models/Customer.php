@@ -6,6 +6,7 @@ use \HexMakina\TightORM\TightModel;
 use \HexMakina\TightORM\Interfaces\RelationManyToManyInterface;
 use \HexMakina\Crudites\Interfaces\SelectInterface;
 use \HexMakina\koral\Models\Interfaces\CustomerInterface;
+use \HexMakina\LeMarchand\LeMarchand;
 
 class Customer extends TightModel implements RelationManyToManyInterface, CustomerInterface
 {
@@ -48,7 +49,8 @@ class Customer extends TightModel implements RelationManyToManyInterface, Custom
 
     public static function make_alias_of($customer, $name = null): CustomerInterface
     {
-        $ret = new Customer();
+        $class = get_called_class();
+        $ret = new $class();
 
         $ret->set('alias_of', $customer->get_id());
         if (!is_null($name)) {
@@ -67,7 +69,7 @@ class Customer extends TightModel implements RelationManyToManyInterface, Custom
             $ret['first_contact_where'] = $this->get('first_contact_where');
             $ret['first_contact_where_details'] = $this->get('first_contact_where_details');
         } elseif (!$this->is_new()) {
-            $res = current(Note::filter(['customer' => $this], ['order_by' => 'occured_on ASC', 'limit' => [0,1]]));
+            $res = current(LeMarchand::box()->get('NoteClass')::filter([self::model_Type() => $this], ['order_by' => 'occured_on ASC', 'limit' => [0,1]]));
             if ($res) {
                 $ret['first_contact_on'] = $res->get('occured_on');
                 $ret['first_contact_where'] = $res->get('service_abbrev');
@@ -83,10 +85,10 @@ class Customer extends TightModel implements RelationManyToManyInterface, Custom
     {
         $ret = [];
 
-        $services = array_flip(Service::abbrevs());
+        $services = array_flip(LeMarchand::box()->get('ServiceClass')::abbrevs());
         $pm_id = $services['PM'];
 
-        $res = Note::filter(['customer' => $this, 'date_start' => $start_date, 'date_stop' => $stop_date]);
+        $res = LeMarchand::box()->get('NoteClass')::filter(['customer' => $this, 'date_start' => $start_date, 'date_stop' => $stop_date]);
         foreach ($res as $r) {
             if ($r->event_service() == $pm_id) {
                 continue;
