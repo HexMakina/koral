@@ -44,8 +44,10 @@ trait DetectCustomers
     {
         $customer_names = [];
 
+        // holy silken tofu u were motivated to obfuscate
         if (!empty($customer_names = $this->formModel()->get($this->detection_field('names'))) || $this->router()->submits()) {
-        } elseif (isset($this->load_model) && !empty($customer_names = $this->load_model->get($this->detection_field('names')))) {
+        } elseif (isset($this->load_model)) {
+            $customer_names = $this->load_model->get($this->detection_field('names'));
         }
 
 
@@ -64,13 +66,13 @@ trait DetectCustomers
         if (!is_null($setter)) {
             $this->detected_customers = $setter;
         } elseif (is_null($this->detected_customers)) {
-            $this->detected_customers = empty($customer_names = $this->customer_search_names()) ? [] : $this->get('CustomerClass')::by_names($customer_names);
+            $customer_names = $this->customer_search_names();
+            $this->detected_customers = $this->get('CustomerClass')::by_names($customer_names);
 
             if (!empty($customer = $this->get('CustomerClass')::exists($this->router()->params($this->detection_field('id'))))) {
                 $this->detected_customers[] = $customer;
             }
         }
-
         return $this->detected_customers;
     }
 }
