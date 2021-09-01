@@ -18,10 +18,10 @@ trait DetectCustomer
 
     private function detection_field($field_name)
     {
-        return $this->customer_model_type() . '_' . $field_name;
+        return $this->customerModelType() . '_' . $field_name;
     }
 
-    private function customer_model_type()
+    private function customerModelType()
     {
         if (is_null($this->customer_model_type)) {
             $this->customer_model_type = $this->get('CustomerClass')::model_type();
@@ -68,8 +68,8 @@ trait DetectCustomer
     public function customer_dashboard()
     {
         parent::dashboard();
-        $this->viewport($this->customer_model_type(), $this->detected_customer());
-        return $this->customer_model_type() . '/dashboard';
+        $this->viewport($this->customerModelType(), $this->detected_customer());
+        return $this->customerModelType() . '/dashboard';
     }
 
     public function detected_customer($setter = null)
@@ -109,8 +109,7 @@ trait DetectCustomer
         if (!is_null($this->detected_customer())) {
             $this->viewport('related_customer', $this->detected_customer());
         }
-        // dd($this->customer_model_type());
-        $this->viewport('dashboard_header', $this->customer_model_type() . '/header.html');
+        $this->viewport('dashboard_header', $this->customerModelType() . '/header.html');
     }
 
 
