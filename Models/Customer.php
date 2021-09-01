@@ -110,6 +110,9 @@ class Customer extends TightModel implements RelationManyToManyInterface, Custom
 
     public static function by_names($names)
     {
+        if(empty($names))
+          return [];
+
         array_walk($names, function (&$value) {
             $value = trim($value);
         });
