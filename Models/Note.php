@@ -124,7 +124,7 @@ class Note extends TightModel implements Interfaces\ServiceEventInterface
         $Query->select_also([
           sprintf('GROUP_CONCAT(DISTINCT gm.%s) as %ss', $customerClass::otm('k'), $customerClass::otm('k')),
           sprintf('COUNT(DISTINCT gm.%s) as count_%ss', $customerClass::otm('k'), $customerClass::model_type()),
-          sprintf('GROUP_CONCAT(DISTINCT g.name SEPARATOR ", ") as %s_names', $customerClass::otm('t'))
+          sprintf('GROUP_CONCAT(DISTINCT g.name SEPARATOR ", ") as %s_names', $customerClass::model_type())
         ]);
 
         if (isset($filters[$customerClass::model_type()]) && !empty($filters[$customerClass::model_type()]->get_id())) {
