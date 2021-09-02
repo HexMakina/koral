@@ -15,7 +15,6 @@ class Customer extends TightModel implements RelationManyToManyInterface, Custom
     public function __toString()
     {
         $ret = $this->name();
-
         return $ret;
     }
 
