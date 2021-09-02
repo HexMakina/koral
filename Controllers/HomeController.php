@@ -14,7 +14,7 @@ class HomeController extends \HexMakina\kadro\Controllers\KadroController
 
     public function bootstrap()
     {
-        $Controller = $this->get('RouterInterface')->target_controller();
+        $Controller = $this->get('RouterInterface')->targetController();
         $Controller = $this->get($Controller);
 
         if (!$Controller->get('StateAgent')->hasFilter('date_start')) {

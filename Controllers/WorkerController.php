@@ -120,18 +120,18 @@ class WorkerController extends \HexMakina\kadro\Controllers\ORMController
             return $this->edit();
         }
 
-        return $this->router()->prehop('worker');
+        return $this->router()->hyp('worker');
     }
 
     public function before_destroy()
     {
         $this->logger()->warning($this->l('MODEL_worker_ERR_cannot_delete_must_disable'));
-        $this->router()->hop_back();
+        $this->router()->hopBack();
     }
 
     public function route_back($goto = null, $route_params = []): string
     {
-        $route = $goto ?? $this->router()->prehop('worker');
+        $route = $goto ?? $this->router()->hyp('worker');
         return parent::route_back($route, $route_params);
     }
 }

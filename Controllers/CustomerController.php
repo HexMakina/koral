@@ -127,7 +127,7 @@ class CustomerController extends \HexMakina\kadro\Controllers\ORMController
         if (!is_null($goto)) {
             $this->route_back = $this->route_factory($goto);
         } elseif (is_null($this->route_back)) {
-            $this->route_back = $this->router()->prehop('customer');
+            $this->route_back = $this->router()->hyp('customer');
         }
 
         return $this->route_back;

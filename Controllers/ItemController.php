@@ -13,7 +13,7 @@ class ItemController extends \HexMakina\kadro\Controllers\ORMController
 
     public function route_back($route_name = null, $route_params = []): string
     {
-        return $this->router()->prehop('item');
+        return $this->router()->hyp('item');
     }
 
 
@@ -59,6 +59,6 @@ class ItemController extends \HexMakina\kadro\Controllers\ORMController
             }
         }
 
-        $this->router()->hop_back();
+        $this->router()->hopBack();
     }
 }
