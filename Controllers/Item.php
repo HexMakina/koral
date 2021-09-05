@@ -2,8 +2,6 @@
 
 namespace HexMakina\koral\Controllers;
 
-use \HexMakina\koral\Models\Item;
-
 class Item extends \HexMakina\kadro\Controllers\ORM
 {
     public function authorize($permission = null): bool
