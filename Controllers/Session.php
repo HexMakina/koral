@@ -2,7 +2,7 @@
 
 namespace HexMakina\koral\Controllers;
 
-class SessionController extends \HexMakina\kadro\Controllers\ORMController
+class Session extends \HexMakina\kadro\Controllers\ORM
 {
     use \HexMakina\kadro\Controllers\Abilities\Traceable;
     use \HexMakina\koral\Controllers\Abilities\DetectService;

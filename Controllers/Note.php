@@ -2,7 +2,7 @@
 
 namespace HexMakina\koral\Controllers;
 
-class NoteController extends \HexMakina\kadro\Controllers\ORMController
+class Note extends \HexMakina\kadro\Controllers\ORM
 {
     use \HexMakina\koral\Controllers\Abilities\DetectService;
     use \HexMakina\koral\Controllers\Abilities\DetectSession;

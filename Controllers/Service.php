@@ -4,7 +4,7 @@ namespace HexMakina\koral\Controllers;
 
 use \HexMakina\kadro\Auth\AccessRefusedException;
 
-class ServiceController extends \HexMakina\kadro\Controllers\ORMController
+class Service extends \HexMakina\kadro\Controllers\ORM
 {
     use \HexMakina\koral\Controllers\Abilities\DetectService;
 
