@@ -48,7 +48,7 @@ class Service extends \HexMakina\kadro\Controllers\ORM
             $this->router()->hop('services_journalier'); // move to general journalier
         }
 
-        if ($this->router()->params('service_abbrev') == $this->get('ServiceClass')::PI) {
+        if ($this->router()->params('service_abbrev') == $this->get('Models\Service::class')::PI) {
             $this->planner();
             return 'service/planner';
         }
@@ -61,10 +61,10 @@ class Service extends \HexMakina\kadro\Controllers\ORM
     {
         $filters = $this->time_window;
 
-        $service = $this->get('ServiceClass')::exists('abbrev', $this->router()->params('service_abbrev'));
+        $service = $this->get('Models\Service::class')::exists('abbrev', $this->router()->params('service_abbrev'));
         if (is_null($service)) {
             if ($this->operator()->has_permission('group_medical') && !$this->operator()->has_permission('group_social')) {
-                $service = $this->get('ServiceClass')::one(['abbrev' => $this->get('ServiceClass')::PM]);
+                $service = $this->get('Models\Service::class')::one(['abbrev' => $this->get('Models\Service::class')::PM]);
             }
         }
 
@@ -77,7 +77,7 @@ class Service extends \HexMakina\kadro\Controllers\ORM
             $filters['medical'] = true;
         }
 
-        $this->viewport('journalier', $this->get('ServiceClass')::journalier($filters));
+        $this->viewport('journalier', $this->get('Models\Service::class')::journalier($filters));
     }
 
     public function planner()
@@ -87,10 +87,10 @@ class Service extends \HexMakina\kadro\Controllers\ORM
         'date_stop' => $this->get('StateAgent')->filters('date_stop')
         ];
 
-        $service = $this->get('ServiceClass')::exists('abbrev', $this->router()->params('service_abbrev'));
+        $service = $this->get('Models\Service::class')::exists('abbrev', $this->router()->params('service_abbrev'));
         if (is_null($service)) {
             if ($this->operator()->has_permission('group_medical') && !$this->operator()->has_permission('group_social')) {
-                $service = $this->get('ServiceClass')::one(['abbrev' => $this->get('ServiceClass')::PM]);
+                $service = $this->get('Models\Service::class')::one(['abbrev' => $this->get('Models\Service::class')::PM]);
             }
         }
 
@@ -99,7 +99,7 @@ class Service extends \HexMakina\kadro\Controllers\ORM
         $filters['service'] = $service;
 
         $this->viewport('service', $filters['service'], true);
-        $this->viewport('planner', $this->get('ServiceClass')::planner($filters));
+        $this->viewport('planner', $this->get('Models\Service::class')::planner($filters));
 
 
       // TODO default_date is today if date_start < today < date_stop

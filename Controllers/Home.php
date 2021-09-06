@@ -34,7 +34,7 @@ class Home extends \HexMakina\kadro\Controllers\Kadro
     {
         $all_operators = Operator::filter();
         $target_conroller->viewport('all_operators', $all_operators);
-        $target_conroller->viewport('services', $target_conroller->get('ServiceClass')::filter());
+        $target_conroller->viewport('services', $target_conroller->get('Models\Service::class')::filter());
         $target_conroller->viewport('CurrentOperator', $this->get('OperatorInterface'));
     }
 }

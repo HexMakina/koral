@@ -16,7 +16,7 @@ trait Customerability
     private function customer_field($field_name)
     {
         if (!isset($this->index_customer_fields[$field_name])) {
-            $this->index_customer_fields[$field_name] = LeMarchand::box()->get('CustomerClass')::model_type() . '_' . $field_name;
+            $this->index_customer_fields[$field_name] = LeMarchand::box()->get('Models\Customer::class')::model_type() . '_' . $field_name;
         }
 
         return $this->index_customer_fields[$field_name];
@@ -30,7 +30,7 @@ trait Customerability
         }
 
         if (!$this->is_new()) {
-            $customer_class = LeMarchand::box()->get('CustomerClass');
+            $customer_class = LeMarchand::box()->get('Models\Customer::class');
 
 
             if (!is_null($this->get($this->customer_field('names')))) {
@@ -72,7 +72,7 @@ trait Customerability
 
     public function CustomerabilityTraitor_after_save()
     {
-        $customer_class = LeMarchand::box()->get('CustomerClass');
+        $customer_class = LeMarchand::box()->get('Models\Customer::class');
 
         $res = $customer_class::set_many_by_ids($this->get($this->customer_field('ids')), $this);
       // $res = $this->set_many_by_ids($this->get('customer_ids'), Customer::otm());

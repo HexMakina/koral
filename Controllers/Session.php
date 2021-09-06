@@ -63,7 +63,7 @@ class Session extends \HexMakina\kadro\Controllers\ORM
         if (property_exists($this->formModel(), 'worker_ids') && is_array($this->formModel()->worker_ids)) {
             $worker_ids = $this->formModel()->worker_ids;
         }
-        $this->get('WorkerClass')::set_many_by_ids($worker_ids, $this->formModel());
+        $this->get('Models\Worker::class')::set_many_by_ids($worker_ids, $this->formModel());
 
         parent::after_save();
     }
