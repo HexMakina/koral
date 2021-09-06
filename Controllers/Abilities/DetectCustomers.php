@@ -2,7 +2,7 @@
 
 namespace HexMakina\koral\Controllers\Abilities;
 
-use \HexMakina\Hopper\RouterInterface;
+use \HexMakina\Interfaces\RouterInterface;
 use \HexMakina\koral\Models\Customer;
 
 // TODO Rewrite liek DetectCustomer
@@ -23,7 +23,7 @@ trait DetectCustomers
     private function customerModelType()
     {
         if (is_null($this->customer_model_type)) {
-            $this->customer_model_type = $this->get('CustomerClass')::model_type();
+            $this->customer_model_type = $this->get('Models\Customer::class')::model_type();
         }
 
         return $this->customer_model_type;
@@ -67,9 +67,9 @@ trait DetectCustomers
             $this->detected_customers = $setter;
         } elseif (is_null($this->detected_customers)) {
             $customer_names = $this->customer_search_names();
-            $this->detected_customers = $this->get('CustomerClass')::by_names($customer_names);
+            $this->detected_customers = $this->get('Models\Customer::class')::by_names($customer_names);
 
-            if (!empty($customer = $this->get('CustomerClass')::exists($this->router()->params($this->detection_field('id'))))) {
+            if (!empty($customer = $this->get('Models\Customer::class')::exists($this->router()->params($this->detection_field('id'))))) {
                 $this->detected_customers[] = $customer;
             }
         }

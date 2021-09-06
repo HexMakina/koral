@@ -2,7 +2,7 @@
 
 namespace HexMakina\koral\Models;
 
-use \HexMakina\Crudites\Interfaces\SelectInterface;
+use \HexMakina\Interfaces\Database\SelectInterface;
 use \HexMakina\TightORM\TightModel;
 use \HexMakina\LeMarchand\LeMarchand;
 
@@ -21,7 +21,7 @@ class Note extends TightModel implements Interfaces\ServiceEventInterface
 
     public function immortal(): bool
     {
-        if (count($this->item_ids()) > 0 || count(LeMarchand::box()->get('CustomerClass')::filter(['model' => $this])) > 0) {
+        if (count($this->item_ids()) > 0 || count(LeMarchand::box()->get('Models\Customer::class')::filter(['model' => $this])) > 0) {
             return true;
         }
 
@@ -49,7 +49,7 @@ class Note extends TightModel implements Interfaces\ServiceEventInterface
         }
 
         // $this->set_many([], Customer::otm());
-        $customer_class = LeMarchand::box()->get('CustomerClass');
+        $customer_class = LeMarchand::box()->get('Models\Customer::class');
         $customer_class::set_many([], $this);
 
         $item_class = LeMarchand::box()->get('ItemClass');
@@ -67,12 +67,12 @@ class Note extends TightModel implements Interfaces\ServiceEventInterface
     //     //---- JOIN & FILTER  GAST
     //     $Query->join('service', [['service', 'id', $table_alias, 'service_id']], 'LEFT OUTER');
     //
-    //     $customerClass = LeMarchand::box()->get('CustomerClass');
+    //     $customerClass = LeMarchand::box()->get('Models\Customer::class');
     //     $Query->join([$customerClass::otm('t'), 'gm'], [['gm', 'model_id',  $table_alias, 'id'], ['gm', 'model_type', self::model_type()]], 'LEFT OUTER');
     //     $Query->join([$customerClass::table_name(), 'g'], [['g', 'id', 'gm', $customerClass::otm('k')]], 'LEFT OUTER');
     //
     //     // $Query->join(['customers_models', 'gm'], [['gm', 'model_id', $table_alias, 'id'], ['gm', 'model_type', self::model_type()]], 'LEFT OUTER');
-    //     // $Query->join([LeMarchand::box()->get('CustomerClass')::table_name(), 'g'], [['g', 'id', 'gm', 'customer_id']], 'LEFT OUTER');
+    //     // $Query->join([LeMarchand::box()->get('Models\Customer::class')::table_name(), 'g'], [['g', 'id', 'gm', 'customer_id']], 'LEFT OUTER');
     //
     //     $Query->aw_eq('customer_id', $customer_id, 'gm');
     //     $Query->order_by(['t_from', 'occured_on', 'ASC']);
@@ -116,7 +116,7 @@ class Note extends TightModel implements Interfaces\ServiceEventInterface
         }
 
         //---- JOIN & FILTER  Customer
-        $customerClass = LeMarchand::box()->get('CustomerClass');
+        $customerClass = LeMarchand::box()->get('Models\Customer::class');
         $Query->join([$customerClass::otm('t'), 'gm'], [['gm', 'model_id', $Query->table_label(), 'id'], ['gm', 'model_type', 'note']], 'LEFT OUTER');
         $Query->join([$customerClass::table_name(), 'g'], [['g', 'id', 'gm', $customerClass::otm('k')]], 'LEFT OUTER');
 

@@ -3,8 +3,8 @@
 namespace HexMakina\koral\Models;
 
 use \HexMakina\TightORM\TightModel;
-use \HexMakina\TightORM\Interfaces\RelationManyToManyInterface;
-use \HexMakina\Crudites\Interfaces\SelectInterface;
+use \HexMakina\Interfaces\ORM\RelationManyToManyInterface;
+use \HexMakina\Interfaces\Database\SelectInterface;
 use \HexMakina\koral\Models\Interfaces\CustomerInterface;
 use \HexMakina\LeMarchand\LeMarchand;
 
@@ -84,7 +84,7 @@ class Customer extends TightModel implements RelationManyToManyInterface, Custom
     {
         $ret = [];
 
-        $services = array_flip(LeMarchand::box()->get('ServiceClass')::abbrevs());
+        $services = array_flip(LeMarchand::box()->get('Models\Service::class')::abbrevs());
         $pm_id = $services['PM'];
 
         $res = LeMarchand::box()->get('NoteClass')::filter(['customer' => $this, 'date_start' => $start_date, 'date_stop' => $stop_date]);

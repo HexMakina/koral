@@ -3,7 +3,7 @@
 namespace HexMakina\koral\Controllers\Abilities;
 
 use \HexMakina\kadro\Auth\Permission;
-use \HexMakina\Hopper\RouterInterface;
+use \HexMakina\Interfaces\RouterInterface;
 
 trait DetectService
 {
@@ -59,7 +59,7 @@ trait DetectService
         if (!is_null($setter)) {
             $this->detected_service = $setter;
         } elseif (is_null($this->detected_service)) {
-            $this->detected_service = $this->get('ServiceClass')::exists($this->service_search_match());
+            $this->detected_service = $this->get('Models\Service::class')::exists($this->service_search_match());
         }
 
         return $this->detected_service;
@@ -84,7 +84,7 @@ trait DetectService
     public function service_permission($model = null)
     {
         $model = $model ?? $this->detected_service();
-        $permissions_by_abbrev = $this->get('ServiceClass')::permissions_by_abbrev();
+        $permissions_by_abbrev = $this->get('Models\Service::class')::permissions_by_abbrev();
 
         if (is_null($model) || !isset($permissions_by_abbrev[$model->get('abbrev')])) {
             return Permission::GROUP_STAFF;

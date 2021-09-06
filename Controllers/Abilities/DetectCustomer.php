@@ -3,8 +3,8 @@
 namespace HexMakina\koral\Controllers\Abilities;
 
 use \HexMakina\koral\Models\Customer;
-use \HexMakina\TightORM\Interfaces\ModelInterface;
-use \HexMakina\Hopper\RouterInterface;
+use \HexMakina\Interfaces\ORM\ModelInterface;
+use \HexMakina\Interfaces\RouterInterface;
 
 trait DetectCustomer
 {
@@ -24,7 +24,7 @@ trait DetectCustomer
     private function customerModelType()
     {
         if (is_null($this->customer_model_type)) {
-            $this->customer_model_type = $this->get('CustomerClass')::model_type();
+            $this->customer_model_type = $this->get('Models\Customer::class')::model_type();
         }
 
         return $this->customer_model_type;
@@ -78,7 +78,7 @@ trait DetectCustomer
             $this->detected_customer = $setter;
         }
         elseif (is_null($this->detected_customer)) {
-            $this->detected_customer = $this->get('CustomerClass')::exists($this->customer_search_match());
+            $this->detected_customer = $this->get('Models\Customer::class')::exists($this->customer_search_match());
         }
         return $this->detected_customer;
     }
