@@ -2,7 +2,7 @@
 
 namespace HexMakina\koral\Models;
 
-use \HexMakina\Crudites\Interfaces\SelectInterface;
+use \HexMakina\Interfaces\Database\SelectInterface;
 use \HexMakina\TightORM\TightModel;
 use \HexMakina\kadro\Auth\Permission;
 
