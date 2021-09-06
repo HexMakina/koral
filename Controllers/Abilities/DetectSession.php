@@ -3,8 +3,8 @@
 namespace HexMakina\koral\Controllers\Abilities;
 
 use \HexMakina\LogLaddy\LoggerInterface;
-use \HexMakina\Hopper\RouterInterface;
-use \HexMakina\kadro\Auth\OperatorInterface;
+use \HexMakina\Interfaces\RouterInterface;
+use \HexMakina\Interfaces\Auth\OperatorInterface;
 use \HexMakina\koral\Models\{Session,Worker};
 
 trait DetectSession
@@ -97,7 +97,7 @@ trait DetectSession
 
             if (isset($foreign_tables[$foreign_table_name]) && count($column = $foreign_tables[$foreign_table_name]) === 1) {
                 $column = current($column);
-                if (!$column->is_nullable()) {
+                if (!$column->isNullable()) {
                     $this->formModel()->set($column->name(), $detected->get_id()); // TODO: replace by name if single_foreign_key to session table
                     $this->formModel()->set('session_occured_on', $detected->event_value());
                 }
