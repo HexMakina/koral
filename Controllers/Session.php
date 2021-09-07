@@ -13,7 +13,7 @@ class Session extends \HexMakina\kadro\Controllers\ORM
         parent::edit();
 
         if (empty($this->formModel()->get('occured_on'))) {
-            $this->formModel()->set('occured_on', $this->get('SessionClass')::today());
+            $this->formModel()->set('occured_on', $this->get('Models\Session::class')::today());
         }
 
         if (!is_null($this->detected_service())) {
@@ -33,7 +33,7 @@ class Session extends \HexMakina\kadro\Controllers\ORM
 
         $related_listings = [];
 
-        $related_listings['note'] = $this->get('NoteClass')::filter(['session' => $model]);
+        $related_listings['note'] = $this->get('Models\Note::class')::filter(['session' => $model]);
 
         return $this->viewport('related_listings', $related_listings);
     }
@@ -47,7 +47,7 @@ class Session extends \HexMakina\kadro\Controllers\ORM
 
     public function before_save(): array
     {
-        $this->authorize($this->service_permission($service));
+        $this->authorize($this->service_permission($this->detected_service()));
         return [];
     }
 
@@ -73,7 +73,7 @@ class Session extends \HexMakina\kadro\Controllers\ORM
     public function change_occurence()
     {
         try {
-            $new_occured_on = $this->get('SessionClass')::date($this->router()->submitted('new_occured_on'));
+            $new_occured_on = $this->get('Models\Session::class')::date($this->router()->submitted('new_occured_on'));
             $this->load_model->set('occured_on', $new_occured_on);
 
             $this->load_model->save($this->operator()->operator_id());

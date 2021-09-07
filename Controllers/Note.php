@@ -41,7 +41,7 @@ class Note extends \HexMakina\kadro\Controllers\ORM
 
 
         if (empty($this->formModel()->get('occured_on'))) {
-            $this->formModel()->set('occured_on', $this->get('NoteClass')::today());
+            $this->formModel()->set('occured_on', $this->get('Models\Note::class')::today());
         }
     }
 

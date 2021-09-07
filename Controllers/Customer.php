@@ -72,7 +72,7 @@ class Customer extends \HexMakina\kadro\Controllers\ORM
         $load_by_model = [$this->modelPrefix() => $customer];
 
         if ($this->operator()->has_permission('group_social')) {
-            $related_listings['note'] = $this->get('NoteClass')::filter($load_by_model);
+            $related_listings['note'] = $this->get('Models\Note::class')::filter($load_by_model);
         }
 
         return $this->viewport('related_listings', $related_listings);

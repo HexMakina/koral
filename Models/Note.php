@@ -52,7 +52,7 @@ class Note extends TightModel implements Interfaces\ServiceEventInterface
         $customer_class = LeMarchand::box()->get('Models\Customer::class');
         $customer_class::set_many([], $this);
 
-        $item_class = LeMarchand::box()->get('ItemClass');
+        $item_class = LeMarchand::box()->get('Models\Item::class');
         $item_class::set_many([], $this);
 
         return parent::destroy($operator_id);

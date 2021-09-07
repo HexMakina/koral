@@ -68,7 +68,7 @@ class Customer extends TightModel implements RelationManyToManyInterface, Custom
             $ret['first_contact_where'] = $this->get('first_contact_where');
             $ret['first_contact_where_details'] = $this->get('first_contact_where_details');
         } elseif (!$this->is_new()) {
-            $res = current(LeMarchand::box()->get('NoteClass')::filter([self::model_Type() => $this], ['order_by' => 'occured_on ASC', 'limit' => [0,1]]));
+            $res = current(LeMarchand::box()->get('Models\Note::class')::filter([self::model_Type() => $this], ['order_by' => 'occured_on ASC', 'limit' => [0,1]]));
             if ($res) {
                 $ret['first_contact_on'] = $res->get('occured_on');
                 $ret['first_contact_where'] = $res->get('service_abbrev');
@@ -87,7 +87,7 @@ class Customer extends TightModel implements RelationManyToManyInterface, Custom
         $services = array_flip(LeMarchand::box()->get('Models\Service::class')::abbrevs());
         $pm_id = $services['PM'];
 
-        $res = LeMarchand::box()->get('NoteClass')::filter(['customer' => $this, 'date_start' => $start_date, 'date_stop' => $stop_date]);
+        $res = LeMarchand::box()->get('Models\Note::class')::filter(['customer' => $this, 'date_start' => $start_date, 'date_stop' => $stop_date]);
         foreach ($res as $r) {
             if ($r->event_service() == $pm_id) {
                 continue;
