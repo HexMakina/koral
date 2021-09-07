@@ -2,7 +2,7 @@
 
 namespace HexMakina\koral\Controllers;
 
-use \HexMakina\kadro\Auth\AccessRefusedException;
+use HexMakina\kadro\Auth\AccessRefusedException;
 
 class Service extends \HexMakina\kadro\Controllers\ORM
 {
@@ -17,7 +17,7 @@ class Service extends \HexMakina\kadro\Controllers\ORM
                 $this->logger()->warning($this->l('KADRO_CRUDITES_ERR_INSTANCE_NOT_FOUND', [$this->l('MODEL_service_INSTANCE')]));
                 $this->router()->hop();
             }
-        } elseif(is_null($permission)) {
+        } elseif (is_null($permission)) {
             return $this->authorize($this->service_permission());
         }
         return false;

@@ -2,9 +2,9 @@
 
 namespace HexMakina\koral\Controllers\Abilities;
 
-use \Psr\Log\LoggerInterface;
-use \HexMakina\Interfaces\RouterInterface;
-use \HexMakina\koral\Models\Item;
+use Psr\Log\LoggerInterface;
+use HexMakina\Interfaces\RouterInterface;
+use HexMakina\koral\Models\Item;
 
 /** detect POST items_ids and sets the form model */
 /** also prints a nice message if alterations have been detected */
@@ -30,6 +30,6 @@ trait DetectItems
 
     private function DetectItems_hasAlterations()
     {
-      return method_exists($this->formModel(), 'item_alterations') && $this->formModel()->item_alterations($this->load_model);
+        return method_exists($this->formModel(), 'item_alterations') && $this->formModel()->item_alterations($this->load_model);
     }
 }

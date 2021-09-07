@@ -21,7 +21,7 @@ class Note extends \HexMakina\kadro\Controllers\ORM
     {
         parent::edit();
         if (!is_null($detected_session = $this->detected_session())) {
-            $this->formModel()->set('session_id',$detected_session->get_id());
+            $this->formModel()->set('session_id', $detected_session->get_id());
             $this->formModel()->set('occured_on', $detected_session->get('occured_on'));
             $this->formModel()->set('service_id', $detected_session->get('service_id'));
             $this->formModel()->set('service_abbrev', $detected_session->get('service_abbrev'));

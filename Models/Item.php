@@ -2,9 +2,9 @@
 
 namespace HexMakina\koral\Models;
 
-use \HexMakina\TightORM\TightModel;
-use \HexMakina\Interfaces\ORM\RelationManyToManyInterface;
-use \HexMakina\Interfaces\Database\SelectInterface;
+use HexMakina\TightORM\TightModel;
+use HexMakina\Interfaces\ORM\RelationManyToManyInterface;
+use HexMakina\Interfaces\Database\SelectInterface;
 
 class Item extends TightModel implements RelationManyToManyInterface
 {

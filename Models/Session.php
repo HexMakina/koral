@@ -2,10 +2,10 @@
 
 namespace HexMakina\koral\Models;
 
-use \HexMakina\Interfaces\Database\SelectInterface;
-use \HexMakina\Crudites\CruditesException;
-use \HexMakina\TightORM\TightModel;
-use \HexMakina\kadro\Auth\Operator;
+use HexMakina\Interfaces\Database\SelectInterface;
+use HexMakina\Crudites\CruditesException;
+use HexMakina\TightORM\TightModel;
+use HexMakina\kadro\Auth\Operator;
 
 class Session extends TightModel implements Interfaces\ServiceEventInterface
 {

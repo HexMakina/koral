@@ -2,9 +2,9 @@
 
 namespace HexMakina\koral\Models;
 
-use \HexMakina\Interfaces\Database\SelectInterface;
-use \HexMakina\TightORM\TightModel;
-use \HexMakina\LeMarchand\LeMarchand;
+use HexMakina\Interfaces\Database\SelectInterface;
+use HexMakina\TightORM\TightModel;
+use HexMakina\LeMarchand\LeMarchand;
 
 class Note extends TightModel implements Interfaces\ServiceEventInterface
 {

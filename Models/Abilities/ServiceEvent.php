@@ -2,7 +2,7 @@
 
 namespace HexMakina\koral\Models\Abilities;
 
-use \HexMakina\kadro\Models\Abilities\Event;
+use HexMakina\kadro\Models\Abilities\Event;
 
 // implementation of ServiceEventInterface
 trait ServiceEvent

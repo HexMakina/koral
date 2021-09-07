@@ -2,7 +2,7 @@
 
 namespace HexMakina\koral\Models\Interfaces;
 
-use \HexMakina\kadro\Models\Interfaces\EventInterface;
+use HexMakina\kadro\Models\Interfaces\EventInterface;
 
 // implementation in Models\Abilities\ServiceEvent
 interface ServiceEventInterface extends EventInterface

@@ -2,11 +2,11 @@
 
 namespace HexMakina\koral\Models;
 
-use \HexMakina\TightORM\TightModel;
-use \HexMakina\Interfaces\ORM\RelationManyToManyInterface;
-use \HexMakina\Interfaces\Database\SelectInterface;
-use \HexMakina\Interfaces\Auth\OperatorInterface;
-use \HexMakina\kadro\Auth\Operatorability;
+use HexMakina\TightORM\TightModel;
+use HexMakina\Interfaces\ORM\RelationManyToManyInterface;
+use HexMakina\Interfaces\Database\SelectInterface;
+use HexMakina\Interfaces\Auth\OperatorInterface;
+use HexMakina\kadro\Auth\Operatorability;
 
 class Worker extends TightModel implements OperatorInterface, RelationManyToManyInterface
 {

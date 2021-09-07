@@ -2,11 +2,11 @@
 
 namespace HexMakina\koral\Models;
 
-use \HexMakina\TightORM\TightModel;
-use \HexMakina\Interfaces\ORM\RelationManyToManyInterface;
-use \HexMakina\Interfaces\Database\SelectInterface;
-use \HexMakina\koral\Models\Interfaces\CustomerInterface;
-use \HexMakina\LeMarchand\LeMarchand;
+use HexMakina\TightORM\TightModel;
+use HexMakina\Interfaces\ORM\RelationManyToManyInterface;
+use HexMakina\Interfaces\Database\SelectInterface;
+use HexMakina\koral\Models\Interfaces\CustomerInterface;
+use HexMakina\LeMarchand\LeMarchand;
 
 class Customer extends TightModel implements RelationManyToManyInterface, CustomerInterface
 {
@@ -109,8 +109,9 @@ class Customer extends TightModel implements RelationManyToManyInterface, Custom
 
     public static function by_names($names)
     {
-        if(empty($names))
-          return [];
+        if (empty($names)) {
+            return [];
+        }
 
         array_walk($names, function (&$value) {
             $value = trim($value);

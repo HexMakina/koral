@@ -2,9 +2,9 @@
 
 namespace HexMakina\koral\Controllers\Abilities;
 
-use \HexMakina\koral\Models\Customer;
-use \HexMakina\Interfaces\ORM\ModelInterface;
-use \HexMakina\Interfaces\RouterInterface;
+use HexMakina\koral\Models\Customer;
+use HexMakina\Interfaces\ORM\ModelInterface;
+use HexMakina\Interfaces\RouterInterface;
 
 trait DetectCustomer
 {
@@ -76,8 +76,7 @@ trait DetectCustomer
     {
         if (!is_null($setter)) {
             $this->detected_customer = $setter;
-        }
-        elseif (is_null($this->detected_customer)) {
+        } elseif (is_null($this->detected_customer)) {
             $this->detected_customer = $this->get('Models\Customer::class')::exists($this->customer_search_match());
         }
         return $this->detected_customer;
