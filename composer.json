@@ -4,6 +4,7 @@
   "type": "package",
   "require": {
     "php": ">=7.3",
+    "hexmakina/interfaces": "0.0.*",
     "hexmakina/kadro": "0.0.*"
   },
   "license": "mit",
