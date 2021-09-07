@@ -2,7 +2,7 @@
 
 namespace HexMakina\koral\Controllers\Abilities;
 
-use \HexMakina\LogLaddy\LoggerInterface;
+use \Psr\Log\LoggerInterface;
 use \HexMakina\Interfaces\RouterInterface;
 use \HexMakina\koral\Models\Item;
 
@@ -24,7 +24,7 @@ trait DetectItems
     public function DetectItemsTraitor_after_save()
     {
         if ($this->DetectItems_hasAlterations()) {
-            $this->logger()->nice($this->l('MODEL_LINKED_ALTERATIONS', [$this->l('MODEL_item_INSTANCES')]));
+            $this->logger()->notice($this->l('MODEL_LINKED_ALTERATIONS', [$this->l('MODEL_item_INSTANCES')]));
         }
     }
 

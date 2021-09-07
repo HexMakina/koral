@@ -54,7 +54,7 @@ class Session extends \HexMakina\kadro\Controllers\ORM
     public function after_save()
     {
         if ($this->formModel()->worker_changes($this->load_model)) {
-            $this->logger()->nice($this->l('MODEL_LINKED_ALTERATIONS', [$this->l('MODEL_worker_INSTANCES')]));
+            $this->logger()->notice($this->l('MODEL_LINKED_ALTERATIONS', [$this->l('MODEL_worker_INSTANCES')]));
         } else {
             $this->logger()->info($this->l('MODEL_LINKED_NO_ALTERATIONS', [$this->l('MODEL_worker_INSTANCES')]));
         }
