@@ -62,7 +62,7 @@ trait DetectCustomer
         if (!is_null($this->detected_customer())) {
             return $this->route_model($this->detected_customer());
         }
-        return parent::route_back($goto, $route_params);
+        return parent::routeBack($goto, $route_params);
     }
 
     public function customer_dashboard()

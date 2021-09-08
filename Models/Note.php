@@ -48,12 +48,12 @@ class Note extends TightModel implements Interfaces\ServiceEventInterface
             return false;
         }
 
-        // $this->set_many([], Customer::otm());
+        // $this->setMany([], Customer::otm());
         $customer_class = LeMarchand::box()->get('Models\Customer::class');
-        $customer_class::set_many([], $this);
+        $customer_class::setMany([], $this);
 
         $item_class = LeMarchand::box()->get('Models\Item::class');
-        $item_class::set_many([], $this);
+        $item_class::setMany([], $this);
 
         return parent::destroy($operator_id);
     }

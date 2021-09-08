@@ -129,9 +129,9 @@ class Worker extends \HexMakina\kadro\Controllers\ORM
         $this->router()->hopBack();
     }
 
-    public function route_back($goto = null, $route_params = []): string
+    public function routeBack($goto = null, $route_params = []): string
     {
         $route = $goto ?? $this->router()->hyp('worker');
-        return parent::route_back($route, $route_params);
+        return parent::routeBack($route, $route_params);
     }
 }

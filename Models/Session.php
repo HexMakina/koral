@@ -126,7 +126,7 @@ class Session extends TightModel implements Interfaces\ServiceEventInterface
         if ($this->immortal()) {
             return false;
         }
-        Worker::set_many([], $this);
+        Worker::setMany([], $this);
 
         return parent::destroy($operator_id);
     }

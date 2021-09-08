@@ -29,7 +29,7 @@ class Customer extends \HexMakina\kadro\Controllers\ORM
 
         $this->viewport('form_model', $alias);
         $this->viewport($this->modelPrefix('original'), $customer);
-        $this->route_back($customer);
+        $this->routeBack($customer);
     }
 
     public function edit()
@@ -111,7 +111,7 @@ class Customer extends \HexMakina\kadro\Controllers\ORM
     {
         if ($this->load_model->is_alias()) {
             $original = $this->modelClassName()::one($this->load_model->get('alias_of'));
-            $this->route_back($original);
+            $this->routeBack($original);
             parent::destroy();
         }
     }
@@ -122,10 +122,10 @@ class Customer extends \HexMakina\kadro\Controllers\ORM
         return $this->collection_to_csv($customers, 'koral_customers_' . Dato::today());
     }
 
-    public function route_back($goto = null, $route_params = []): string
+    public function routeBack($goto = null, $route_params = []): string
     {
         if (!is_null($goto)) {
-            $this->route_back = $this->route_factory($goto);
+            $this->route_back = $this->routeFactory($goto);
         } elseif (is_null($this->route_back)) {
             $this->route_back = $this->router()->hyp('customer');
         }

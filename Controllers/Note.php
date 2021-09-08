@@ -63,11 +63,11 @@ class Note extends \HexMakina\kadro\Controllers\ORM
         parent::conclude();
 
         if (!is_null($this->detected_service())) {
-            $this->route_back('service_abbrev', ['service_abbrev' => $this->detected_service()->get('abbrev')]);
+            $this->routeBack('service_abbrev', ['service_abbrev' => $this->detected_service()->get('abbrev')]);
         }
 
         if (!is_null($detected_session = $this->detected_session())) {
-            $this->route_back($detected_session);
+            $this->routeBack($detected_session);
         }
     }
 
@@ -90,9 +90,9 @@ class Note extends \HexMakina\kadro\Controllers\ORM
     public function after_destroy()
     {
         if (!is_null($session = $this->detected_session())) {
-            $this->route_back($session);
+            $this->routeBack($session);
         } elseif (!is_null($this->detected_service())) {
-            $this->route_back($this->detected_service());
+            $this->routeBack($this->detected_service());
         }
 
         parent::after_destroy();

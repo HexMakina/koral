@@ -18,7 +18,7 @@ class Session extends \HexMakina\kadro\Controllers\ORM
 
         if (!is_null($this->detected_service())) {
             $this->formModel()->set('service_id', $this->detected_service()->getId());
-            $this->route_back('service_abbrev', ['service_abbrev' => $this->detected_service()->get('abbrev')]);
+            $this->routeBack('service_abbrev', ['service_abbrev' => $this->detected_service()->get('abbrev')]);
         }
         $this->related_listings();
     }
@@ -63,7 +63,7 @@ class Session extends \HexMakina\kadro\Controllers\ORM
         if (property_exists($this->formModel(), 'worker_ids') && is_array($this->formModel()->worker_ids)) {
             $worker_ids = $this->formModel()->worker_ids;
         }
-        $this->get('Models\Worker::class')::set_many_by_ids($worker_ids, $this->formModel());
+        $this->get('Models\Worker::class')::setManyByIds($worker_ids, $this->formModel());
 
         parent::after_save();
     }

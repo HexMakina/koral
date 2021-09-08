@@ -74,8 +74,8 @@ trait Customerability
     {
         $customer_class = LeMarchand::box()->get('Models\Customer::class');
 
-        $res = $customer_class::set_many_by_ids($this->get($this->customer_field('ids')), $this);
-      // $res = $this->set_many_by_ids($this->get('customer_ids'), Customer::otm());
+        $res = $customer_class::setManyByIds($this->get($this->customer_field('ids')), $this);
+      // $res = $this->setManyByIds($this->get('customer_ids'), Customer::otm());
 
         if ($res === true) {
             return 'CUSTOMER_CUSTOMERABILITY_CHANGES';

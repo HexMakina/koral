@@ -65,8 +65,8 @@ trait DetectSession
 
             if (!is_null($session)) {
                 $current_worker = Worker::one(['operator_id' => $this->operator()->operatorId()]);
-                Worker::set_many([$current_worker], $session);
-                // $session->set_many([$current_worker], Worker::otm());
+                Worker::setMany([$current_worker], $session);
+                // $session->setMany([$current_worker], Worker::otm());
             }
         } else {
             $session = array_pop($sessions);
@@ -92,7 +92,7 @@ trait DetectSession
         }
 
         if (!is_null($detected)) {
-            $foreign_tables = get_class($this->formModel())::table()->foreign_keys_by_table() ?? [];
+            $foreign_tables = get_class($this->formModel())::table()->foreignKeysByTable() ?? [];
             $foreign_table_name = Session::table()->name();
 
             if (isset($foreign_tables[$foreign_table_name]) && count($column = $foreign_tables[$foreign_table_name]) === 1) {

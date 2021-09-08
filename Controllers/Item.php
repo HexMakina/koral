@@ -9,7 +9,7 @@ class Item extends \HexMakina\kadro\Controllers\ORM
         return parent::authorize('group_admin');
     }
 
-    public function route_back($route_name = null, $route_params = []): string
+    public function routeBack($route_name = null, $route_params = []): string
     {
         return $this->router()->hyp('item');
     }

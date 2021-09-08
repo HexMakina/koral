@@ -51,8 +51,8 @@ trait Itemability
 
     public function ItemabilityTraitor_after_save()
     {
-        $res = Item::set_many_by_ids($this->item_ids(), $this);
-      // $res = $this->set_many_by_ids($this->item_ids(), Item::otm());
+        $res = Item::setManyByIds($this->item_ids(), $this);
+      // $res = $this->setManyByIds($this->item_ids(), Item::otm());
 
         if ($res === true) {
             return 'ITEM_ITEMABILITY_CHANGES';
@@ -62,7 +62,7 @@ trait Itemability
 
     public function ItemabilityTraitor_before_destroy()
     {
-        Item::set_many([], $this);
+        Item::setMany([], $this);
     }
 
     public static function query_with_item_ids($Query, $restrict_items = [])
