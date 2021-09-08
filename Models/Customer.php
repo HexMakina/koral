@@ -51,7 +51,7 @@ class Customer extends TightModel implements RelationManyToManyInterface, Custom
         $class = get_called_class();
         $ret = new $class();
 
-        $ret->set('alias_of', $customer->get_id());
+        $ret->set('alias_of', $customer->getId());
         if (!is_null($name)) {
             $ret->set('name', $name);
         }
@@ -67,7 +67,7 @@ class Customer extends TightModel implements RelationManyToManyInterface, Custom
             $ret['first_contact_on'] = $this->get('first_contact_on');
             $ret['first_contact_where'] = $this->get('first_contact_where');
             $ret['first_contact_where_details'] = $this->get('first_contact_where_details');
-        } elseif (!$this->is_new()) {
+        } elseif (!$this->isNew()) {
             $res = current(LeMarchand::box()->get('Models\Note::class')::filter([self::model_Type() => $this], ['order_by' => 'occured_on ASC', 'limit' => [0,1]]));
             if ($res) {
                 $ret['first_contact_on'] = $res->get('occured_on');
@@ -121,8 +121,8 @@ class Customer extends TightModel implements RelationManyToManyInterface, Custom
         $customers = static::retrieve($query);
         foreach ($customers as $customer) { // search and replace aliases
             if ($customer->is_alias() && !is_null($original = static::exists($customer->get('alias_of')))) {
-                $customers[$original->get_id()] = $original;
-                unset($customers[$customer->get_id()]);
+                $customers[$original->getId()] = $original;
+                unset($customers[$customer->getId()]);
             }
         }
         return $customers;
@@ -130,14 +130,14 @@ class Customer extends TightModel implements RelationManyToManyInterface, Custom
 
     public function listing_aliases()
     {
-        if ($this->is_new()) {
+        if ($this->isNew()) {
             return [];
         }
 
         // $select_fields = ['g.*', "'' as last_fiche_accueil", "'' as count_fiche_accueil", "'' as last_fiche_donnee", "'' as count_fiche_donnee", "'' as last_note", "'' as last_note_id", "'' as count_note"];
         $Query = self::table()->select();
         $Query->and_where('alias_of <> id');
-        $Query->aw_eq('alias_of', $this->get_id());
+        $Query->aw_eq('alias_of', $this->getId());
 
         return self::retrieve($Query);
     }
@@ -175,10 +175,10 @@ class Customer extends TightModel implements RelationManyToManyInterface, Custom
 
         if (isset($filters['model'])) {
             $model = $filters['model'];
-            if ($model->is_new()) {
+            if ($model->isNew()) {
                 $Query->and_where('1=0');
             }
-            $Query->join([self::otm('t'), self::otm('a')], [[self::otm('a'), self::otm('k'), $Query->table_label(), 'id'], [self::otm('a'), 'model_type', get_class($model)::model_type()], [self::otm('a'), 'model_id', $model->get_id()]], 'inner');
+            $Query->join([self::otm('t'), self::otm('a')], [[self::otm('a'), self::otm('k'), $Query->table_label(), 'id'], [self::otm('a'), 'model_type', get_class($model)::model_type()], [self::otm('a'), 'model_id', $model->getId()]], 'inner');
         }
         if (!isset($options['order_by'])) {
                 $Query->order_by('last_note DESC');

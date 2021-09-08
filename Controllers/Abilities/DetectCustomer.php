@@ -86,14 +86,14 @@ trait DetectCustomer
     {
         if ($this->router()->requests() && !is_null($this->detected_customer())) { // create a note with a customer
             $this->formModel()->set($this->detection_field('name'), $this->detected_customer()->name());
-            $this->formModel()->set($this->detection_field('id'), $this->detected_customer()->get_id());
+            $this->formModel()->set($this->detection_field('id'), $this->detected_customer()->getId());
         }
     }
 
     public function DetectCustomerTraitor_before_save()
     {
         if (empty($this->formModel()->get($this->detection_field('id'))) && !is_null($this->detected_customer())) {
-            $this->formModel()->set($this->detection_field('id'), $this->detected_customer()->get_id());
+            $this->formModel()->set($this->detection_field('id'), $this->detected_customer()->getId());
         }
     }
 

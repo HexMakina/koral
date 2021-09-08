@@ -17,7 +17,7 @@ class Session extends \HexMakina\kadro\Controllers\ORM
         }
 
         if (!is_null($this->detected_service())) {
-            $this->formModel()->set('service_id', $this->detected_service()->get_id());
+            $this->formModel()->set('service_id', $this->detected_service()->getId());
             $this->route_back('service_abbrev', ['service_abbrev' => $this->detected_service()->get('abbrev')]);
         }
         $this->related_listings();
@@ -27,7 +27,7 @@ class Session extends \HexMakina\kadro\Controllers\ORM
     {
         $model = $model ?? $this->load_model;
 
-        if (is_null($model) || $model->is_new()) {
+        if (is_null($model) || $model->isNew()) {
             return [];
         }
 
@@ -76,7 +76,7 @@ class Session extends \HexMakina\kadro\Controllers\ORM
             $new_occured_on = $this->get('Models\Session::class')::date($this->router()->submitted('new_occured_on'));
             $this->load_model->set('occured_on', $new_occured_on);
 
-            $this->load_model->save($this->operator()->operator_id());
+            $this->load_model->save($this->operator()->operatorId());
 
             return json_encode('success');
         } catch (\Exception $e) {

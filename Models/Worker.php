@@ -23,13 +23,13 @@ class Worker extends TightModel implements OperatorInterface, RelationManyToMany
         $ret = [];
         $collection = $collection ?? self::filter();
         foreach ($collection as $worker) {
-            if ($active_only && !$worker->is_active()) {
+            if ($active_only && !$worker->isActive()) {
                 continue;
             }
             if (!empty($worker->get('permission_names'))) {
                 foreach (explode(',', $worker->permission_names) as $permission_name) {
                     if (strpos($permission_name, 'group_') === 0) {
-                          $ret[$permission_name][$worker->get_id()] = $worker;
+                          $ret[$permission_name][$worker->getId()] = $worker;
                     }
                 }
             }
@@ -43,10 +43,10 @@ class Worker extends TightModel implements OperatorInterface, RelationManyToMany
 
         $collection = $collection ?? self::filter();
         foreach ($collection as $worker) {
-            if (!$worker->is_active()) {
-                $ret[$worker->get_id()] = $worker;
+            if (!$worker->isActive()) {
+                $ret[$worker->getId()] = $worker;
             } elseif (empty($worker->get('permission_names'))) {
-                $ret[$worker->get_id()] = $worker;
+                $ret[$worker->getId()] = $worker;
             }
         }
 
@@ -82,7 +82,7 @@ class Worker extends TightModel implements OperatorInterface, RelationManyToMany
         if (isset($filters['model'])) {
             $model_type = get_class($filters['model'])::model_type();
             $join_alias = $model_type . '_workers';
-            $Query->join([self::inspect('workers_models'),$join_alias], [[$join_alias,'worker_id','worker','id'],[$join_alias,'model_id',$filters['model']->get_id()],[$join_alias,'model_type',$model_type]], 'INNER');
+            $Query->join([self::inspect('workers_models'),$join_alias], [[$join_alias,'worker_id','worker','id'],[$join_alias,'model_id',$filters['model']->getId()],[$join_alias,'model_type',$model_type]], 'INNER');
         }
 
         $Query->order_by(['service_id','ASC']);

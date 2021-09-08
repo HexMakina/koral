@@ -9,13 +9,13 @@ trait Itemability
     public $items = null;
   // public $item_ids = null;
 
-    abstract public function is_new(): bool;
+    abstract public function isNew(): bool;
     abstract public function get($prop_name);
 
     public function item_ids(): array
     {
         if (is_null($this->get('item_ids'))) {
-            if ($this->is_new()) {
+            if ($this->isNew()) {
                 return [];
             }
 

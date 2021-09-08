@@ -12,7 +12,7 @@ class Note extends \HexMakina\kadro\Controllers\ORM
 
     public function before_edit()
     {
-        if (!empty($hold_id = $this->get('StateAgent')->filters('item_hold_id')) && $this->formModel()->is_new() && empty($this->formModel()->item_ids())) {
+        if (!empty($hold_id = $this->get('StateAgent')->filters('item_hold_id')) && $this->formModel()->isNew() && empty($this->formModel()->item_ids())) {
             $this->formModel()->set('item_ids', [$hold_id]);
         }
     }
@@ -21,19 +21,19 @@ class Note extends \HexMakina\kadro\Controllers\ORM
     {
         parent::edit();
         if (!is_null($detected_session = $this->detected_session())) {
-            $this->formModel()->set('session_id', $detected_session->get_id());
+            $this->formModel()->set('session_id', $detected_session->getId());
             $this->formModel()->set('occured_on', $detected_session->get('occured_on'));
             $this->formModel()->set('service_id', $detected_session->get('service_id'));
             $this->formModel()->set('service_abbrev', $detected_session->get('service_abbrev'));
         } elseif (!is_null($this->detected_service())) {
-            $this->formModel()->set('service_id', $this->detected_service()->get_id());
+            $this->formModel()->set('service_id', $this->detected_service()->getId());
             $this->formModel()->set('service_abbrev', $this->detected_service()->get('service_abbrev'));
 
             $this->formModel()->set('session_id', null);
             $this->formModel()->set('belongs_to_session', 0);
         }
 
-        if ($this->formModel()->is_new() || is_null($this->formModel()->get('belongs_to_session'))) {
+        if ($this->formModel()->isNew() || is_null($this->formModel()->get('belongs_to_session'))) {
             $this->formModel()->set('belongs_to_session', 1);
         }
 
@@ -79,7 +79,7 @@ class Note extends \HexMakina\kadro\Controllers\ORM
             $session = $this->session_get_or_create($this->formModel()->get('service_id'), $this->formModel()->get('occured_on'));
             if (!is_null($session)) {
                 $this->formModel()->set('occured_on', $session->get('occured_on'));
-                $this->formModel()->set('session_id', $session->get_id());
+                $this->formModel()->set('session_id', $session->getId());
                 $this->formModel()->set('service_id', $session->get('service_id'));
             }
         }

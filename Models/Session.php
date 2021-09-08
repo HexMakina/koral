@@ -92,11 +92,11 @@ class Session extends TightModel implements Interfaces\ServiceEventInterface
                 if (is_int($worker)) {
                     $worker_id = $worker;
                 } elseif (is_object($worker)) {
-                    $worker_id = $worker->get_id();
+                    $worker_id = $worker->getId();
                 }
 
                 try {
-                    $record = self::inspect(Worker::otm()['t'])->produce(['model_type' => 'session', 'model_id' => $this->get_id(), Worker::otm()['k'] => $worker_id]);
+                    $record = self::inspect(Worker::otm()['t'])->produce(['model_type' => 'session', 'model_id' => $this->getId(), Worker::otm()['k'] => $worker_id]);
                       $record->persist();
                 } catch (CruditesException $e) {
                     return [$e->getCode() => $e->getMessage()];
@@ -113,7 +113,7 @@ class Session extends TightModel implements Interfaces\ServiceEventInterface
             return true;
         }
 
-        $linked = Note::any(['session_id' => $this->get_id()]); // can't have notes
+        $linked = Note::any(['session_id' => $this->getId()]); // can't have notes
         if (count($linked) > 0) {
             return true;
         }
@@ -147,8 +147,8 @@ class Session extends TightModel implements Interfaces\ServiceEventInterface
 
         $Query->auto_join(Note::table(), ['COUNT(DISTINCT note.id) as count_notes'], 'LEFT OUTER');
 
-        if (isset($filters['service']) && !empty($filters['service']->get_id())) {
-            $Query->aw_eq('service_id', $filters['service']->get_id(), $Query->table_label());
+        if (isset($filters['service']) && !empty($filters['service']->getId())) {
+            $Query->aw_eq('service_id', $filters['service']->getId(), $Query->table_label());
         }
 
         return $Query;

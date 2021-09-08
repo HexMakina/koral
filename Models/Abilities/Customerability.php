@@ -29,7 +29,7 @@ trait Customerability
             return $this->customers;
         }
 
-        if (!$this->is_new()) {
+        if (!$this->isNew()) {
             $customer_class = LeMarchand::box()->get('Models\Customer::class');
 
 
@@ -53,7 +53,7 @@ trait Customerability
                 $this->customer_ids = array_keys($this->customers);
             } else {
                 $Query = $customer_class::table()->select(null, 'g');
-                $Query->join([$customer_class::otm('t'), 'c_models'], [['c_models', $customer_class::otm('k'), 'g', 'id'], ['c_models', 'model_type', get_class($this)::model_type()], ['c_models', 'model_id', $this->get_id()]], 'INNER');
+                $Query->join([$customer_class::otm('t'), 'c_models'], [['c_models', $customer_class::otm('k'), 'g', 'id'], ['c_models', 'model_type', get_class($this)::model_type()], ['c_models', 'model_id', $this->getId()]], 'INNER');
                 $this->customers = $customer_class::retrieve($Query);
                 $this->customer_ids = array_keys($this->customers);
             }

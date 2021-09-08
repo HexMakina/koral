@@ -41,7 +41,7 @@ trait DetectService
         }
 
       // elseif(!empty($res=$this->router()->params('session_id')))
-      //   $ret['id']=Service::one(Session::one($this->router()->params('session_id'))->get('service_id'))->get_id();
+      //   $ret['id']=Service::one(Session::one($this->router()->params('session_id'))->get('service_id'))->getId();
 
         elseif (preg_match('/^service_([A-Z]+)$/', $this->router()->name(), $res) === 1) {
             $ret['abbrev'] = $res[1];
@@ -98,7 +98,7 @@ trait DetectService
         if (!is_null($this->detected_service())) {
             $this->authorize($this->service_permission());
             $this->viewport('service', $this->detected_service());
-            $this->formModel()->set('service_id', $this->detected_service()->get_id()); // TODO replace by name if single_foreign_key to session table
+            $this->formModel()->set('service_id', $this->detected_service()->getId()); // TODO replace by name if single_foreign_key to session table
             $this->formModel()->set('service_abbrev', $this->detected_service()->get('abbrev'));
         }
     }

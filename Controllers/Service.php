@@ -40,7 +40,7 @@ class Service extends \HexMakina\kadro\Controllers\ORM
 
     public function dashboard()
     {
-        if ($this->operator()->has_permission('group_medical') && !$this->operator()->has_permission('group_social')) {
+        if ($this->operator()->hasPermission('group_medical') && !$this->operator()->hasPermission('group_social')) {
             $this->router()->hop('fichemedicale'); // move to liste of patients
         }
 
@@ -63,7 +63,7 @@ class Service extends \HexMakina\kadro\Controllers\ORM
 
         $service = $this->get('Models\Service::class')::exists('abbrev', $this->router()->params('service_abbrev'));
         if (is_null($service)) {
-            if ($this->operator()->has_permission('group_medical') && !$this->operator()->has_permission('group_social')) {
+            if ($this->operator()->hasPermission('group_medical') && !$this->operator()->hasPermission('group_social')) {
                 $service = $this->get('Models\Service::class')::one(['abbrev' => $this->get('Models\Service::class')::PM]);
             }
         }
@@ -73,7 +73,7 @@ class Service extends \HexMakina\kadro\Controllers\ORM
         $filters['service'] = $service;
         $this->viewport('service', $service, true);
 
-        if ($this->operator()->has_permission('group_medical')) {
+        if ($this->operator()->hasPermission('group_medical')) {
             $filters['medical'] = true;
         }
 
@@ -89,7 +89,7 @@ class Service extends \HexMakina\kadro\Controllers\ORM
 
         $service = $this->get('Models\Service::class')::exists('abbrev', $this->router()->params('service_abbrev'));
         if (is_null($service)) {
-            if ($this->operator()->has_permission('group_medical') && !$this->operator()->has_permission('group_social')) {
+            if ($this->operator()->hasPermission('group_medical') && !$this->operator()->hasPermission('group_social')) {
                 $service = $this->get('Models\Service::class')::one(['abbrev' => $this->get('Models\Service::class')::PM]);
             }
         }

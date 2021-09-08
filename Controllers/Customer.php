@@ -41,10 +41,10 @@ class Customer extends \HexMakina\kadro\Controllers\ORM
         }
 
         if ($this->formModel()->is_alias()) {
-            $this->router()->hop($this->modelPrefix('edit_alias'), ['alias_id' => $this->formModel()->get_id(), $this->modelPrefix('id') => $this->formModel()->get('alias_of')]);
+            $this->router()->hop($this->modelPrefix('edit_alias'), ['alias_id' => $this->formModel()->getId(), $this->modelPrefix('id') => $this->formModel()->get('alias_of')]);
         }
 
-        if (!$this->formModel()->is_new()) {
+        if (!$this->formModel()->isNew()) {
             $this->viewport($this->modelPrefix('aliases'), $this->formModel()->listing_aliases());
         }
 
@@ -63,7 +63,7 @@ class Customer extends \HexMakina\kadro\Controllers\ORM
     {
         $customer = $customer ?? $this->load_model;
 
-        if (is_null($customer) || $customer->is_new()) {
+        if (is_null($customer) || $customer->isNew()) {
             return [];
         }
 
@@ -71,7 +71,7 @@ class Customer extends \HexMakina\kadro\Controllers\ORM
 
         $load_by_model = [$this->modelPrefix() => $customer];
 
-        if ($this->operator()->has_permission('group_social')) {
+        if ($this->operator()->hasPermission('group_social')) {
             $related_listings['note'] = $this->get('Models\Note::class')::filter($load_by_model);
         }
 
@@ -97,7 +97,7 @@ class Customer extends \HexMakina\kadro\Controllers\ORM
 
                 $new = new $this->modelClassName();
                 $new->import($info);
-                $listing[$customer->get_id()] = $new;
+                $listing[$customer->getId()] = $new;
             }
         }
 

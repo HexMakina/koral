@@ -92,14 +92,14 @@ class Note extends TightModel implements Interfaces\ServiceEventInterface
         //---- JOIN & FILTER SERVICE
         $Query = parent::query_retrieve($filters, $options);
 
-        if (isset($filters['service']) && !empty($filters['service']->get_id())) {
-            $Query->aw_eq('service_id', $filters['service']->get_id(), $Query->table_alias());
+        if (isset($filters['service']) && !empty($filters['service']->getId())) {
+            $Query->aw_eq('service_id', $filters['service']->getId(), $Query->table_alias());
         }
 
 
         // //---- JOIN & FILTER SESSION
-        if (isset($filters['session']) && !empty($filters['session']->get_id())) {
-            $Query->aw_eq('session_id', $filters['session']->get_id(), $Query->table_alias());
+        if (isset($filters['session']) && !empty($filters['session']->getId())) {
+            $Query->aw_eq('session_id', $filters['session']->getId(), $Query->table_alias());
         }
 
         if (isset($filters['note_type'])) {
@@ -127,8 +127,8 @@ class Note extends TightModel implements Interfaces\ServiceEventInterface
           sprintf('GROUP_CONCAT(DISTINCT g.name SEPARATOR ", ") as %s_names', $customerClass::model_type())
         ]);
 
-        if (isset($filters[$customerClass::model_type()]) && !empty($filters[$customerClass::model_type()]->get_id())) {
-            $Query->aw_eq($customerClass::otm('k'), $filters[$customerClass::model_type()]->get_id(), 'gm');
+        if (isset($filters[$customerClass::model_type()]) && !empty($filters[$customerClass::model_type()]->getId())) {
+            $Query->aw_eq($customerClass::otm('k'), $filters[$customerClass::model_type()]->getId(), 'gm');
         }
 
         //---- JOIN & FILTER  ITEM

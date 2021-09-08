@@ -27,7 +27,7 @@ class Item extends TightModel implements RelationManyToManyInterface
   // => try, fail, explain || prevent before query ?
     public function has_models(): bool
     {
-        $Query = self::inspect(Item::otm('t'))->select(['item_id'])->aw_eq(Item::otm('k'), $this->get_id());
+        $Query = self::inspect(Item::otm('t'))->select(['item_id'])->aw_eq(Item::otm('k'), $this->getId());
         return self::count($Query) > 0;
     }
 
@@ -44,7 +44,7 @@ class Item extends TightModel implements RelationManyToManyInterface
             $model = $filters['model'];
 
             $Query->join([self::otm('t'), self::otm('a')], [[self::otm('a'), self::otm('k'), $Query->table_label(), 'id']], 'INNER');
-            $Query->aw_eq('model_id', $model->get_id(), Item::otm('a'));
+            $Query->aw_eq('model_id', $model->getId(), Item::otm('a'));
             $Query->aw_eq('model_type', get_class($model)::model_type(), Item::otm('a'));
         }
 

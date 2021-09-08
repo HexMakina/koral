@@ -64,7 +64,7 @@ trait DetectSession
             $session = $this->persist_model($session);
 
             if (!is_null($session)) {
-                $current_worker = Worker::one(['operator_id' => $this->operator()->operator_id()]);
+                $current_worker = Worker::one(['operator_id' => $this->operator()->operatorId()]);
                 Worker::set_many([$current_worker], $session);
                 // $session->set_many([$current_worker], Worker::otm());
             }
@@ -98,7 +98,7 @@ trait DetectSession
             if (isset($foreign_tables[$foreign_table_name]) && count($column = $foreign_tables[$foreign_table_name]) === 1) {
                 $column = current($column);
                 if (!$column->isNullable()) {
-                    $this->formModel()->set($column->name(), $detected->get_id()); // TODO: replace by name if single_foreign_key to session table
+                    $this->formModel()->set($column->name(), $detected->getId()); // TODO: replace by name if single_foreign_key to session table
                     $this->formModel()->set('session_occured_on', $detected->event_value());
                 }
             }

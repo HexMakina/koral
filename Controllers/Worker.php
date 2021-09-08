@@ -23,7 +23,7 @@ class Worker extends \HexMakina\kadro\Controllers\ORM
         }
 
         if (!is_null($operator = get_class($this->operator())::exists($operator_data))) {
-            $host = $this->get('Models\Worker::class')::one(['operator_id' => $operator->operator_id()]);
+            $host = $this->get('Models\Worker::class')::one(['operator_id' => $operator->operatorId()]);
             $this->load_model = $host;
             $this->formModel($this->load_model);
         }
@@ -50,7 +50,7 @@ class Worker extends \HexMakina\kadro\Controllers\ORM
       // dd($this->load_model);
         parent::edit();
       // do we create? or do we edit someone else ? must be admin
-        if (is_null($this->load_model) || $this->operator()->operator_id() !== $this->load_model->operator_id()) {
+        if (is_null($this->load_model) || $this->operator()->operatorId() !== $this->load_model->operatorId()) {
             $this->authorize('group_admin');
         }
 
@@ -74,7 +74,7 @@ class Worker extends \HexMakina\kadro\Controllers\ORM
     {
         $model = $model ?? $this->load_model;
 
-        if (is_null($model) || $model->is_new()) {
+        if (is_null($model) || $model->isNew()) {
             return [];
         }
 
@@ -90,7 +90,7 @@ class Worker extends \HexMakina\kadro\Controllers\ORM
         if (is_null($this->load_model)) { // worker creation
             $operator = $this->formModel()->extract(new Operator(), true); // extract operator_* fields content
         } else { // worker alteration
-            $operator = Operator::one($this->load_model->operator_id());
+            $operator = Operator::one($this->load_model->operatorId());
         }
 
       // does the operator wanna change password ?
@@ -99,7 +99,7 @@ class Worker extends \HexMakina\kadro\Controllers\ORM
                 $this->logger()->warning($this->l('KADRO_operator_ERR_PASSWORDS_MISMATCH'));
                 return $this->edit();
             }
-            $operator->password_change($new_password);
+            $operator->passwordChange($new_password);
         } else {
             unset($operator->password);
         }
@@ -111,7 +111,7 @@ class Worker extends \HexMakina\kadro\Controllers\ORM
             $operator = $this->persist_model($operator);
             $this->formModel()->set_operator($operator);
 
-            $this->formModel()->set('operator_id', $operator->get_id());
+            $this->formModel()->set('operator_id', $operator->getId());
             $this->persist_model($this->formModel());
 
           // Worker::connect()->commit();
