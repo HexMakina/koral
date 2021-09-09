@@ -137,25 +137,25 @@ class Session extends TightModel implements Interfaces\ServiceEventInterface
 
         $Query = self::query_with_item_ids($Query, $filters['items'] ?? []);
 
-        $Query->group_by([$Query->table_label(), 'id']);
+        $Query->groupBy([$Query->tableLabel(), 'id']);
 
         $join_info = Worker::otm();
-        $Query->join([$join_info['t'],$join_info['a']], [[$join_info['a'],'model_id', $Query->table_label(), 'id'],[$join_info['a'],'model_type', 'session']], 'LEFT OUTER');
-        $Query->join([Worker::table_name(), 'session_workers'], [['session_workers','id', $join_info['a'], $join_info['k']]], 'LEFT OUTER');
-        $Query->join([Operator::table_name(), 'operator'], [['session_workers','operator_id', 'operator', 'id']], 'LEFT OUTER');
-        $Query->select_also(["GROUP_CONCAT(DISTINCT operator.name SEPARATOR ', ') as worker_names", "GROUP_CONCAT(DISTINCT session_workers.id SEPARATOR ', ') as worker_ids"]);
+        $Query->join([$join_info['t'],$join_info['a']], [[$join_info['a'],'model_id', $Query->tableLabel(), 'id'],[$join_info['a'],'model_type', 'session']], 'LEFT OUTER');
+        $Query->join([Worker::relationalMappingName(), 'session_workers'], [['session_workers','id', $join_info['a'], $join_info['k']]], 'LEFT OUTER');
+        $Query->join([Operator::relationalMappingName(), 'operator'], [['session_workers','operator_id', 'operator', 'id']], 'LEFT OUTER');
+        $Query->selectAlso(["GROUP_CONCAT(DISTINCT operator.name SEPARATOR ', ') as worker_names", "GROUP_CONCAT(DISTINCT session_workers.id SEPARATOR ', ') as worker_ids"]);
 
         $Query->auto_join(Note::table(), ['COUNT(DISTINCT note.id) as count_notes'], 'LEFT OUTER');
 
         if (isset($filters['service']) && !empty($filters['service']->getId())) {
-            $Query->aw_eq('service_id', $filters['service']->getId(), $Query->table_label());
+            $Query->whereEQ('service_id', $filters['service']->getId(), $Query->tableLabel());
         }
 
         return $Query;
     }
 
     // TODO make that worth something.. gotta figure out bidirectional mapping
-    public static function select_also()
+    public static function selectAlso()
     {
         return ['id','service_id','occured_on','label'];
     }

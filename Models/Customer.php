@@ -117,7 +117,7 @@ class Customer extends TightModel implements RelationManyToManyInterface, Custom
             $value = trim($value);
         });
 
-        $query = self::table()->select()->aw_string_in('name', $names);
+        $query = self::table()->select()->whereStringIn('name', $names);
         $customers = static::retrieve($query);
         foreach ($customers as $customer) { // search and replace aliases
             if ($customer->is_alias() && !is_null($original = static::exists($customer->get('alias_of')))) {
@@ -136,8 +136,8 @@ class Customer extends TightModel implements RelationManyToManyInterface, Custom
 
         // $select_fields = ['g.*', "'' as last_fiche_accueil", "'' as count_fiche_accueil", "'' as last_fiche_donnee", "'' as count_fiche_donnee", "'' as last_note", "'' as last_note_id", "'' as count_note"];
         $Query = self::table()->select();
-        $Query->and_where('alias_of <> id');
-        $Query->aw_eq('alias_of', $this->getId());
+        $Query->where('alias_of <> id');
+        $Query->whereEQ('alias_of', $this->getId());
 
         return self::retrieve($Query);
     }
@@ -145,30 +145,30 @@ class Customer extends TightModel implements RelationManyToManyInterface, Custom
     public static function query_retrieve($filters = [], $options = []): SelectInterface
     {
         $Query = parent::query_retrieve($filters, $options);
-        $Query->group_by([$Query->table_label(), 'id']);
+        $Query->groupBy([$Query->tableLabel(), 'id']);
 
 
-        $Query->join([static::table(), 'customer_alias'], [['customer_alias', 'alias_of',$Query->table_alias(),'id']], 'LEFT OUTER');
-        $Query->select_also('GROUP_CONCAT(DISTINCT customer_alias.name SEPARATOR ", ") as alias_names');
+        $Query->join([static::table(), 'customer_alias'], [['customer_alias', 'alias_of',$Query->tableAlias(),'id']], 'LEFT OUTER');
+        $Query->selectAlso('GROUP_CONCAT(DISTINCT customer_alias.name SEPARATOR ", ") as alias_names');
 
-        $Query->join([self::otm('t'), 'customers_notes'], [['customers_notes', self::otm('k'), $Query->table_label(), 'id'],['customers_notes', 'model_type', 'note']], 'LEFT OUTER');
-        $Query->join([Note::table_name(), 'n'], [['customers_notes', 'model_id', 'n', 'id']], 'LEFT OUTER');
-        $Query->select_also(['MAX(n.occured_on) as last_note', 'COUNT(n.id) as count_note']);
+        $Query->join([self::otm('t'), 'customers_notes'], [['customers_notes', self::otm('k'), $Query->tableLabel(), 'id'],['customers_notes', 'model_type', 'note']], 'LEFT OUTER');
+        $Query->join([Note::relationalMappingName(), 'n'], [['customers_notes', 'model_id', 'n', 'id']], 'LEFT OUTER');
+        $Query->selectAlso(['MAX(n.occured_on) as last_note', 'COUNT(n.id) as count_note']);
     //
         if (isset($filters['items']) && !empty($filters['items'])) {
-            $Query->and_where('1=0'); // TODO: this is a new low.. find another way to cancel query
+            $Query->where('1=0'); // TODO: this is a new low.. find another way to cancel query
             return $Query;
         }
 
         if (isset($filters['nolegacy'])) {
-            $Query->aw_eq('legacy', 0);
+            $Query->whereEQ('legacy', 0);
         }
 
         if (isset($filters['medical'])) {
             if ($filters['medical'] === true) {
-                $Query->aw_not_empty('id', 'fichemedicale');
+                $Query->whereNotEmpty('id', 'fichemedicale');
             } else {
-                $Query->aw_empty('id', 'fichemedicale');
+                $Query->whereEmpty('id', 'fichemedicale');
             }
         }
         // dd($Query);
@@ -176,13 +176,13 @@ class Customer extends TightModel implements RelationManyToManyInterface, Custom
         if (isset($filters['model'])) {
             $model = $filters['model'];
             if ($model->isNew()) {
-                $Query->and_where('1=0');
+                $Query->where('1=0');
             }
-            $Query->join([self::otm('t'), self::otm('a')], [[self::otm('a'), self::otm('k'), $Query->table_label(), 'id'], [self::otm('a'), 'model_type', get_class($model)::model_type()], [self::otm('a'), 'model_id', $model->getId()]], 'inner');
+            $Query->join([self::otm('t'), self::otm('a')], [[self::otm('a'), self::otm('k'), $Query->tableLabel(), 'id'], [self::otm('a'), 'model_type', get_class($model)::model_type()], [self::otm('a'), 'model_id', $model->getId()]], 'inner');
         }
         if (!isset($options['order_by'])) {
-                $Query->order_by('last_note DESC');
-                $Query->order_by('name ASC');
+                $Query->orderBy('last_note DESC');
+                $Query->orderBy('name ASC');
         }
 
         return $Query;

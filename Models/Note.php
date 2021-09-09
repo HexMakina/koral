@@ -69,13 +69,13 @@ class Note extends TightModel implements Interfaces\ServiceEventInterface
     //
     //     $customerClass = LeMarchand::box()->get('Models\Customer::class');
     //     $Query->join([$customerClass::otm('t'), 'gm'], [['gm', 'model_id',  $table_alias, 'id'], ['gm', 'model_type', self::model_type()]], 'LEFT OUTER');
-    //     $Query->join([$customerClass::table_name(), 'g'], [['g', 'id', 'gm', $customerClass::otm('k')]], 'LEFT OUTER');
+    //     $Query->join([$customerClass::relationalMappingName(), 'g'], [['g', 'id', 'gm', $customerClass::otm('k')]], 'LEFT OUTER');
     //
     //     // $Query->join(['customers_models', 'gm'], [['gm', 'model_id', $table_alias, 'id'], ['gm', 'model_type', self::model_type()]], 'LEFT OUTER');
-    //     // $Query->join([LeMarchand::box()->get('Models\Customer::class')::table_name(), 'g'], [['g', 'id', 'gm', 'customer_id']], 'LEFT OUTER');
+    //     // $Query->join([LeMarchand::box()->get('Models\Customer::class')::relationalMappingName(), 'g'], [['g', 'id', 'gm', 'customer_id']], 'LEFT OUTER');
     //
-    //     $Query->aw_eq('customer_id', $customer_id, 'gm');
-    //     $Query->order_by(['t_from', 'occured_on', 'ASC']);
+    //     $Query->whereEQ('customer_id', $customer_id, 'gm');
+    //     $Query->orderBy(['t_from', 'occured_on', 'ASC']);
     //     $Query->limit(1);
     //
     //     $res = static::retrieve($Query);
@@ -93,61 +93,61 @@ class Note extends TightModel implements Interfaces\ServiceEventInterface
         $Query = parent::query_retrieve($filters, $options);
 
         if (isset($filters['service']) && !empty($filters['service']->getId())) {
-            $Query->aw_eq('service_id', $filters['service']->getId(), $Query->table_alias());
+            $Query->whereEQ('service_id', $filters['service']->getId(), $Query->tableAlias());
         }
 
 
         // //---- JOIN & FILTER SESSION
         if (isset($filters['session']) && !empty($filters['session']->getId())) {
-            $Query->aw_eq('session_id', $filters['session']->getId(), $Query->table_alias());
+            $Query->whereEQ('session_id', $filters['session']->getId(), $Query->tableAlias());
         }
 
         if (isset($filters['note_type'])) {
             switch ($filters['note_type']) {
                 case 'service':
                 case 'interne':
-                    $Query->aw_is_null('session_id');
+                    $Query->whereIsNull('session_id');
                     break;
 
                 case 'session':
-                    $Query->aw_not_empty('session_id');
+                    $Query->whereNotEmpty('session_id');
                     break;
             }
         }
 
         //---- JOIN & FILTER  Customer
         $customerClass = LeMarchand::box()->get('Models\Customer::class');
-        $Query->join([$customerClass::otm('t'), 'gm'], [['gm', 'model_id', $Query->table_label(), 'id'], ['gm', 'model_type', 'note']], 'LEFT OUTER');
-        $Query->join([$customerClass::table_name(), 'g'], [['g', 'id', 'gm', $customerClass::otm('k')]], 'LEFT OUTER');
+        $Query->join([$customerClass::otm('t'), 'gm'], [['gm', 'model_id', $Query->tableLabel(), 'id'], ['gm', 'model_type', 'note']], 'LEFT OUTER');
+        $Query->join([$customerClass::relationalMappingName(), 'g'], [['g', 'id', 'gm', $customerClass::otm('k')]], 'LEFT OUTER');
 
 
-        $Query->select_also([
+        $Query->selectAlso([
           sprintf('GROUP_CONCAT(DISTINCT gm.%s) as %ss', $customerClass::otm('k'), $customerClass::otm('k')),
           sprintf('COUNT(DISTINCT gm.%s) as count_%ss', $customerClass::otm('k'), $customerClass::model_type()),
           sprintf('GROUP_CONCAT(DISTINCT g.name SEPARATOR ", ") as %s_names', $customerClass::model_type())
         ]);
 
         if (isset($filters[$customerClass::model_type()]) && !empty($filters[$customerClass::model_type()]->getId())) {
-            $Query->aw_eq($customerClass::otm('k'), $filters[$customerClass::model_type()]->getId(), 'gm');
+            $Query->whereEQ($customerClass::otm('k'), $filters[$customerClass::model_type()]->getId(), 'gm');
         }
 
         //---- JOIN & FILTER  ITEM
         if (isset($filters['items']) && !empty($filters['items'])) {
-            $Query->join(['items_models', 'im'], [['im', 'model_id', $Query->table_label(), 'id'], ['im', 'model_type', self::model_type()]], 'INNER');
-            $Query->aw_numeric_in('item_id', array_keys($filters['items']), 'im');
+            $Query->join(['items_models', 'im'], [['im', 'model_id', $Query->tableLabel(), 'id'], ['im', 'model_type', self::model_type()]], 'INNER');
+            $Query->whereNumericIn('item_id', array_keys($filters['items']), 'im');
         }
 
         if (isset($filters['date_start'])) {
-            $Query->aw_gte('occured_on', $filters['date_start'], $Query->table_label(), ':filter_date_start');
+            $Query->whereGTE('occured_on', $filters['date_start'], $Query->tableLabel(), ':filter_date_start');
         }
 
         if (isset($filters['date_stop'])) {
-            $Query->aw_lte('occured_on', $filters['date_stop'], $Query->table_label(), ':filter_date_stop');
+            $Query->whereLTE('occured_on', $filters['date_stop'], $Query->tableLabel(), ':filter_date_stop');
         }
 
-        $Query->group_by('id');
+        $Query->groupBy('id');
         if (!isset($options['order_by'])) {
-            $Query->order_by(['occured_on', 'DESC']);
+            $Query->orderBy(['occured_on', 'DESC']);
         }
         return $Query;
     }

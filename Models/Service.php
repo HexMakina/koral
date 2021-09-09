@@ -72,7 +72,7 @@ class Service extends TightModel
             //     }
             // }
 
-            $Query = Note::query_retrieve($filters)->aw_numeric_in('session_id', array_keys($service_sessions));
+            $Query = Note::query_retrieve($filters)->whereNumericIn('session_id', array_keys($service_sessions));
             $session_notes = empty($service_sessions) ? [] : Note::retrieve($Query);
 
             foreach ($session_notes as $note) {
@@ -80,7 +80,7 @@ class Service extends TightModel
                 $journalier[$note->event_value()] [] = $note;
             }
 
-            $Query = Note::query_retrieve($filters)->aw_empty('session_id');
+            $Query = Note::query_retrieve($filters)->whereEmpty('session_id');
             $service_notes = Note::retrieve($Query);
             foreach ($service_notes as $note) {
                 $journalier[$note->event_value()] = $journalier[$note->event_value()] ?? [];
@@ -106,7 +106,7 @@ class Service extends TightModel
     public static function abbrevs($abbrev = null, $compare_to = null)
     {
         if (is_null(self::$abbrevs)) {
-            self::$abbrevs = Service::table()->select(['id, abbrev'])->order_by('menu_rank ASC')->ret_par();
+            self::$abbrevs = Service::table()->select(['id, abbrev'])->orderBy('menu_rank ASC')->retPar();
         }
 
         if (is_null($abbrev)) { // returns all

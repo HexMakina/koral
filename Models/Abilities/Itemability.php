@@ -67,12 +67,12 @@ trait Itemability
 
     public static function query_with_item_ids($Query, $restrict_items = [])
     {
-        $Query->group_by('id'); //TODO replace id by auto-pk-detection
-        $Query->select_also(['GROUP_CONCAT(DISTINCT im.item_id) as item_ids', 'COUNT(DISTINCT im.item_id) as count_items']);
-        $Query->join(['items_models', 'im'], [['im', 'model_id', $Query->table_label(), 'id'], ['im', 'model_type', static::model_type()]], 'LEFT OUTER');
+        $Query->groupBy('id'); //TODO replace id by auto-pk-detection
+        $Query->selectAlso(['GROUP_CONCAT(DISTINCT im.item_id) as item_ids', 'COUNT(DISTINCT im.item_id) as count_items']);
+        $Query->join(['items_models', 'im'], [['im', 'model_id', $Query->tableLabel(), 'id'], ['im', 'model_type', static::model_type()]], 'LEFT OUTER');
 
         if (!empty($restrict_items)) {
-            $Query->aw_numeric_in('item_id', array_keys($restrict_items), 'im');
+            $Query->whereNumericIn('item_id', array_keys($restrict_items), 'im');
         }
 
         return $Query;
