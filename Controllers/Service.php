@@ -2,8 +2,6 @@
 
 namespace HexMakina\koral\Controllers;
 
-use HexMakina\kadro\Auth\AccessRefusedException;
-
 class Service extends \HexMakina\kadro\Controllers\ORM
 {
     use \HexMakina\koral\Controllers\Abilities\DetectService;
@@ -28,12 +26,12 @@ class Service extends \HexMakina\kadro\Controllers\ORM
         parent::prepare();
 
         $this->time_window = [
-        'date_start' => $this->get('StateAgent')->filters('date_start'),
-        'date_stop' => $this->get('StateAgent')->filters('date_stop')
+        'date_start' => $this->get('HexMakina\BlackBox\StateAgentInterface')->filters('date_start'),
+        'date_stop' => $this->get('HexMakina\BlackBox\StateAgentInterface')->filters('date_stop')
         ];
 
         if (!is_null($this->detected_service)) {
-            $this->get('StateAgent')->filters('service_abbrev', $this->detected_service()->get('abbrev'));
+            $this->get('HexMakina\BlackBox\StateAgentInterface')->filters('service_abbrev', $this->detected_service()->get('abbrev'));
             $this->viewport('service', $this->detected_service());
         }
     }
@@ -83,8 +81,8 @@ class Service extends \HexMakina\kadro\Controllers\ORM
     public function planner()
     {
         $filters = [
-        'date_start' => $this->get('StateAgent')->filters('date_start'),
-        'date_stop' => $this->get('StateAgent')->filters('date_stop')
+        'date_start' => $this->get('HexMakina\BlackBox\StateAgentInterface')->filters('date_start'),
+        'date_stop' => $this->get('HexMakina\BlackBox\StateAgentInterface')->filters('date_stop')
         ];
 
         $service = $this->get('Models\Service::class')::exists('abbrev', $this->router()->params('service_abbrev'));
@@ -104,8 +102,8 @@ class Service extends \HexMakina\kadro\Controllers\ORM
 
       // TODO default_date is today if date_start < today < date_stop
       // TODO if $today > date_stop || ^today < date_start -> take stop||start as default
-        $this->viewport('date_start', $this->get('StateAgent')->filters('date_start'));
-        $this->viewport('date_stop', $this->get('StateAgent')->filters('date_stop'));
+        $this->viewport('date_start', $this->get('HexMakina\BlackBox\StateAgentInterface')->filters('date_start'));
+        $this->viewport('date_stop', $this->get('HexMakina\BlackBox\StateAgentInterface')->filters('date_stop'));
     }
 
   // public function sessions()

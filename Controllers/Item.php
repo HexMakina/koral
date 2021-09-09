@@ -36,24 +36,24 @@ class Item extends \HexMakina\kadro\Controllers\ORM
         if (!is_null($item = Item::exists($this->router()->params()))) {
             $key = $item->is_lieu() ? 'lieu' : $item->type;
 
-            if ($this->get('StateAgent')->filters($key) == $item->getId()) {
-                $this->logger()->info($this->get('StateAgent')->filters('item_hold_label') . ' ' . $this->l('MODEL_item_NOTICE_RELEASED'));
+            if ($this->get('HexMakina\BlackBox\StateAgentInterface')->filters($key) == $item->getId()) {
+                $this->logger()->info($this->get('HexMakina\BlackBox\StateAgentInterface')->filters('item_hold_label') . ' ' . $this->l('MODEL_item_NOTICE_RELEASED'));
 
-                $this->get('StateAgent')->resetFilters($key);
-                $this->get('StateAgent')->resetFilters('item_hold_id');
-                $this->get('StateAgent')->resetFilters('item_hold_type');
-                $this->get('StateAgent')->resetFilters('item_hold_id');
-                $this->get('StateAgent')->resetFilters('item_hold_label');
+                $this->get('HexMakina\BlackBox\StateAgentInterface')->resetFilters($key);
+                $this->get('HexMakina\BlackBox\StateAgentInterface')->resetFilters('item_hold_id');
+                $this->get('HexMakina\BlackBox\StateAgentInterface')->resetFilters('item_hold_type');
+                $this->get('HexMakina\BlackBox\StateAgentInterface')->resetFilters('item_hold_id');
+                $this->get('HexMakina\BlackBox\StateAgentInterface')->resetFilters('item_hold_label');
             } else {
-                $this->get('StateAgent')->filters($key, $item->getId());
+                $this->get('HexMakina\BlackBox\StateAgentInterface')->filters($key, $item->getId());
                 if ($item->is_lieu()) {
-                    $this->get('StateAgent')->filters('item_hold_id', $item->getId());
+                    $this->get('HexMakina\BlackBox\StateAgentInterface')->filters('item_hold_id', $item->getId());
                 }
-                $this->get('StateAgent')->filters('item_hold_type', $item->type);
-                $this->get('StateAgent')->filters('item_hold_id', $item->getId());
-                $this->get('StateAgent')->filters('item_hold_label', ucfirst($this->l('MODEL_item_TYPE_' . $item->type)) . ' "' . $item->get('label_fra') . '"');
+                $this->get('HexMakina\BlackBox\StateAgentInterface')->filters('item_hold_type', $item->type);
+                $this->get('HexMakina\BlackBox\StateAgentInterface')->filters('item_hold_id', $item->getId());
+                $this->get('HexMakina\BlackBox\StateAgentInterface')->filters('item_hold_label', ucfirst($this->l('MODEL_item_TYPE_' . $item->type)) . ' "' . $item->get('label_fra') . '"');
 
-                $this->logger()->info($this->get('StateAgent')->filters('item_hold_label') . ' ' . $this->l('MODEL_item_NOTICE_HELD'));
+                $this->logger()->info($this->get('HexMakina\BlackBox\StateAgentInterface')->filters('item_hold_label') . ' ' . $this->l('MODEL_item_NOTICE_HELD'));
             }
         }
 
