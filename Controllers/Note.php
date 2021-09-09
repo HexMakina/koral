@@ -12,7 +12,7 @@ class Note extends \HexMakina\kadro\Controllers\ORM
 
     public function before_edit()
     {
-        if (!empty($hold_id = $this->get('StateAgent')->filters('item_hold_id')) && $this->formModel()->isNew() && empty($this->formModel()->item_ids())) {
+        if (!empty($hold_id = $this->get('HexMakina\BlackBox\StateAgentInterface')->filters('item_hold_id')) && $this->formModel()->isNew() && empty($this->formModel()->item_ids())) {
             $this->formModel()->set('item_ids', [$hold_id]);
         }
     }
@@ -55,7 +55,7 @@ class Note extends \HexMakina\kadro\Controllers\ORM
         $filters['note_type'] = $this->router()->params('type');
         $filters['service'] = $this->detected_service();
 
-        return $this->dashboard_listing($this->get('NoteModel'), 'note/listing.html', $filters);
+        return $this->dashboard_listing($this->get('Models\Note::new'), 'note/listing.html', $filters);
     }
 
     public function conclude()
