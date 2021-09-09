@@ -145,7 +145,7 @@ class Session extends TightModel implements Interfaces\ServiceEventInterface
         $Query->join([Operator::relationalMappingName(), 'operator'], [['session_workers','operator_id', 'operator', 'id']], 'LEFT OUTER');
         $Query->selectAlso(["GROUP_CONCAT(DISTINCT operator.name SEPARATOR ', ') as worker_names", "GROUP_CONCAT(DISTINCT session_workers.id SEPARATOR ', ') as worker_ids"]);
 
-        $Query->auto_join(Note::table(), ['COUNT(DISTINCT note.id) as count_notes'], 'LEFT OUTER');
+        $Query->autoJoin(Note::table(), ['COUNT(DISTINCT note.id) as count_notes'], 'LEFT OUTER');
 
         if (isset($filters['service']) && !empty($filters['service']->getId())) {
             $Query->whereEQ('service_id', $filters['service']->getId(), $Query->tableLabel());
