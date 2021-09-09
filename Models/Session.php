@@ -2,7 +2,7 @@
 
 namespace HexMakina\koral\Models;
 
-use HexMakina\Interfaces\Database\SelectInterface;
+use HexMakina\BlackBox\Database\SelectInterface;
 use HexMakina\Crudites\CruditesException;
 use HexMakina\TightORM\TightModel;
 use HexMakina\kadro\Auth\Operator;

@@ -3,8 +3,8 @@
 namespace HexMakina\koral\Controllers\Abilities;
 
 use HexMakina\koral\Models\Customer;
-use HexMakina\Interfaces\ORM\ModelInterface;
-use HexMakina\Interfaces\RouterInterface;
+use HexMakina\BlackBox\ORM\ModelInterface;
+use HexMakina\BlackBox\RouterInterface;
 
 trait DetectCustomer
 {

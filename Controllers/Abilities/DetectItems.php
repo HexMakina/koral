@@ -3,7 +3,7 @@
 namespace HexMakina\koral\Controllers\Abilities;
 
 use Psr\Log\LoggerInterface;
-use HexMakina\Interfaces\RouterInterface;
+use HexMakina\BlackBox\RouterInterface;
 use HexMakina\koral\Models\Item;
 
 /** detect POST items_ids and sets the form model */

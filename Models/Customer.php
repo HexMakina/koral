@@ -3,8 +3,8 @@
 namespace HexMakina\koral\Models;
 
 use HexMakina\TightORM\TightModel;
-use HexMakina\Interfaces\ORM\RelationManyToManyInterface;
-use HexMakina\Interfaces\Database\SelectInterface;
+use HexMakina\BlackBox\ORM\RelationManyToManyInterface;
+use HexMakina\BlackBox\Database\SelectInterface;
 use HexMakina\koral\Models\Interfaces\CustomerInterface;
 use HexMakina\LeMarchand\LeMarchand;
 

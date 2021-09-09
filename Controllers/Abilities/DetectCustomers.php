@@ -2,7 +2,7 @@
 
 namespace HexMakina\koral\Controllers\Abilities;
 
-use HexMakina\Interfaces\RouterInterface;
+use HexMakina\BlackBox\RouterInterface;
 use HexMakina\koral\Models\Customer;
 
 // TODO Rewrite liek DetectCustomer

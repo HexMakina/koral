@@ -3,7 +3,7 @@
 namespace HexMakina\koral\Controllers\Abilities;
 
 use HexMakina\kadro\Auth\Permission;
-use HexMakina\Interfaces\RouterInterface;
+use HexMakina\BlackBox\RouterInterface;
 
 trait DetectService
 {
