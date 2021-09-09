@@ -26,8 +26,7 @@ class Home extends \HexMakina\kadro\Controllers\Kadro
         }
 
         $this->common_viewport($target_conroller);
-        vd($this->get('HexMakina\BlackBox\RouterInterface')->targetMethod());
-        $target_conroller->execute();
+        $target_conroller->execute($this->get('HexMakina\BlackBox\RouterInterface')->targetMethod());
     }
 
     public function common_viewport($target_conroller)
