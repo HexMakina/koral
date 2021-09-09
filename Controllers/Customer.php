@@ -14,7 +14,7 @@ class Customer extends \HexMakina\kadro\Controllers\ORM
     public function prepare()
     {
         parent::prepare();
-        $this->get('StateAgent')->resetFilters('service_abbrev');
+        $this->get('HexMakina\BlackBox\StateAgentInterface')->resetFilters('service_abbrev');
     }
 
     public function dashboard()
@@ -102,7 +102,7 @@ class Customer extends \HexMakina\kadro\Controllers\ORM
         }
 
         $this->viewport('listing_title', 'MODEL_customer_LISTING_first_contacts');
-        $this->viewport_listing($this->modelClassName(), $listing, $this->find_template($this->get('template_engine'), __FUNCTION__));
+        $this->viewport_listing($this->modelClassName(), $listing, $this->find_template($this->get('\Smarty'), __FUNCTION__));
 
         return 'customer/dashboard';
     }
