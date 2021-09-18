@@ -70,8 +70,7 @@ class Worker extends TightModel implements RelationManyToManyInterface
     public static function query_retrieve($filters = [], $options = []): SelectInterface
     {
         $Query = parent::query_retrieve($filters, $options);
-        // $Query = Operatorability::enhance_query_retrieve($Query, $filters, $options);
-      // dd($Query);
+
         $Query->groupBy(['worker','id']);
 
         if (isset($filters['id'])) {
