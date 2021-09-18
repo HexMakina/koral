@@ -3,9 +3,9 @@
 namespace HexMakina\koral\Models;
 
 use HexMakina\TightORM\TightModel;
-use HexMakina\Interfaces\ORM\RelationManyToManyInterface;
-use HexMakina\Interfaces\Database\SelectInterface;
-use HexMakina\Interfaces\Auth\OperatorInterface;
+use HexMakina\BlackBox\ORM\RelationManyToManyInterface;
+use HexMakina\BlackBox\Database\SelectInterface;
+use HexMakina\BlackBox\Auth\OperatorInterface;
 use HexMakina\kadro\Auth\Operatorability;
 
 class Worker extends TightModel implements OperatorInterface, RelationManyToManyInterface
@@ -68,15 +68,20 @@ class Worker extends TightModel implements OperatorInterface, RelationManyToMany
         return $res;
     }
 
+    public static function safeLoading($op_id): OperatorInterface
+    {
+      return static::retrieve(static::query_retrieve(['id' => $op_id]));
+    }
+
     public static function query_retrieve($filters = [], $options = []): SelectInterface
     {
         $Query = parent::query_retrieve($filters, $options);
         $Query = Operatorability::enhance_query_retrieve($Query, $filters, $options);
       // dd($Query);
-        $Query->group_by(['worker','id']);
+        $Query->groupBy(['worker','id']);
 
         if (isset($filters['id'])) {
-            $Query->aw_eq('id', $filters['id']);
+            $Query->whereEQ('id', $filters['id']);
         }
 
         if (isset($filters['model'])) {
@@ -85,7 +90,7 @@ class Worker extends TightModel implements OperatorInterface, RelationManyToMany
             $Query->join([self::inspect('workers_models'),$join_alias], [[$join_alias,'worker_id','worker','id'],[$join_alias,'model_id',$filters['model']->getId()],[$join_alias,'model_type',$model_type]], 'INNER');
         }
 
-        $Query->order_by(['service_id','ASC']);
+        $Query->orderBy(['service_id','ASC']);
 
         return $Query;
     }
