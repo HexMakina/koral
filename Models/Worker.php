@@ -6,16 +6,15 @@ use HexMakina\TightORM\TightModel;
 use HexMakina\BlackBox\ORM\RelationManyToManyInterface;
 use HexMakina\BlackBox\Database\SelectInterface;
 use HexMakina\BlackBox\Auth\OperatorInterface;
-use HexMakina\kadro\Auth\Operatorability;
 
-class Worker extends TightModel implements OperatorInterface, RelationManyToManyInterface
+class Worker extends TightModel implements RelationManyToManyInterface
 {
     use \HexMakina\TightORM\RelationManyToMany;
-    use Operatorability;
+    use HexMakina\kadro\Auth\HasOperator;
 
     public function __toString()
     {
-        return '' . $this->name();
+        return '' . $this->operator()->name();
     }
 
     public static function by_group($collection = null, $active_only = false): array
@@ -23,7 +22,7 @@ class Worker extends TightModel implements OperatorInterface, RelationManyToMany
         $ret = [];
         $collection = $collection ?? self::filter();
         foreach ($collection as $worker) {
-            if ($active_only && !$worker->isActive()) {
+            if ($active_only && !$worker->operator()->isActive()) {
                 continue;
             }
             if (!empty($worker->get('permission_names'))) {
@@ -43,7 +42,7 @@ class Worker extends TightModel implements OperatorInterface, RelationManyToMany
 
         $collection = $collection ?? self::filter();
         foreach ($collection as $worker) {
-            if (!$worker->isActive()) {
+            if (!$worker->operator()->isActive()) {
                 $ret[$worker->getId()] = $worker;
             } elseif (empty($worker->get('permission_names'))) {
                 $ret[$worker->getId()] = $worker;
@@ -68,15 +67,10 @@ class Worker extends TightModel implements OperatorInterface, RelationManyToMany
         return $res;
     }
 
-    public static function safeLoading($op_id): OperatorInterface
-    {
-      return static::retrieve(static::query_retrieve(['id' => $op_id]));
-    }
-
     public static function query_retrieve($filters = [], $options = []): SelectInterface
     {
         $Query = parent::query_retrieve($filters, $options);
-        $Query = Operatorability::enhance_query_retrieve($Query, $filters, $options);
+        // $Query = Operatorability::enhance_query_retrieve($Query, $filters, $options);
       // dd($Query);
         $Query->groupBy(['worker','id']);
 

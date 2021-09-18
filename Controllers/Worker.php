@@ -50,17 +50,17 @@ class Worker extends \HexMakina\kadro\Controllers\ORM
       // dd($this->load_model);
         parent::edit();
       // do we create? or do we edit someone else ? must be admin
-        if (is_null($this->load_model) || $this->operator()->operatorId() !== $this->load_model->operatorId()) {
+        if (is_null($this->load_model) || $this->operator()->operatorId() !== $this->load_model->operator()->operatorId()) {
             $this->authorize('group_admin');
         }
 
-        $operator = $this->formModel()->extract(new Operator(), true);
+        $operator = $this->formModel()->operator();
         if ($this->router()->submits()) {
-            $this->formModel()->set_operator($operator);
+            $this->formModel()->operator($operator);
         }
 
         if (is_null($this->formModel()->operator())) {
-            $this->formModel()->set_operator(new Operator());
+            $this->formModel()->operator(new Operator());
         }
 
         $this->viewport('operator', $operator);
@@ -87,31 +87,28 @@ class Worker extends \HexMakina\kadro\Controllers\ORM
 
     public function save()
     {
-        if (is_null($this->load_model)) { // worker creation
-            $operator = $this->formModel()->extract(new Operator(), true); // extract operator_* fields content
-        } else { // worker alteration
-            $operator = Operator::one($this->load_model->operatorId());
-        }
+        vd($this->formModel(), 'formModel');
+        $form_operator = $this->formModel()->operator();
+        vd($form_operator, 'formOperator');
 
-      // does the operator wanna change password ?
-        if (!empty($new_password = $this->formModel()->get('operator_password')) && !empty($password_confirmation = $this->formModel()->get('operator_password_verification'))) {
-            if ($new_password != $password_confirmation) {
-                $this->logger()->warning($this->l('KADRO_operator_ERR_PASSWORDS_MISMATCH'));
-                return $this->edit();
-            }
-            $operator->passwordChange($new_password);
-        } else {
-            unset($operator->password);
+        // does the operator wanna change password ?
+        if(!empty($new_password = $form_operator->get('password'))){
+          if ($new_password != $this->formModel()->get('operator_password_verification')){
+            $this->logger()->warning($this->l('KADRO_operator_ERR_PASSWORDS_MISMATCH'));
+            return $this->edit();
+          }
+          $form_operator->passwordChange($new_password);
         }
+        else unset($form_operator->password);
+
 
         try {
           // Transaction disabled until problem is solved, ticket opened
           // Worker::connect()->transact();
+            $form_operator = $this->persist_model($form_operator);
+            $this->formModel()->operator($operaform_operatortor);
 
-            $operator = $this->persist_model($operator);
-            $this->formModel()->set_operator($operator);
-
-            $this->formModel()->set('operator_id', $operator->getId());
+            $this->formModel()->set('operator_id', $form_operator->getId());
             $this->persist_model($this->formModel());
 
           // Worker::connect()->commit();
