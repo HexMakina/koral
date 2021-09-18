@@ -89,14 +89,15 @@ class Worker extends \HexMakina\kadro\Controllers\ORM
     {
         $form_operator = $this->formModel()->operator();
         // does the operator wanna change password ?
-        if(!empty($new_password = $form_operator->get('password'))){
-          if ($new_password != $this->formModel()->get('operator_password_verification')){
-            $this->logger()->warning($this->l('KADRO_operator_ERR_PASSWORDS_MISMATCH'));
-            return $this->edit();
-          }
-          $form_operator->passwordChange($new_password);
+        if (!empty($new_password = $form_operator->get('password'))) {
+            if ($new_password != $this->formModel()->get('operator_password_verification')) {
+                $this->logger()->warning('KADRO_operator_ERR_PASSWORDS_MISMATCH');
+                return $this->edit();
+            }
+            $form_operator->passwordChange($new_password);
+        } else {
+            unset($form_operator->password);
         }
-        else unset($form_operator->password);
 
 
         try {
@@ -119,7 +120,7 @@ class Worker extends \HexMakina\kadro\Controllers\ORM
 
     public function before_destroy()
     {
-        $this->logger()->warning($this->l('MODEL_worker_ERR_cannot_delete_must_disable'));
+        $this->logger()->warning('MODEL_worker_ERR_cannot_delete_must_disable');
         $this->router()->hopBack();
     }
 
