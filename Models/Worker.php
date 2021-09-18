@@ -10,7 +10,7 @@ use HexMakina\BlackBox\Auth\OperatorInterface;
 class Worker extends TightModel implements RelationManyToManyInterface
 {
     use \HexMakina\TightORM\RelationManyToMany;
-    use HexMakina\kadro\Auth\HasOperator;
+    use \HexMakina\kadro\Auth\HasOperator;
 
     public function __toString()
     {
