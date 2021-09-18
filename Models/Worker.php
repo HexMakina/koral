@@ -57,12 +57,12 @@ class Worker extends TightModel implements RelationManyToManyInterface
         $res = parent::retrieve($Query);
 
         foreach ($res as $worker) {
-          // TODO move this to controller and ensure FETCH_PROPS_LATE is disabled
             if (property_exists($worker, 'permission_names')) {
                 foreach (explode(',', $worker->permission_names) as $setter) {
                     $worker->set($setter, true);
                 }
             }
+            unset($worker->operator_password);
         }
         return $res;
     }
@@ -70,6 +70,7 @@ class Worker extends TightModel implements RelationManyToManyInterface
     public static function query_retrieve($filters = [], $options = []): SelectInterface
     {
         $Query = parent::query_retrieve($filters, $options);
+        $Query = self::enhance_query_retrieve($Query, $filters, $options);
 
         $Query->groupBy(['worker','id']);
 
