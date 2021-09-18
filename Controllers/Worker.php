@@ -23,7 +23,7 @@ class Worker extends \HexMakina\kadro\Controllers\ORM
         }
 
         if (!is_null($operator = get_class($this->operator())::exists($operator_data))) {
-            $host = $this->get('Models\Worker::class')::one(['operator_id' => $operator->operatorId()]);
+            $host = $this->get('Models\Worker::class')::one(['operator_id' => $operator->getId()]);
             $this->load_model = $host;
             $this->formModel($this->load_model);
         }
@@ -50,7 +50,7 @@ class Worker extends \HexMakina\kadro\Controllers\ORM
       // dd($this->load_model);
         parent::edit();
       // do we create? or do we edit someone else ? must be admin
-        if (is_null($this->load_model) || $this->operator()->operatorId() !== $this->load_model->operator()->operatorId()) {
+        if (is_null($this->load_model) || $this->operator()->getId() !== $this->load_model->operator()->getId()) {
             $this->authorize('group_admin');
         }
 
@@ -87,10 +87,7 @@ class Worker extends \HexMakina\kadro\Controllers\ORM
 
     public function save()
     {
-        vd($this->formModel(), 'formModel');
         $form_operator = $this->formModel()->operator();
-        vd($form_operator, 'formOperator');
-
         // does the operator wanna change password ?
         if(!empty($new_password = $form_operator->get('password'))){
           if ($new_password != $this->formModel()->get('operator_password_verification')){

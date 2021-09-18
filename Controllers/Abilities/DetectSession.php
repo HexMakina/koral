@@ -64,7 +64,7 @@ trait DetectSession
             $session = $this->persist_model($session);
 
             if (!is_null($session)) {
-                $current_worker = Worker::one(['operator_id' => $this->operator()->operatorId()]);
+                $current_worker = Worker::one(['operator_id' => $this->operator()->getId()]);
                 Worker::setMany([$current_worker], $session);
                 // $session->setMany([$current_worker], Worker::otm());
             }

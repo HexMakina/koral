@@ -76,7 +76,7 @@ class Session extends \HexMakina\kadro\Controllers\ORM
             $new_occured_on = $this->get('Models\Session::class')::date($this->router()->submitted('new_occured_on'));
             $this->load_model->set('occured_on', $new_occured_on);
 
-            $this->load_model->save($this->operator()->operatorId());
+            $this->load_model->save($this->operator()->getId());
 
             return json_encode('success');
         } catch (\Exception $e) {
