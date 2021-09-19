@@ -53,17 +53,22 @@ class Session extends \HexMakina\kadro\Controllers\ORM
 
     public function after_save()
     {
+
         if ($this->formModel()->worker_changes($this->load_model)) {
-            $this->logger()->notice($this->l('MODEL_LINKED_ALTERATIONS', [$this->l('MODEL_worker_INSTANCES')]));
+            $worker_ids = [];
+            if (property_exists($this->formModel(), 'worker_ids') && is_array($this->formModel()->worker_ids)) {
+                $worker_ids = $this->formModel()->worker_ids;
+            }
+            $res = $this->get('Models\Worker::class')::setManyByIds($worker_ids, $this->formModel());
+            if($res === true)
+              $this->logger()->notice('MODEL_LINKED_ALTERATIONS', ['MODEL_worker_INSTANCES']);
+            else
+              $this->logger()->warning('MODEL_LINKED_NO_ALTERATIONS', ['MODEL_worker_INSTANCES']);
         } else {
-            $this->logger()->info($this->l('MODEL_LINKED_NO_ALTERATIONS', [$this->l('MODEL_worker_INSTANCES')]));
+            $this->logger()->info('MODEL_LINKED_NO_ALTERATIONS', ['MODEL_worker_INSTANCES']);
         }
 
-        $worker_ids = [];
-        if (property_exists($this->formModel(), 'worker_ids') && is_array($this->formModel()->worker_ids)) {
-            $worker_ids = $this->formModel()->worker_ids;
-        }
-        $this->get('Models\Worker::class')::setManyByIds($worker_ids, $this->formModel());
+
 
         parent::after_save();
     }
