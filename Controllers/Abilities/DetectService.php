@@ -4,6 +4,7 @@ namespace HexMakina\koral\Controllers\Abilities;
 
 use HexMakina\kadro\Auth\Permission;
 use HexMakina\BlackBox\RouterInterface;
+use HexMakina\BlackBox\ORM\ModelInterface;
 
 trait DetectService
 {
@@ -12,7 +13,7 @@ trait DetectService
     abstract public function router(): RouterInterface;
     abstract public function viewport($key = null, $value = null, $coercion = false);
     abstract public function listing($model = null, $filters = [], $options = []);
-
+    abstract public function formModel(): ModelInterface;
 
     public function dashboard()
     {

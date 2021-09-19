@@ -4,6 +4,7 @@ namespace HexMakina\koral\Controllers\Abilities;
 
 use Psr\Log\LoggerInterface;
 use HexMakina\BlackBox\RouterInterface;
+use HexMakina\BlackBox\ORM\ModelInterface;
 use HexMakina\koral\Models\Item;
 
 /** detect POST items_ids and sets the form model */
@@ -13,6 +14,7 @@ trait DetectItems
 {
     abstract public function router(): RouterInterface;
     abstract public function logger(): LoggerInterface;
+    abstract public function formModel(): ModelInterface;
 
   //changes POST data to array, handling the no checkbox
     public function DetectItemsTraitor_before_save()

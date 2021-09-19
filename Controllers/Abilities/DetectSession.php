@@ -5,6 +5,7 @@ namespace HexMakina\koral\Controllers\Abilities;
 use Psr\Log\LoggerInterface;
 use HexMakina\BlackBox\RouterInterface;
 use HexMakina\BlackBox\Auth\OperatorInterface;
+use HexMakina\BlackBox\ORM\ModelInterface;
 use HexMakina\koral\Models\{Session,Worker};
 
 trait DetectSession
@@ -15,6 +16,7 @@ trait DetectSession
     abstract public function router(): RouterInterface;
     abstract public function logger(): LoggerInterface;
     abstract public function operator(): OperatorInterface;
+    abstract public function formModel(): ModelInterface;
 
     public function session_search_match(): array
     {
