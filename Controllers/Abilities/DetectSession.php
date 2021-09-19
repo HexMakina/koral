@@ -44,7 +44,6 @@ trait DetectSession
     {
         $tracked = Session::filter(['service' => $service, 'date_stop' => $occured_on], ['limit' => [0,1]]);
         $tracked = current($tracked);
-
         return $tracked === false ? null : $tracked;
     }
 
@@ -66,7 +65,6 @@ trait DetectSession
             if (!is_null($session)) {
                 $current_worker = Worker::one(['operator_id' => $this->operator()->getId()]);
                 Worker::setMany([$current_worker], $session);
-                // $session->setMany([$current_worker], Worker::otm());
             }
         } else {
             $session = array_pop($sessions);
@@ -77,31 +75,43 @@ trait DetectSession
 
   // detects (or tracks) session_id, the sets the session_id and occured_on on form_model
 
-  // TODO detect if FK is required, then automate get_or_create()
+  // TODO detect if FK is required, then automate get_or_create() when tracking fails
     public function DetectSessionTraitor_before_save()
     {
+        // do we have a session_id somewhere ?
         $detected = $this->detected_session();
 
-        if (is_null($detected) && is_subclass_of($this->formModel(), '\App\Models\Interfaces\SessionEventInterface')) {
+        if (is_null($detected) && self::isSessionEvent($this->formModel())) {
             $detected = $this->session_track($this->formModel()->event_service(), $this->formModel()->event_value());
 
             if ($detected->event_value() != $this->formModel()->event_value()) {
               // TODO trait must return array of messages indexed by level
-                $this->logger()->info($this->l('MODEL_EventInterface_FOUND_WITHOUT_EXACT_OCCURENCE', [$this->l('MODEL_session_INSTANCE')]));
+                $this->logger()->warning('MODEL_EventInterface_FOUND_WITHOUT_EXACT_OCCURENCE', ['MODEL_session_INSTANCE']);
             }
         }
 
         if (!is_null($detected)) {
-            $foreign_tables = get_class($this->formModel())::table()->foreignKeysByTable() ?? [];
-            $foreign_table_name = Session::table()->name();
-
-            if (isset($foreign_tables[$foreign_table_name]) && count($column = $foreign_tables[$foreign_table_name]) === 1) {
-                $column = current($column);
-                if (!$column->isNullable()) {
-                    $this->formModel()->set($column->name(), $detected->getId()); // TODO: replace by name if single_foreign_key to session table
-                    $this->formModel()->set('session_occured_on', $detected->event_value());
-                }
-            }
+            self::makeSessionEvent($this->formModel(), $detected);
         }
+    }
+    // checks if a model is a Session Event
+    public static function isSessionEvent($m): bool
+    {
+      return is_subclass_of($m, '\HexMakina\koral\Models\Interfaces\SessionEventInterface');
+    }
+
+    // this is way to close to the database, need abstraction
+    public static function makeSessionEvent($model, $session)
+    {
+      $foreign_tables = get_class($model)::table()->foreignKeysByTable() ?? [];
+      $foreign_table_name = get_class($session)::table()->name();
+
+      if (isset($foreign_tables[$foreign_table_name]) && count($column = $foreign_tables[$foreign_table_name]) === 1) {
+          $column = current($column);
+          if (!$column->isNullable()) {
+              $model->set($column->name(), $session->getId());
+              $model->set('session_occured_on', $session->event_value());
+          }
+      }
     }
 }
