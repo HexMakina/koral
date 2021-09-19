@@ -4,6 +4,7 @@ namespace HexMakina\koral\Models;
 
 use HexMakina\BlackBox\Database\SelectInterface;
 use HexMakina\Crudites\CruditesException;
+use \HexMakina\Crudites\Queries\AutoJoin;
 use HexMakina\TightORM\TightModel;
 use HexMakina\kadro\Auth\Operator;
 
@@ -145,7 +146,7 @@ class Session extends TightModel implements Interfaces\ServiceEventInterface
         $Query->join([Operator::relationalMappingName(), 'operator'], [['session_workers','operator_id', 'operator', 'id']], 'LEFT OUTER');
         $Query->selectAlso(["GROUP_CONCAT(DISTINCT operator.name SEPARATOR ', ') as worker_names", "GROUP_CONCAT(DISTINCT session_workers.id SEPARATOR ', ') as worker_ids"]);
 
-        $Query->autoJoin(Note::table(), ['COUNT(DISTINCT note.id) as count_notes'], 'LEFT OUTER');
+        AutoJoin::join($Query, [Note::table(), 'note'], ['COUNT(DISTINCT note.id) as count_notes'], 'LEFT OUTER');
 
         if (isset($filters['service']) && !empty($filters['service']->getId())) {
             $Query->whereEQ('service_id', $filters['service']->getId(), $Query->tableLabel());
