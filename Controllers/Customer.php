@@ -3,6 +3,7 @@
 namespace HexMakina\koral\Controllers;
 
 use HexMakina\Tempus\Dato;
+use \HexMakina\kadro\Auth\Permission;
 
 // Dato dependency only for export feature, move to Report?
 
@@ -25,7 +26,9 @@ class Customer extends \HexMakina\kadro\Controllers\ORM
     public function edit_alias()
     {
         $customer = $this->modelClassName()::one($this->router()->params($this->modelPrefix('id')));
-        $alias = is_null($this->router()->params('alias_id')) ? $this->modelClassName()::make_alias_of($customer) :  $this->modelClassName()::one($this->router()->params('alias_id'));
+        $alias = is_null($this->router()->params('alias_id')) ?
+        $this->modelClassName()::make_alias_of($customer) :
+        $this->modelClassName()::one($this->router()->params('alias_id'));
 
         $this->viewport('form_model', $alias);
         $this->viewport($this->modelPrefix('original'), $customer);
@@ -71,12 +74,11 @@ class Customer extends \HexMakina\kadro\Controllers\ORM
 
         $load_by_model = [$this->modelPrefix() => $customer];
 
-        if ($this->operator()->hasPermission('group_social')) {
+        if ($this->operator()->hasPermission(Permission::GROUP_STAFF)) {
             $related_listings['note'] = $this->get('Models\Note::class')::filter($load_by_model);
         }
 
         return $this->viewport('related_listings', $related_listings);
-        ;
     }
 
     public function by_name()
@@ -85,27 +87,28 @@ class Customer extends \HexMakina\kadro\Controllers\ORM
         $this->router()->hop($this->route_model($g));
     }
 
-    public function first_contacts()
-    {
-        $listing = [];
-        $customers = $this->modelClassName()::filter();
-        foreach ($customers as $customer) {
-            if (!$customer->is_legacy()) {
-                $info = $customer->first_contact_info();
-                $info['name'] = "$customer";
-                unset($info['model']);
-
-                $new = new $this->modelClassName();
-                $new->import($info);
-                $listing[$customer->getId()] = $new;
-            }
-        }
-
-        $this->viewport('listing_title', 'MODEL_customer_LISTING_first_contacts');
-        $this->viewport_listing($this->modelClassName(), $listing, $this->find_template($this->get('\Smarty'), __FUNCTION__));
-
-        return 'customer/dashboard';
-    }
+    // public function first_contacts()
+    // {
+    //     $listing = [];
+    //     $customers = $this->modelClassName()::filter();
+    //     foreach ($customers as $customer) {
+    //         if (!$customer->is_legacy()) {
+    //             $info = $customer->first_contact_info();
+    //             $info['name'] = "$customer";
+    //             unset($info['model']);
+    //             dd($this->modelClassName());
+    //             // dd($this->get())
+    //             $new = new $this->modelClassName();
+    //             $new->import($info);
+    //             $listing[$customer->getId()] = $new;
+    //         }
+    //     }
+    //
+    //     $this->viewport('listing_title', 'MODEL_customer_LISTING_first_contacts');
+    //     $this->viewport_listing($this->modelClassName(), $listing, $this->find_template($this->get('\Smarty'), __FUNCTION__));
+    //
+    //     return 'customer/dashboard';
+    // }
 
     public function destroy()
     {
@@ -118,8 +121,8 @@ class Customer extends \HexMakina\kadro\Controllers\ORM
 
     public function export()
     {
-        $customers = $this->className()::filter();
-        return $this->collection_to_csv($customers, 'koral_customers_' . Dato::today());
+        $customers = $this->modelClassName()::filter();
+        return $this->collection_to_csv($customers, 'koral_'.$this->modelPrefix(Dato::today()));
     }
 
     public function routeBack($goto = null, $route_params = []): string
@@ -127,7 +130,7 @@ class Customer extends \HexMakina\kadro\Controllers\ORM
         if (!is_null($goto)) {
             $this->route_back = $this->routeFactory($goto);
         } elseif (is_null($this->route_back)) {
-            $this->route_back = $this->router()->hyp('customer');
+            $this->route_back = $this->router()->hyp($this->modelPrefix());
         }
 
         return $this->route_back;
