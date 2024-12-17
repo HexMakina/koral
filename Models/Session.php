@@ -84,7 +84,7 @@ class Session extends TightModel implements Interfaces\ServiceEventInterface
 
     public function with($setter = null)
     {
-        if (!is_null($setter)) {
+        if ($setter !== null) {
             if (!is_array($setter)) {
                 $setter = [$setter];
             }
@@ -142,8 +142,8 @@ class Session extends TightModel implements Interfaces\ServiceEventInterface
 
         $join_info = Worker::otm();
         $Query->join([$join_info['t'],$join_info['a']], [[$join_info['a'],'model_id', $Query->tableLabel(), 'id'],[$join_info['a'],'model_type', 'session']], 'LEFT OUTER');
-        $Query->join([Worker::relationalMappingName(), 'session_workers'], [['session_workers','id', $join_info['a'], $join_info['k']]], 'LEFT OUTER');
-        $Query->join([Operator::relationalMappingName(), 'operator'], [['session_workers','operator_id', 'operator', 'id']], 'LEFT OUTER');
+        $Query->join([Worker::table(), 'session_workers'], [['session_workers','id', $join_info['a'], $join_info['k']]], 'LEFT OUTER');
+        $Query->join([Operator::table(), 'operator'], [['session_workers','operator_id', 'operator', 'id']], 'LEFT OUTER');
         $Query->selectAlso(["GROUP_CONCAT(DISTINCT operator.name SEPARATOR ', ') as worker_names", "GROUP_CONCAT(DISTINCT session_workers.id SEPARATOR ', ') as worker_ids"]);
 
         AutoJoin::join($Query, [Note::table(), 'note'], ['COUNT(DISTINCT note.id) as count_notes'], 'LEFT OUTER');

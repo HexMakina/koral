@@ -57,7 +57,7 @@ trait DetectService
 
     public function detected_service($setter = null)
     {
-        if (!is_null($setter)) {
+        if ($setter !== null) {
             $this->detected_service = $setter;
         } elseif (is_null($this->detected_service)) {
             $this->detected_service = $this->get('Models\Service::class')::exists($this->service_search_match());

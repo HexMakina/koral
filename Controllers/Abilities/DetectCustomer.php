@@ -74,7 +74,7 @@ trait DetectCustomer
 
     public function detected_customer($setter = null)
     {
-        if (!is_null($setter)) {
+        if ($setter !== null) {
             $this->detected_customer = $setter;
         } elseif (is_null($this->detected_customer)) {
             $this->detected_customer = $this->get('Models\Customer::class')::exists($this->customer_search_match());

@@ -63,7 +63,7 @@ trait DetectCustomers
 
     public function detected_customers($setter = null): array
     {
-        if (!is_null($setter)) {
+        if ($setter !== null) {
             $this->detected_customers = $setter;
         } elseif (is_null($this->detected_customers)) {
             $customer_names = $this->customer_search_names();

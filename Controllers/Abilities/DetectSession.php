@@ -33,7 +33,7 @@ trait DetectSession
 
     public function detected_session($setter = null)
     {
-        if (!is_null($setter)) {
+        if ($setter !== null) {
             $this->detected_session = $setter;
         } elseif (is_null($this->detected_session)) {
             $this->detected_session = Session::exists($this->session_search_match());
