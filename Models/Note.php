@@ -58,35 +58,6 @@ class Note extends TightModel implements Interfaces\ServiceEventInterface
         return parent::destroy($operator_id);
     }
 
-    // public static function first_for_customer_id($customer_id)
-    // {
-    //     $fields = ['t_from.id', 't_from.occured_on', 't_from.service_id', 'service.abbrev as abbrev'];
-    //     $table_alias = 't_from';
-    //     $Query = static::table()->select($fields, $table_alias);
-    //
-    //     //---- JOIN & FILTER  GAST
-    //     $Query->join('service', [['service', 'id', $table_alias, 'service_id']], 'LEFT OUTER');
-    //
-    //     $customerClass = LeMarchand::box()->get('Models\Customer::class');
-    //     $Query->join([$customerClass::otm('t'), 'gm'], [['gm', 'model_id',  $table_alias, 'id'], ['gm', 'model_type', self::model_type()]], 'LEFT OUTER');
-    //     $Query->join([$customerClass::relationalMappingName(), 'g'], [['g', 'id', 'gm', $customerClass::otm('k')]], 'LEFT OUTER');
-    //
-    //     // $Query->join(['customers_models', 'gm'], [['gm', 'model_id', $table_alias, 'id'], ['gm', 'model_type', self::model_type()]], 'LEFT OUTER');
-    //     // $Query->join([LeMarchand::box()->get('Models\Customer::class')::relationalMappingName(), 'g'], [['g', 'id', 'gm', 'customer_id']], 'LEFT OUTER');
-    //
-    //     $Query->whereEQ('customer_id', $customer_id, 'gm');
-    //     $Query->orderBy(['t_from', 'occured_on', 'ASC']);
-    //     $Query->limit(1);
-    //
-    //     $res = static::retrieve($Query);
-    //     if ($res === false || empty($res)) {
-    //         return null;
-    //     }
-    //
-    //     $res = array_pop($res);
-    //     return [$res->abbrev => $res->occured_on];
-    // }
-
     public static function query_retrieve($filters = [], $options = []): SelectInterface
     {
         //---- JOIN & FILTER SERVICE
@@ -118,7 +89,7 @@ class Note extends TightModel implements Interfaces\ServiceEventInterface
         //---- JOIN & FILTER  Customer
         $customerClass = LeMarchand::box()->get('Models\Customer::class');
         $Query->join([$customerClass::otm('t'), 'gm'], [['gm', 'model_id', $Query->tableLabel(), 'id'], ['gm', 'model_type', 'note']], 'LEFT OUTER');
-        $Query->join([$customerClass::relationalMappingName(), 'g'], [['g', 'id', 'gm', $customerClass::otm('k')]], 'LEFT OUTER');
+        $Query->join([$customerClass::table(), 'g'], [['g', 'id', 'gm', $customerClass::otm('k')]], 'LEFT OUTER');
 
 
         $Query->selectAlso([
