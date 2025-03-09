@@ -152,7 +152,7 @@ class Customer extends TightModel implements RelationManyToManyInterface, Custom
         $Query->selectAlso('GROUP_CONCAT(DISTINCT customer_alias.name SEPARATOR ", ") as alias_names');
 
         $Query->join([self::otm('t'), 'customers_notes'], [['customers_notes', self::otm('k'), $Query->tableLabel(), 'id'],['customers_notes', 'model_type', 'note']], 'LEFT OUTER');
-        $Query->join([Note::relationalMappingName(), 'n'], [['customers_notes', 'model_id', 'n', 'id']], 'LEFT OUTER');
+        $Query->join([Note::table(), 'n'], [['customers_notes', 'model_id', 'n', 'id']], 'LEFT OUTER');
         $Query->selectAlso(['MAX(n.occured_on) as last_note', 'COUNT(n.id) as count_note']);
     //
         if (isset($filters['items']) && !empty($filters['items'])) {
